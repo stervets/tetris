@@ -1,0 +1,10 @@
+{
+  "version": 3,
+  "file": "menu.js",
+  "sourceRoot": "",
+  "sources": [
+    "menu.coffee"
+  ],
+  "names": [],
+  "mappings": ";AAAA;AAAA;AAAA"
+}

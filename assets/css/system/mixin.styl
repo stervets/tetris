@@ -1,0 +1,34 @@
+@import "nib"
+
+// rewrite native nib mixins (add moz prefix)
+box-shadow()
+  vendor('box-shadow', arguments, only: webkit moz official)
+
+border-radius()
+  pos = ()
+  augmented = false
+  importance = arguments[length(arguments) - 1] == !important ? !important : unquote('')
+
+  for args in arguments
+    for arg in args
+      if arg is a 'ident'
+        append(pos, arg)
+        augmented = true
+      else
+        append(pos, arg)
+        if augmented
+          -apply-border-radius(pos, importance)
+          pos = ()
+  vendor('border-radius', pos, only: webkit moz official) unless augmented
+
+// custom mixins
+iefilter(color1, color2, type=0)
+  filter unquote("progid:DXImageTransform.Microsoft.gradient(startColorstr="+ color1 +",endColorstr="+ color2 + ",GradientType="+ type +")")
+
+ellipsis()
+  text-overflow: ellipsis
+  white-space: nowrap
+  overflow: hidden
+
+br(color, width = 1px, type = solid)
+  border width type color

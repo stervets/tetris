@@ -1,0 +1,103 @@
+.b-pool {
+  position: absolute;
+  display: inline-block;
+}
+.b-pool__left,
+.b-pool__right {
+  position: relative;
+  display: inline-block;
+  vertical-align: top;
+  margin-top: 35px;
+  width: 82px;
+  min-height: 140px;
+  background: #33475c url("/img/pool-bg.jpg");
+  background-repeat: repeat no-repeat;
+  background-position: left -33px;
+}
+.b-pool__left:before,
+.b-pool__right:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  background: url("/img/pool-lr.png");
+  background-repeat: repeat no-repeat;
+}
+.b-pool__left {
+  left: 10px;
+  border-radius: 33px 0px 0px 33px;
+}
+.b-pool__left:before {
+  border-radius: 33px 0px 0px 33px;
+  background-position: left top;
+}
+.b-pool__score {
+  position: relative;
+  z-index: 2;
+  font-family: 'Rancho';
+  font-size: 2em;
+  color: #ff0;
+  margin-top: 20px;
+  padding: 10px;
+  text-align: center;
+  line-height: 1em;
+}
+.b-pool__score:before {
+  min-width: 60px;
+  content: "Score";
+  display: inline-block;
+  color: #fff;
+}
+.b-pool__right {
+  right: 10px;
+  border-radius: 0 33px 33px 0;
+}
+.b-pool__right:before {
+  border-radius: 0 33px 33px 0;
+  background-position: right top;
+}
+.b-pool__content {
+  padding: 28px;
+  border-radius: 33px;
+  display: inline-block;
+  background: #33475c url("/img/pool-bg.jpg");
+  background-repeat: repeat no-repeat;
+}
+.b-pool__content-body {
+  position: relative;
+  width: 220px;
+  min-height: 410px;
+  border: 5px solid #1d2e3b;
+  border-radius: 10px;
+  background: #33485d;
+  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzNDg1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZDJkM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+");
+  background: linear-gradient(to bottom, #33485d 0%, #1d2d3a 100%);
+}
+.shape {
+  position: absolute;
+}
+.cell {
+  position: absolute;
+}
+.cellColor1 {
+  background-color: #f0f0f0;
+}
+.cellColor2 {
+  background-color: #88db1f;
+}
+.cellColor3 {
+  background-color: #f0c729;
+}
+.cellColor4 {
+  background-color: #60d890;
+}
+.cellColor5 {
+  background-color: #3b9adf;
+}
+.cellColor6 {
+  background-color: #e35242;
+}
+.cellColor7 {
+  background-color: #9f5cab;
+}

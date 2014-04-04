@@ -1,0 +1,15 @@
+ErrorDocument 404 /404.html
+ErrorDocument 403 /404.html
+
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} ^/xmpp
+RewriteRule .* http://deeprest.ru:5280/http-bind/ [P]
+
+RewriteCond %{DOCUMENT_ROOT}/assets/%{REQUEST_URI} -f
+RewriteRule .* /assets/%{REQUEST_URI} [L]
+
+RewriteCond %{REQUEST_URI} !^/assets
+RewriteRule .* index.php [L]
+
+

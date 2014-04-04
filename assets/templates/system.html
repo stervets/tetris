@@ -1,0 +1,41 @@
+<script type='text/template' id='tplStyle'>
+    <style>
+        .jsCell {
+            width: {{POOL.CELL_SIZE_MARGIN}}px;
+            height: {{POOL.CELL_SIZE_MARGIN}}px;
+            margin: {{POOL.CELL_MARGIN}}px;
+        }
+
+        .jsPoolBody {
+            width: {{poolWidth}}px;
+            height: {{poolHeight}}px;
+        }
+    </style>
+</script>
+
+<script type='text/template' id='tplTest'>
+   <div class="test">
+        <h3 id="qunit-header">QUnit</h3>
+        <ol id="qunit-tests"></ol>
+   </div>
+</script>
+
+<script type='text/template' id='tplPool'>
+    <div class="b-pool">
+        <div class="b-pool__left">
+            <div class="b-pool__score jsPoolScore">0</div>
+        </div>
+        <div class="b-pool__content">
+            <div class="b-pool__content-body jsPoolBody"></div>
+        </div>
+        <div class="b-pool__right" style="height: 300px"></div>
+    </div>
+</script>
+
+<script type='text/template' id='tplShape'>
+    <div class="shape"></div>
+</script>
+
+<script type='text/template' id='tplCell'>
+    <div class="cell jsCell cellColor{{index}}" style="top:{{top}}px;left:{{left}}px;"></div>
+</script>
