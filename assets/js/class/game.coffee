@@ -17,15 +17,33 @@ class Application.Model.Game extends Backbone.Model
         Application.Pool.reset()
         Application.Controller.reset()
         Application.shapeStack.reset()
-        console.log('game reseted')
+
+    gameStart: ->
+        #controller = new Application.Model.Controller.User()
+        controller = new Application.Model.Controller.AI
+            formula: 2
+        Application.Controller.add(controller)
+
+        pool = new Application.Model.Pool
+            controller: controller.id
+
+        Application.Pool.add(pool)
+
+        if INIT_TEST_VIEW
+            view = new Application.View.Pool
+                x: 0
+                y: 50
+                model: pool
+            $('body').append view.$el
+
 
     handler:
-        menuShow: ->
+        showLobby: ->
             @gameReset()
+            #Application.switchView('Lobby')
+            @gameStart()
 
     init: ->
-        @trigger 'menuShow'
-
 
 class Application.View.Game extends Backbone.View
     node: '#jsGame'
@@ -35,7 +53,7 @@ class Application.View.Game extends Backbone.View
         menuShow: ->
 
     init: ->
-        @$el.html('asdadss')
+
 
 ###
 

@@ -266,25 +266,41 @@
   };
 
   Application.appendShowHide = function(view) {
-    view.show = function() {
+    view.$el.hide();
+    view.visible = false;
+    view.onShow = function() {
+      this.visible = true;
       return this.$el.css({
         opacity: 0
       }).show().transition({
         opacity: 1
       }, VIEW_ANIMATE_TIME);
     };
-    return view.showDelay = function() {
+    view.onShowDelay = function() {
       return _.delay(function(view) {
-        return view.show();
+        return view.trigger('show');
       }, VIEW_ANIMATE_TIME, this);
     };
+    view.onHide = function() {
+      this.visible = false;
+      return this.$el.transition({
+        opacity: 0
+      }, VIEW_ANIMATE_TIME, (function(_this) {
+        return function() {
+          return _this.$el.hide();
+        };
+      })(this));
+    };
+    view.on('show', view.onShow);
+    view.on('showDelay', view.onShowDelay);
+    return view.on('hide', view.onHide);
   };
 
 
   /* Start application */
 
   Application.onStart(function() {
-    var name, view, _ref;
+    var name;
     $('head').append(Application.Templates.tplStyle({
       POOL: POOL,
       poolWidth: POOL.WIDTH * POOL.CELL_SIZE,
@@ -304,12 +320,11 @@
     Application.GameMainView = new Application.View.Game({
       model: Application.Game
     });
-    _ref = Application.GameView;
-    for (name in _ref) {
-      view = _ref[name];
-      _dump(name, view);
+    for (name in Application.GameView) {
+      Application.appendShowHide(Application.GameView[name]);
     }
-    return Application.hook();
+    Application.hook();
+    return Application.Game.trigger('showLobby');
   });
 
 }).call(this);

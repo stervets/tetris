@@ -76,9 +76,11 @@
 }
 .shape {
   position: absolute;
+  transition: all 200ms linear;
 }
 .cell {
   position: absolute;
+  transition: all 200ms linear;
 }
 .cellColor1 {
   background-color: #f0f0f0;

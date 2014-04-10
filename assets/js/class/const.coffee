@@ -1,4 +1,4 @@
-@TEST_MODE = true
+@TEST_MODE = false
 @INIT_TEST_VIEW = true
 
 @POOL =

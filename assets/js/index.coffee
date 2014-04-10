@@ -133,14 +133,18 @@ Application.hook = ->
             map.controller.trigger 'action', map.action
             e.preventDefault()
 
-
 Application.switchView = (viewName)->
     view.trigger('hide') for name, view of Application.GameView when viewName isnt name
     Application.GameView[viewName].trigger('showDelay')
 
+
 # append show\hide listeners and handler to view
 Application.appendShowHide = (view)->
-    view.show = ->
+    view.$el.hide()
+    view.visible = false
+
+    view.onShow = ->
+        @visible = true
         @$el
             .css
                 opacity: 0
@@ -149,11 +153,25 @@ Application.appendShowHide = (view)->
                 opacity: 1
                 , VIEW_ANIMATE_TIME
 
-    view.showDelay = ->
+    view.onShowDelay = ->
         _.delay((view)->
-                   view.show()
+                    view.trigger 'show'
                ,VIEW_ANIMATE_TIME
                , @)
+
+    view.onHide = ->
+        @visible = false
+        @$el
+        .transition
+                opacity: 0
+                , VIEW_ANIMATE_TIME
+                , =>
+                    @$el.hide()
+
+    view.on 'show', view.onShow
+    view.on 'showDelay', view.onShowDelay
+    view.on 'hide', view.onHide
+
 
 ### Start application ###
 Application.onStart ->
@@ -179,7 +197,7 @@ Application.onStart ->
     Application.GameMainView = new Application.View.Game
         model: Application.Game
 
-    _dump(name, view) for name, view of Application.GameView
+    Application.appendShowHide(Application.GameView[name]) for name of Application.GameView
 
     Application.hook()
-#    Application.Game.trigger('menu')
+    Application.Game.trigger('showLobby')

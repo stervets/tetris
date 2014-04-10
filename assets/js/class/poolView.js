@@ -43,7 +43,7 @@
         if (timeSub > ANIMATE_TIME) {
           timeSub = ANIMATE_TIME;
         }
-        this.$shape.stop(true, false).transition(transition, ANIMATE_TIME, 'out');
+        this.$shape.stop(true, false).css(transition);
         return this.lastTime = time;
       },
       setShape: function() {
@@ -131,13 +131,17 @@
           _ref = $cells[line];
           for (x = _j = 0, _len1 = _ref.length; _j < _len1; x = ++_j) {
             $cell = _ref[x];
-            $cell.transition({
+            $cell.css({
               scale: 0
-            }, ANIMATE_TIME, (function($cell) {
-              return function() {
-                return $cell.remove();
-              };
-            })($cell));
+            });
+            _.delay(function($cell) {
+              return $cell.remove();
+            }, ANIMATE_TIME, $cell);
+
+            /*
+            $cell.transition({scale: 0}, ANIMATE_TIME, do($cell)->
+                            -> $cell.remove())
+             */
             $cells[line][x] = null;
             for (y = _k = _ref1 = line - 1; _ref1 <= 0 ? _k <= 0 : _k >= 0; y = _ref1 <= 0 ? ++_k : --_k) {
               if (!$cells[y][x]) {
@@ -168,9 +172,9 @@
         }
         for (key in transit) {
           cell = transit[key];
-          cell.node.transition({
+          cell.node.css({
             top: '+=' + cell.top
-          }, ANIMATE_TIME);
+          });
         }
         return null;
       }

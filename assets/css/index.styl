@@ -1,6 +1,7 @@
 RADIUS = 33px
 POOL-BACKGROUND-TEXTURE = '/img/pool-bg.jpg'
 POOL-LR-TEXTURE = '/img/pool-lr.png'
+ANIMATE_TIME = 200ms
 
 gameFont()
   font-family 'Rancho'
@@ -85,9 +86,11 @@ gameFont()
 
 .shape
   position absolute
+  transition: all ANIMATE_TIME linear;
 
 .cell
   position absolute
+  transition: all ANIMATE_TIME linear;
 
 .cellColor1
   background-color #F0F0F0

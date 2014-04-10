@@ -24,7 +24,8 @@ class Application.View.Shape extends Backbone.View
             timeSub = time - @lastTime
             timeSub = ANIMATE_TIME if timeSub>ANIMATE_TIME
             #@$shape.stop(true, false).transition transition, timeSub
-            @$shape.stop(true, false).transition transition, ANIMATE_TIME, 'out'
+            #@$shape.stop(true, false).transition transition, ANIMATE_TIME, 'out'
+            @$shape.stop(true, false).css transition
             @lastTime = time
 
         setShape: ->
@@ -89,8 +90,15 @@ class Application.View.Pool extends Backbone.View
             transit = {}
             for line, index in lines
                 for $cell, x in $cells[line]
+                    $cell.css scale: 0
+                    _.delay ($cell)->
+                            $cell.remove()
+                        ,ANIMATE_TIME
+                        ,$cell
+                    ###
                     $cell.transition({scale: 0}, ANIMATE_TIME, do($cell)->
                                     -> $cell.remove())
+                    ###
                     $cells[line][x] = null
 
                     for y in [line-1..0] when $cells[y][x]
@@ -104,7 +112,7 @@ class Application.View.Pool extends Backbone.View
                         [$cells[y+1][x], $cells[y][x]] = [$cells[y][x], $cells[y+1][x]]
 
             for key, cell of transit
-                cell.node.transition({top: '+='+cell.top}, ANIMATE_TIME)
+                cell.node.css top: '+='+cell.top
             null
 
     modelHandler:

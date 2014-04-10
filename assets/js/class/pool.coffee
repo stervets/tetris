@@ -9,7 +9,7 @@ class Application.Model.Pool extends Backbone.Model
     lines: 0
 
     shape: null
-    next: null,
+    next: null
     locked: false
 
     controller: null

@@ -39,19 +39,37 @@
     Game.prototype.gameReset = function() {
       Application.Pool.reset();
       Application.Controller.reset();
-      Application.shapeStack.reset();
-      return console.log('game reseted');
+      return Application.shapeStack.reset();
     };
 
-    Game.prototype.handler = {
-      menuShow: function() {
-        return this.gameReset();
+    Game.prototype.gameStart = function() {
+      var controller, pool, view;
+      controller = new Application.Model.Controller.AI({
+        formula: 2
+      });
+      Application.Controller.add(controller);
+      pool = new Application.Model.Pool({
+        controller: controller.id
+      });
+      Application.Pool.add(pool);
+      if (INIT_TEST_VIEW) {
+        view = new Application.View.Pool({
+          x: 0,
+          y: 50,
+          model: pool
+        });
+        return $('body').append(view.$el);
       }
     };
 
-    Game.prototype.init = function() {
-      return this.trigger('menuShow');
+    Game.prototype.handler = {
+      showLobby: function() {
+        this.gameReset();
+        return this.gameStart();
+      }
     };
+
+    Game.prototype.init = function() {};
 
     return Game;
 
@@ -71,9 +89,7 @@
       menuShow: function() {}
     };
 
-    Game.prototype.init = function() {
-      return this.$el.html('asdadss');
-    };
+    Game.prototype.init = function() {};
 
     return Game;
 
