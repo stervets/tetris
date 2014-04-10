@@ -90,7 +90,7 @@
   });
 
 
-  /* Autolink handler */
+  /* Autolink model handler */
 
   Backbone.Model.prototype.initialize = function() {
     var attr, event, handle, _ref;

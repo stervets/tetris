@@ -113,7 +113,7 @@ Backbone.View.prototype.initialize = function(options) {
         }
 
         if(!_(this[Backbone.Ginger.options.nodeVariable]).isObject() && !_(this[Backbone.Ginger.options.modelHandler].change).isFunction()) {
-            Backbone.Ginger.error('ModelHandler has found. You must define "' + this[Backbone.Ginger.options.nodeVariable] + '" variable as compiled Handlebars template');
+            Backbone.Ginger.error('ModelHandler has found. You must define "' + this[Backbone.Ginger.options.nodeVariable] + '" variable as compiled Handlebars template or override "change" handler');
         }
 
         if(_(this.model.validate).isFunction()) {

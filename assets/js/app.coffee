@@ -62,7 +62,7 @@ _(Backbone.Ginger.options).extend
     collectionImportParentObject: Application.Class.Collection
     collectionImportVariable: '#'
 
-### Autolink handler ###
+### Autolink model handler ###
 Backbone.Model::initialize = (attr...)->
     @on event, handle for event, handle of @handler when _.isFunction(handle) if _.isObject(@handler)
     @init(attr...) if _.isFunction(@init)

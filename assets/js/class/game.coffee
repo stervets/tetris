@@ -1,15 +1,41 @@
+class Application.Model.Player extends Backbone.Model
+    defaults:
+        name: 'PLayer'
+        rating: 0
+
 STATUS =
     LOBBY: 0
     GAME: 1
+
+
 
 class Application.Model.Game extends Backbone.Model
     defaults:
         status: STATUS.LOBBY
 
+    gameReset: ->
+        Application.Pool.reset()
+        Application.Controller.reset()
+        Application.shapeStack.reset()
+        console.log('game reseted')
+
+    handler:
+        menuShow: ->
+            @gameReset()
+
     init: ->
+        @trigger 'menuShow'
 
 
+class Application.View.Game extends Backbone.View
+    node: '#jsGame'
+    modelHandler:
+        change: ->
 
+        menuShow: ->
+
+    init: ->
+        @$el.html('asdadss')
 
 ###
 

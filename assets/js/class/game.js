@@ -4,6 +4,22 @@
     __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) { for (var key in parent) { if (__hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; };
 
+  Application.Model.Player = (function(_super) {
+    __extends(Player, _super);
+
+    function Player() {
+      return Player.__super__.constructor.apply(this, arguments);
+    }
+
+    Player.prototype.defaults = {
+      name: 'PLayer',
+      rating: 0
+    };
+
+    return Player;
+
+  })(Backbone.Model);
+
   STATUS = {
     LOBBY: 0,
     GAME: 1
@@ -20,11 +36,48 @@
       status: STATUS.LOBBY
     };
 
-    Game.prototype.init = function() {};
+    Game.prototype.gameReset = function() {
+      Application.Pool.reset();
+      Application.Controller.reset();
+      Application.shapeStack.reset();
+      return console.log('game reseted');
+    };
+
+    Game.prototype.handler = {
+      menuShow: function() {
+        return this.gameReset();
+      }
+    };
+
+    Game.prototype.init = function() {
+      return this.trigger('menuShow');
+    };
 
     return Game;
 
   })(Backbone.Model);
+
+  Application.View.Game = (function(_super) {
+    __extends(Game, _super);
+
+    function Game() {
+      return Game.__super__.constructor.apply(this, arguments);
+    }
+
+    Game.prototype.node = '#jsGame';
+
+    Game.prototype.modelHandler = {
+      change: function() {},
+      menuShow: function() {}
+    };
+
+    Game.prototype.init = function() {
+      return this.$el.html('asdadss');
+    };
+
+    return Game;
+
+  })(Backbone.View);
 
 
   /*

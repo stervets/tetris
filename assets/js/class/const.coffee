@@ -9,8 +9,15 @@
 
 @POOL.CELL_SIZE_MARGIN = @POOL.CELL_SIZE-@POOL.CELL_MARGIN
 
+# figure drop delay
 @DROP_DELAY = 400
+
+# figure animation time
 @ANIMATE_TIME = 200
+
+# ingame view show\hide animate time
+@VIEW_ANIMATE_TIME = 200
+
 
 @SHAPES = [
     [[1,1,1,1]]
@@ -30,9 +37,10 @@
 
 ]
 
+# max different figure angles
 @SHAPE_ANGLES = [2,1,4,4,4,2,2]
 
-
+# controller actions
 @ACTION =
     MOVE_DOWN: 'moveDown'
     MOVE_LEFT: 'moveLeft'
@@ -43,6 +51,7 @@
     PAUSE: 'pause'
     GET_SCORE: 'getScore'
 
+# key codes
 @KEY =
     UP: 38
     DOWN: 40

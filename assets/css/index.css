@@ -35,12 +35,12 @@
 .b-pool__score {
   position: relative;
   z-index: 2;
-  font-family: 'Rancho';
-  font-size: 2em;
   color: #ff0;
   margin-top: 20px;
   padding: 10px;
   text-align: center;
+  font-family: 'Rancho';
+  font-size: 2em;
   line-height: 1em;
 }
 .b-pool__score:before {
@@ -100,4 +100,24 @@
 }
 .cellColor7 {
   background-color: #9f5cab;
+}
+.game {
+  display: inline-block;
+  margin: 10px 100px;
+  border: 1px solid #000;
+  min-width: 480px;
+  min-height: 800px;
+}
+.menu {
+  position: relative;
+  display: inline-block;
+  margin: 20px auto;
+  text-align: center;
+  padding: 10px;
+  font-family: 'Rancho';
+  font-size: 2em;
+  line-height: 1em;
+}
+.menu-item {
+  clear: both;
 }

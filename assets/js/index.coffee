@@ -68,6 +68,9 @@ class Application.Model.ShapeStack extends Backbone.Model
     defaults:
         shapes: []
 
+    reset: ->
+        @set 'shapes', []
+
     getShape: (index)->
         len = index - @attributes.shapes.length + 2
         @generateShapes(len) if len>0
@@ -130,6 +133,28 @@ Application.hook = ->
             map.controller.trigger 'action', map.action
             e.preventDefault()
 
+
+Application.switchView = (viewName)->
+    view.trigger('hide') for name, view of Application.GameView when viewName isnt name
+    Application.GameView[viewName].trigger('showDelay')
+
+# append show\hide listeners and handler to view
+Application.appendShowHide = (view)->
+    view.show = ->
+        @$el
+            .css
+                opacity: 0
+            .show()
+            .transition
+                opacity: 1
+                , VIEW_ANIMATE_TIME
+
+    view.showDelay = ->
+        _.delay((view)->
+                   view.show()
+               ,VIEW_ANIMATE_TIME
+               , @)
+
 ### Start application ###
 Application.onStart ->
     $('head').append Application.Templates.tplStyle
@@ -143,5 +168,18 @@ Application.onStart ->
     Application.shapeStack = new Application.Model.ShapeStack()
     Application.Pool = new Application.Collection.Pool()
     Application.Controller = new Application.Collection.Controller()
+
+    Application.GameView = {}
+
+    Application.Lobby = new Application.Model.Lobby()
+    Application.GameView.Lobby = new Application.View.Lobby
+        model: Application.Lobby
+
     Application.Game = new Application.Model.Game()
+    Application.GameMainView = new Application.View.Game
+        model: Application.Game
+
+    _dump(name, view) for name, view of Application.GameView
+
     Application.hook()
+#    Application.Game.trigger('menu')

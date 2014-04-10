@@ -151,6 +151,10 @@
       shapes: []
     };
 
+    ShapeStack.prototype.reset = function() {
+      return this.set('shapes', []);
+    };
+
     ShapeStack.prototype.getShape = function(index) {
       var len;
       len = index - this.attributes.shapes.length + 2;
@@ -249,10 +253,38 @@
     });
   };
 
+  Application.switchView = function(viewName) {
+    var name, view, _ref;
+    _ref = Application.GameView;
+    for (name in _ref) {
+      view = _ref[name];
+      if (viewName !== name) {
+        view.trigger('hide');
+      }
+    }
+    return Application.GameView[viewName].trigger('showDelay');
+  };
+
+  Application.appendShowHide = function(view) {
+    view.show = function() {
+      return this.$el.css({
+        opacity: 0
+      }).show().transition({
+        opacity: 1
+      }, VIEW_ANIMATE_TIME);
+    };
+    return view.showDelay = function() {
+      return _.delay(function(view) {
+        return view.show();
+      }, VIEW_ANIMATE_TIME, this);
+    };
+  };
+
 
   /* Start application */
 
   Application.onStart(function() {
+    var name, view, _ref;
     $('head').append(Application.Templates.tplStyle({
       POOL: POOL,
       poolWidth: POOL.WIDTH * POOL.CELL_SIZE,
@@ -263,7 +295,20 @@
     Application.shapeStack = new Application.Model.ShapeStack();
     Application.Pool = new Application.Collection.Pool();
     Application.Controller = new Application.Collection.Controller();
+    Application.GameView = {};
+    Application.Lobby = new Application.Model.Lobby();
+    Application.GameView.Lobby = new Application.View.Lobby({
+      model: Application.Lobby
+    });
     Application.Game = new Application.Model.Game();
+    Application.GameMainView = new Application.View.Game({
+      model: Application.Game
+    });
+    _ref = Application.GameView;
+    for (name in _ref) {
+      view = _ref[name];
+      _dump(name, view);
+    }
     return Application.hook();
   });
 

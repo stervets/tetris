@@ -2,6 +2,11 @@ RADIUS = 33px
 POOL-BACKGROUND-TEXTURE = '/img/pool-bg.jpg'
 POOL-LR-TEXTURE = '/img/pool-lr.png'
 
+gameFont()
+  font-family 'Rancho'
+  font-size 2em
+  line-height 1em
+
 .b-pool
   position: absolute
   display: inline-block
@@ -38,13 +43,11 @@ POOL-LR-TEXTURE = '/img/pool-lr.png'
   &__score
     position relative
     z-index 2
-    font-family 'Rancho'
-    font-size 2em
     color yellow
     margin-top 20px
     padding 10px
     text-align center
-    line-height 1em
+    gameFont()
 
     &:before
       min-width 60px
@@ -106,3 +109,24 @@ POOL-LR-TEXTURE = '/img/pool-lr.png'
 
 .cellColor7
   background-color #9F5CAB
+
+// Game
+.game
+  display inline-block
+  margin 10px 100px
+  border 1px solid black
+  min-width 480px
+  min-height 800px
+
+
+//MENU
+.menu
+  position relative
+  display inline-block
+  margin 20px auto
+  text-align center
+  padding 10px
+  gameFont()
+
+  &-item
+    clear both
