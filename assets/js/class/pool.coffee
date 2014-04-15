@@ -124,12 +124,14 @@ class Application.Model.Pool extends Backbone.Model
 
         rotateLeft: ->
             return if @locked
+            Application.Sound.play(RES.AUDIO.SHAPE_ROTATE)
             angle = @shape.attributes.angle - 1
             angle = 3 if angle<0
             @worker 'checkRotateLeft', angle
 
         rotateRight: ->
             return if @locked
+            Application.Sound.play(RES.AUDIO.SHAPE_ROTATE)
             angle = @shape.attributes.angle + 1
             angle = 0 if angle>3
             @worker 'checkRotateRight', angle
@@ -141,8 +143,12 @@ class Application.Model.Pool extends Backbone.Model
             else
                 @trigger 'action', 'doDrop'
 
+        lines: ->
+            Application.Sound.play(RES.AUDIO.LINES)
+
         putShape: ->
             @locked = true
+            Application.Sound.play(RES.AUDIO.SHAPE_DROP)
             @worker 'putShape'
 
         nextShape: ->

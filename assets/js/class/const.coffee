@@ -1,3 +1,10 @@
+@RES =
+    AUDIO:
+        GAME_MUSIC: '/audio/falling_snow.mp3'
+        SHAPE_ROTATE: '/audio/rotate.mp3'
+        SHAPE_DROP: '/audio/drop2.mp3'
+        LINES: '/audio/lines.mp3'
+
 @TEST_MODE = false
 @INIT_TEST_VIEW = true
 

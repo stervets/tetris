@@ -176,6 +176,7 @@
         if (this.locked) {
           return;
         }
+        Application.Sound.play(RES.AUDIO.SHAPE_ROTATE);
         angle = this.shape.attributes.angle - 1;
         if (angle < 0) {
           angle = 3;
@@ -187,6 +188,7 @@
         if (this.locked) {
           return;
         }
+        Application.Sound.play(RES.AUDIO.SHAPE_ROTATE);
         angle = this.shape.attributes.angle + 1;
         if (angle > 3) {
           angle = 0;
@@ -203,8 +205,12 @@
           return this.trigger('action', 'doDrop');
         }
       },
+      lines: function() {
+        return Application.Sound.play(RES.AUDIO.LINES);
+      },
       putShape: function() {
         this.locked = true;
+        Application.Sound.play(RES.AUDIO.SHAPE_DROP);
         return this.worker('putShape');
       },
       nextShape: function() {

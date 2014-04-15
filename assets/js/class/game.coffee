@@ -62,7 +62,10 @@ class Application.Model.Game extends Backbone.Model
         # Single player
         ->
             @gameReset()
-            @proc.controller = new Application.Model.Controller.User()
+            #@proc.controller = new Application.Model.Controller.User()
+            @proc.controller = new Application.Model.Controller.AI
+            formula: 6
+
             Application.Controller.add(@proc.controller)
             @proc.pool = new Application.Model.Pool
                 controller: @proc.controller.id
@@ -103,6 +106,7 @@ class Application.View.Game extends Backbone.View
             @$('#jsSinglePlay').html(@model.proc.view.$el)
 
             @model.proc.onGameOver = =>
+                Application.Sound.musicStop()
                 @$('#jsSinglePlayGameOver .jsScore').text(@model.proc.pool.lines)
                 @$('#jsSinglePlayGameOver')
                 .css
@@ -115,6 +119,7 @@ class Application.View.Game extends Backbone.View
                     , VIEW_ANIMATE_TIME
 
             @listenTo @model.proc.pool, 'gameover', @model.proc.onGameOver
+            Application.Sound.musicPlay()
     ]
 
     modelHandler:

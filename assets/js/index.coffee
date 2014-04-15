@@ -221,6 +221,7 @@ Application.onStart ->
     Application.shapeStack = new Application.Model.ShapeStack()
     Application.Pool = new Application.Collection.Pool()
     Application.Controller = new Application.Collection.Controller()
+    Application.Sound = new Application.Collection.Sound()
 
     Application.GameView = {}
 

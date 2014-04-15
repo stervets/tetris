@@ -1,8 +1,40 @@
-class Application.Model.Audio extends Backbone.Model
+class Application.Model.Sound extends Backbone.Model
 
 
-class Application.Collection.Audio extends Backbone.Collection
+class Application.Collection.Sound extends Backbone.Collection
     buffer: [0...AUDIO_BUFFER_SIZE]
-    model: Application.Model.Audio
+    index: 0
+    model: Application.Model.Sound
+    music: null
 
-    init: ->
+    play: (file)->
+        sound = @buffer[@index]
+        sound.src = file
+        sound.load()
+        sound.play()
+        @index = 0 if ++@index>=AUDIO_BUFFER_SIZE
+
+    musicPlay: ->
+        @music.play()
+
+    musicStop: ->
+        @music.pause()
+        @music.startTime = 0
+
+    initialize: ->
+        return if !window.Audio?
+        @music = new Audio(RES.AUDIO.GAME_MUSIC)
+        @music.load()
+        @music.addEventListener('ended', ->
+                                 this.currentTime = 0;
+                                 this.play();
+                        , false)
+
+        for key, val of RES.AUDIO
+            sound = new Audio(val)
+            sound.load();
+
+        for index in @buffer
+            @buffer[index] = new Audio()
+            @buffer[index].pause()
+            @buffer[index].startTime = 0

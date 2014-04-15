@@ -91,7 +91,10 @@
     Game.prototype.mode = [
       function() {}, function() {
         this.gameReset();
-        this.proc.controller = new Application.Model.Controller.User();
+        this.proc.controller = new Application.Model.Controller.AI;
+        ({
+          formula: 6
+        });
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
@@ -135,6 +138,7 @@
         this.$('#jsSinglePlay').html(this.model.proc.view.$el);
         this.model.proc.onGameOver = (function(_this) {
           return function() {
+            Application.Sound.musicStop();
             _this.$('#jsSinglePlayGameOver .jsScore').text(_this.model.proc.pool.lines);
             return _this.$('#jsSinglePlayGameOver').css({
               opacity: 0,
@@ -145,7 +149,8 @@
             }, VIEW_ANIMATE_TIME);
           };
         })(this);
-        return this.listenTo(this.model.proc.pool, 'gameover', this.model.proc.onGameOver);
+        this.listenTo(this.model.proc.pool, 'gameover', this.model.proc.onGameOver);
+        return Application.Sound.musicPlay();
       }
     ];
 
