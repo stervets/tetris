@@ -89,7 +89,7 @@ class Application.Model.ShapeStack extends Backbone.Model
         #@attributes.shapes.push([4, 0]) for i in [0...num]
 
     init: ()->
-        @generateShapes(10)
+        @generateShapes(4)
 
 ### Shape model ###
 class Application.Model.Shape extends Backbone.Model

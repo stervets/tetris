@@ -3,7 +3,7 @@
 
 @POOL =
     WIDTH:  10
-    HEIGHT: 5
+    HEIGHT: 25
     CELL_SIZE: 20
     CELL_MARGIN: 2
 
@@ -23,6 +23,7 @@
     LOBBY: 0
     SINGLE_PLAYER: 1
 
+@DROP_SHAPE_OPACITY = 0.3
 
 @SHAPES = [
     [[1,1,1,1]]
@@ -55,6 +56,8 @@
     DROP: 'drop'
     PAUSE: 'pause'
     GET_SCORE: 'getScore'
+
+@AUDIO_BUFFER_SIZE = 16
 
 # key codes
 @KEY =

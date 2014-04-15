@@ -1,9 +1,11 @@
 <script type='text/template' id='tplStyle'>
     <style>
         .jsCell {
-            width: {{POOL.CELL_SIZE_MARGIN}}px;
-            height: {{POOL.CELL_SIZE_MARGIN}}px;
+            width: {{POOL.CELL_SIZE}}px;
+            height: {{POOL.CELL_SIZE}}px;
+        /*
             margin: {{POOL.CELL_MARGIN}}px;
+        */
         }
 
         .jsPoolBody {
@@ -28,7 +30,11 @@
         <div class="b-pool__content">
             <div class="b-pool__content-body jsPoolBody"></div>
         </div>
-        <div class="b-pool__right" style="height: 300px"></div>
+        <div class="b-pool__right" style="height: 300px">
+            <div class="b-pool__right__next"><div class="jsShapeNext jsShapeNext0"></div></div>
+            <div class="b-pool__right__next"><div class="jsShapeNext jsShapeNext1"></div></div>
+            <div class="b-pool__right__next"><div class="jsShapeNext jsShapeNext2"></div></div>
+        </div>
     </div>
 </script>
 

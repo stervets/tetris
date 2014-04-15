@@ -36,7 +36,8 @@
       this.proc = {};
       Application.Pool.reset();
       Application.Controller.reset();
-      return Application.shapeStack.reset();
+      Application.shapeStack.reset();
+      return Application.shapeStack.generateShapes(4);
     };
 
     Game.prototype.gameStart = function() {
@@ -90,15 +91,12 @@
     Game.prototype.mode = [
       function() {}, function() {
         this.gameReset();
-        console.log('reseted');
         this.proc.controller = new Application.Model.Controller.User();
         Application.Controller.add(this.proc.controller);
-        console.log(Application.Controller.length);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
         });
-        Application.Pool.add(this.proc.pool);
-        return console.log(Application.Pool.length);
+        return Application.Pool.add(this.proc.pool);
       }
     ];
 
@@ -148,15 +146,6 @@
           };
         })(this);
         return this.listenTo(this.model.proc.pool, 'gameover', this.model.proc.onGameOver);
-
-        /*
-        if INIT_TEST_VIEW
-            view = new Application.View.Pool
-                x: 0
-                y: 50
-                model: pool
-            $('body').append view.$el
-         */
       }
     ];
 
@@ -183,9 +172,7 @@
         })(this), delay));
       },
       menuShow: function() {},
-      singlePlayer: function() {
-        return console.log(2);
-      }
+      singlePlayer: function() {}
     };
 
     Game.prototype.init = function() {

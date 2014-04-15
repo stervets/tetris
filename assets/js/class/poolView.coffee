@@ -3,11 +3,18 @@
 ###
 class Application.View.Shape extends Backbone.View
     $shape: null
+    $drop: null
+
     prevAngle: 0
     angle: 0
     lastTime: 0
 
     modelHandler:
+        'change:drop': ->
+            @$drop.css
+                top: @model.attributes.drop * POOL.CELL_SIZE
+                opacity: DROP_SHAPE_OPACITY
+
         'change:x change:y change:angle': ->
             return if not @$shape
 
@@ -23,21 +30,32 @@ class Application.View.Shape extends Backbone.View
             time = new Date().getTime()
             timeSub = time - @lastTime
             timeSub = ANIMATE_TIME if timeSub>ANIMATE_TIME
-            #@$shape.stop(true, false).transition transition, timeSub
-            #@$shape.stop(true, false).transition transition, ANIMATE_TIME, 'out'
-            @$shape.stop(true, false).css transition
+            @$shape.css transition
+            transition.top = shape.drop * POOL.CELL_SIZE
+            transition.opacity = DROP_SHAPE_OPACITY
+            @$drop.css transition
+
             @lastTime = time
 
         setShape: ->
             shape = @model.attributes
             @$shape = $(Application.shapesView[shape.index][0])
             @prevAngle = shape.angle
-            @$shape.stop().css
+
+            css =
                 left: shape.x * POOL.CELL_SIZE
                 top: shape.y * POOL.CELL_SIZE
                 rotate: shape.angle * 90
 
+            @$shape.css css
+
+            @$drop = $(Application.shapesView[shape.index][0])
+            css.top = 0
+            css.opacity = 0
+            @$drop.css css
+
             @$el.html @$shape
+            @$el.append @$drop
 
             @lastTime = new Date().getTime()
 
@@ -55,6 +73,7 @@ class Application.View.Pool extends Backbone.View
     template: 'tplPool'
 
     shapeView: null
+    $next: []
     $body: null
     $score: null
     $cells: null
@@ -76,6 +95,10 @@ class Application.View.Pool extends Backbone.View
 
     poolHandler:
         onPutShape:()->
+            shape = Application.shapeStack.getShape(@model.attributes.index+3)
+            @$next[0].html(@$next[1].html())
+            @$next[1].html(@$next[2].html())
+            @$next[2].html(Application.shapesView[shape.index][shape.angle])
             @addShape()
 
         overflow: ()->
@@ -83,7 +106,6 @@ class Application.View.Pool extends Backbone.View
             #@addShape()
 
         lines: (lines, score)->
-            #@$head.text(score)
             @$score.text(score)
 
             $cells = @$cells
@@ -95,10 +117,7 @@ class Application.View.Pool extends Backbone.View
                             $cell.remove()
                         ,ANIMATE_TIME
                         ,$cell
-                    ###
-                    $cell.transition({scale: 0}, ANIMATE_TIME, do($cell)->
-                                    -> $cell.remove())
-                    ###
+
                     $cells[line][x] = null
 
                     for y in [line-1..0] when $cells[y][x]
@@ -131,6 +150,14 @@ class Application.View.Pool extends Backbone.View
 
         @shapeView = new Application.View.Shape
             model: @model.shape
+
+        @$('.jsShapeNext').css
+            scale: 0.5
+
+        for index in [0..2]
+            @$next.push(@$(".jsShapeNext#{index}"))
+            shape = Application.shapeStack.getShape(index+1)
+            @$next[index].html(Application.shapesView[shape.index][shape.angle])
 
         @$body.append @shapeView.$el
 

@@ -14,6 +14,7 @@ class Application.Model.Game extends Backbone.Model
         Application.Pool.reset()
         Application.Controller.reset()
         Application.shapeStack.reset()
+        Application.shapeStack.generateShapes(4)
 
     gameStart: ->
         ###
@@ -61,21 +62,17 @@ class Application.Model.Game extends Backbone.Model
         # Single player
         ->
             @gameReset()
-            console.log 'reseted'
             @proc.controller = new Application.Model.Controller.User()
             Application.Controller.add(@proc.controller)
-            console.log Application.Controller.length
             @proc.pool = new Application.Model.Pool
                 controller: @proc.controller.id
             Application.Pool.add(@proc.pool)
-            console.log Application.Pool.length
     ]
 
     handler:
         'change:mode': (model, mode)-> @mode[mode].apply @ if @mode[mode]?
 
         showLobby: ->
-
             #Application.switchView('Lobby')
             #@trigger 'singlePlayer'
 
@@ -99,7 +96,6 @@ class Application.View.Game extends Backbone.View
             #Application.switchView('Lobby')
         # Single player
         ->
-
             @model.proc.view = new Application.View.Pool
                 x: 900/2 - 450/2
                 y: 50
@@ -118,26 +114,7 @@ class Application.View.Game extends Backbone.View
                     scale: 1
                     , VIEW_ANIMATE_TIME
 
-
             @listenTo @model.proc.pool, 'gameover', @model.proc.onGameOver
-
-
-            #controller = new Application.Model.Controller.User()
-            #Application.Controller.add(controller)
-
-            #pool = new Application.Model.Pool
-            #    controller: controller.id
-            #console.trace()
-            #Application.Pool.add(pool)
-            ###
-            if INIT_TEST_VIEW
-                view = new Application.View.Pool
-                    x: 0
-                    y: 50
-                    model: pool
-                $('body').append view.$el
-            ###
-        #Application.switchView('Lobby')
     ]
 
     modelHandler:
@@ -163,7 +140,6 @@ class Application.View.Game extends Backbone.View
         menuShow: ->
 
         singlePlayer: ->
-            console.log 2
 
     init: ->
         @$('#jsSinglePlayGameOver .jsPlayAgain')

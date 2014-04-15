@@ -6,7 +6,7 @@
 
   this.POOL = {
     WIDTH: 10,
-    HEIGHT: 5,
+    HEIGHT: 25,
     CELL_SIZE: 20,
     CELL_MARGIN: 2
   };
@@ -24,6 +24,8 @@
     SINGLE_PLAYER: 1
   };
 
+  this.DROP_SHAPE_OPACITY = 0.3;
+
   this.SHAPES = [[[1, 1, 1, 1]], [[4, 4], [4, 4]], [[0, 5, 0], [5, 5, 5]], [[0, 0, 6], [6, 6, 6]], [[7, 0, 0], [7, 7, 7]], [[2, 2, 0], [0, 2, 2]], [[0, 3, 3], [3, 3, 0]]];
 
   this.SHAPE_ANGLES = [2, 1, 4, 4, 4, 2, 2];
@@ -38,6 +40,8 @@
     PAUSE: 'pause',
     GET_SCORE: 'getScore'
   };
+
+  this.AUDIO_BUFFER_SIZE = 16;
 
   this.KEY = {
     UP: 38,

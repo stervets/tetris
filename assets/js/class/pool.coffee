@@ -105,53 +105,37 @@ class Application.Model.Pool extends Backbone.Model
             @worker 'checkDrop'
 
         doDrop: ->
-            if @locked
-                console.log "do drop passed"
-                return
-
+            return if @locked
             if @shape.attributes.drop>=0
                 @shape.set 'y', @shape.attributes.drop
                 @trigger 'action', 'putShape'
 
         moveDown: ->
-            if @locked
-                console.log "move down passed"
-                return
+            return if @locked
             @worker 'checkMoveDown'
 
         moveLeft: ->
-            if @locked
-                console.log "move left passed"
-                return
+            return if @locked
             @worker 'checkMoveLeft'
 
         moveRight: ->
-            if @locked
-                console.log "move right passed"
-                return
+            return if @locked
             @worker 'checkMoveRight'
 
         rotateLeft: ->
-            if @locked
-                console.log "rotate left passed"
-                return
+            return if @locked
             angle = @shape.attributes.angle - 1
             angle = 3 if angle<0
             @worker 'checkRotateLeft', angle
 
         rotateRight: ->
-            if @locked
-                console.log "rotate right passed"
-                return
+            return if @locked
             angle = @shape.attributes.angle + 1
             angle = 0 if angle>3
             @worker 'checkRotateRight', angle
 
         drop: ->
-            if @locked
-                console.log "drop passed"
-                return
-
+            return if @locked
             if @shape.attributes.drop < 0
                 @worker 'checkMoveDown'
             else

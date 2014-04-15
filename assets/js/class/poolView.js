@@ -17,6 +17,8 @@
 
     Shape.prototype.$shape = null;
 
+    Shape.prototype.$drop = null;
+
     Shape.prototype.prevAngle = 0;
 
     Shape.prototype.angle = 0;
@@ -24,6 +26,12 @@
     Shape.prototype.lastTime = 0;
 
     Shape.prototype.modelHandler = {
+      'change:drop': function() {
+        return this.$drop.css({
+          top: this.model.attributes.drop * POOL.CELL_SIZE,
+          opacity: DROP_SHAPE_OPACITY
+        });
+      },
       'change:x change:y change:angle': function() {
         var shape, time, timeSub, transition;
         if (!this.$shape) {
@@ -43,20 +51,29 @@
         if (timeSub > ANIMATE_TIME) {
           timeSub = ANIMATE_TIME;
         }
-        this.$shape.stop(true, false).css(transition);
+        this.$shape.css(transition);
+        transition.top = shape.drop * POOL.CELL_SIZE;
+        transition.opacity = DROP_SHAPE_OPACITY;
+        this.$drop.css(transition);
         return this.lastTime = time;
       },
       setShape: function() {
-        var shape;
+        var css, shape;
         shape = this.model.attributes;
         this.$shape = $(Application.shapesView[shape.index][0]);
         this.prevAngle = shape.angle;
-        this.$shape.stop().css({
+        css = {
           left: shape.x * POOL.CELL_SIZE,
           top: shape.y * POOL.CELL_SIZE,
           rotate: shape.angle * 90
-        });
+        };
+        this.$shape.css(css);
+        this.$drop = $(Application.shapesView[shape.index][0]);
+        css.top = 0;
+        css.opacity = 0;
+        this.$drop.css(css);
         this.$el.html(this.$shape);
+        this.$el.append(this.$drop);
         return this.lastTime = new Date().getTime();
       }
     };
@@ -87,6 +104,8 @@
 
     Pool.prototype.shapeView = null;
 
+    Pool.prototype.$next = [];
+
     Pool.prototype.$body = null;
 
     Pool.prototype.$score = null;
@@ -115,6 +134,11 @@
 
     Pool.prototype.poolHandler = {
       onPutShape: function() {
+        var shape;
+        shape = Application.shapeStack.getShape(this.model.attributes.index + 3);
+        this.$next[0].html(this.$next[1].html());
+        this.$next[1].html(this.$next[2].html());
+        this.$next[2].html(Application.shapesView[shape.index][shape.angle]);
         return this.addShape();
       },
       overflow: function() {},
@@ -134,11 +158,6 @@
             _.delay(function($cell) {
               return $cell.remove();
             }, ANIMATE_TIME, $cell);
-
-            /*
-            $cell.transition({scale: 0}, ANIMATE_TIME, do($cell)->
-                            -> $cell.remove())
-             */
             $cells[line][x] = null;
             for (y = _k = _ref1 = line - 1; _ref1 <= 0 ? _k <= 0 : _k >= 0; y = _ref1 <= 0 ? ++_k : --_k) {
               if (!$cells[y][x]) {
@@ -186,6 +205,7 @@
     };
 
     Pool.prototype.init = function(params) {
+      var index, shape, _i;
       this.$cells = Application.matrixEmpty(POOL.WIDTH, POOL.HEIGHT, null);
       this.$el.css({
         left: params.x,
@@ -196,6 +216,14 @@
       this.shapeView = new Application.View.Shape({
         model: this.model.shape
       });
+      this.$('.jsShapeNext').css({
+        scale: 0.5
+      });
+      for (index = _i = 0; _i <= 2; index = ++_i) {
+        this.$next.push(this.$(".jsShapeNext" + index));
+        shape = Application.shapeStack.getShape(index + 1);
+        this.$next[index].html(Application.shapesView[shape.index][shape.angle]);
+      }
       this.$body.append(this.shapeView.$el);
       this.model.trigger('action', 'reset');
       return this.model.trigger('action', 'start');

@@ -56,6 +56,26 @@
 .b-pool__right:before {
   border-radius: 0 33px 33px 0;
   background-position: right top;
+  content: "Next";
+  margin-top: 30px;
+  text-align: center;
+  color: #fff;
+  font-family: 'Rancho', 'Comic Sans MS';
+  font-size: 2em;
+  line-height: 1em;
+}
+.b-pool__right__next {
+  height: 60px;
+  width: 60px;
+  background-color: #1d2e3b;
+  position: relative;
+  top: 70px;
+  border: 5px solid #33475c;
+  border-radius: 10px;
+  margin-bottom: 10px;
+}
+.b-pool__right__next .jsShapeNext {
+  margin-top: 2px;
 }
 .b-pool__content {
   padding: 28px;
@@ -80,28 +100,29 @@
 }
 .cell {
   position: absolute;
+  background-image: url("/img/cells.png");
   transition: all 200ms linear;
 }
 .cellColor1 {
-  background-color: #f0f0f0;
+  background-position-x: 0px;
 }
 .cellColor2 {
-  background-color: #88db1f;
+  background-position-x: -20px;
 }
 .cellColor3 {
-  background-color: #f0c729;
+  background-position-x: -40px;
 }
 .cellColor4 {
-  background-color: #60d890;
+  background-position-x: -60px;
 }
 .cellColor5 {
-  background-color: #3b9adf;
+  background-position-x: -80px;
 }
 .cellColor6 {
-  background-color: #e35242;
+  background-position-x: -100px;
 }
 .cellColor7 {
-  background-color: #9f5cab;
+  background-position-x: -120px;
 }
 .game {
   display: inline-block;

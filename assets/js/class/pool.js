@@ -146,7 +146,6 @@
       },
       doDrop: function() {
         if (this.locked) {
-          console.log("do drop passed");
           return;
         }
         if (this.shape.attributes.drop >= 0) {
@@ -156,21 +155,18 @@
       },
       moveDown: function() {
         if (this.locked) {
-          console.log("move down passed");
           return;
         }
         return this.worker('checkMoveDown');
       },
       moveLeft: function() {
         if (this.locked) {
-          console.log("move left passed");
           return;
         }
         return this.worker('checkMoveLeft');
       },
       moveRight: function() {
         if (this.locked) {
-          console.log("move right passed");
           return;
         }
         return this.worker('checkMoveRight');
@@ -178,7 +174,6 @@
       rotateLeft: function() {
         var angle;
         if (this.locked) {
-          console.log("rotate left passed");
           return;
         }
         angle = this.shape.attributes.angle - 1;
@@ -190,7 +185,6 @@
       rotateRight: function() {
         var angle;
         if (this.locked) {
-          console.log("rotate right passed");
           return;
         }
         angle = this.shape.attributes.angle + 1;
@@ -201,7 +195,6 @@
       },
       drop: function() {
         if (this.locked) {
-          console.log("drop passed");
           return;
         }
         if (this.shape.attributes.drop < 0) {

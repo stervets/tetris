@@ -179,7 +179,7 @@
     };
 
     ShapeStack.prototype.init = function() {
-      return this.generateShapes(10);
+      return this.generateShapes(4);
     };
 
     return ShapeStack;

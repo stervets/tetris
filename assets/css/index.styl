@@ -83,6 +83,24 @@ gameFont()
     &:before
       border-radius: 0 RADIUS RADIUS 0
       background-position: right top
+      content "Next"
+      margin-top 30px
+      text-align center
+      color white
+      gameFont()
+
+    &__next
+      height 60px
+      width 60px
+      background-color #1d2e3b
+      position relative
+      top 70px
+      border 5px solid #33475c
+      border-radius 10px
+      margin-bottom 10px
+      .jsShapeNext
+        margin-top 2px
+
 
   &__content
     padding: 28px
@@ -106,28 +124,30 @@ gameFont()
 
 .cell
   position absolute
-  transition: all ANIMATE_TIME linear;
+  background-image url("/img/cells.png")
+  transition all ANIMATE_TIME linear;
+
 
 .cellColor1
-  background-color #F0F0F0
+  background-position-x 0px
 
 .cellColor2
-  background-color #88DB1F
+  background-position-x -20px
 
 .cellColor3
-  background-color #F0C729
+  background-position-x -40px
 
 .cellColor4
-  background-color #60D890
+  background-position-x -60px
 
 .cellColor5
-  background-color #3B9ADF
+  background-position-x -80px
 
 .cellColor6
-  background-color #E35242
+  background-position-x -100px
 
 .cellColor7
-  background-color #9F5CAB
+  background-position-x -120px
 
 // Game
 .game
