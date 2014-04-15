@@ -181,6 +181,8 @@ scoreFormula = [
     (height, fillness, holes, lines)-> (lines*100 + height*50 + fillness*25)/holes
     (height, fillness, holes, lines)-> (fillness*100 + height*50 + lines*25)/holes #  same! why?
     (height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite!
+    (height, fillness, holes, lines)-> (fillness/holes)+(height*2) + lines # оч интересно. Башен не строит
+    (height, fillness, holes, lines)-> ((fillness/2)*(height*20)*(lines*10))/(holes/10)
 
 ]
 
@@ -298,7 +300,8 @@ triggers =
                 id: vars.id
 
     findPlace: (vars)->
-        formula = if vars.formula? and scoreFormula[vars.formula]? then vars.formula else 0
+        #formula = if vars.formula? and scoreFormula[vars.formula]? then vars.formula else 0
+        formula = vars.formula
         matrix = vars.matrix
         matrixWidth = matrix[0].length
         shapeWidth = vars.shape[0].length

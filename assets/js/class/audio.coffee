@@ -15,15 +15,17 @@ class Application.Collection.Sound extends Backbone.Collection
         @index = 0 if ++@index>=AUDIO_BUFFER_SIZE
 
     musicPlay: ->
+        @music.load()
         @music.play()
 
     musicStop: ->
         @music.pause()
-        @music.startTime = 0
+
 
     initialize: ->
         return if !window.Audio?
         @music = new Audio(RES.AUDIO.GAME_MUSIC)
+        @music.volume = 0.7
         @music.load()
         @music.addEventListener('ended', ->
                                  this.currentTime = 0;

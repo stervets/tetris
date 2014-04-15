@@ -282,6 +282,10 @@
       return (fillness * 100 + height * 50 + lines * 25) / holes;
     }, function(height, fillness, holes, lines) {
       return height / holes + lines * 10 + fillness;
+    }, function(height, fillness, holes, lines) {
+      return (fillness / holes) + (height * 2) + lines;
+    }, function(height, fillness, holes, lines) {
+      return ((fillness / 2) * (height * 20) * (lines * 10)) / (holes / 10);
     }
   ];
 
@@ -428,7 +432,7 @@
     },
     findPlace: function(vars) {
       var angle, droppedY, formula, key, matrix, matrixWidth, max, maxAngle, result, score, scores, shape, shapeWidth, x, xx, y, _i, _j;
-      formula = (vars.formula != null) && (scoreFormula[vars.formula] != null) ? vars.formula : 0;
+      formula = vars.formula;
       matrix = vars.matrix;
       matrixWidth = matrix[0].length;
       shapeWidth = vars.shape[0].length;

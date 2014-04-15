@@ -73,7 +73,7 @@ class Application.View.Pool extends Backbone.View
     template: 'tplPool'
 
     shapeView: null
-    $next: []
+
     $body: null
     $score: null
     $cells: null
@@ -139,6 +139,7 @@ class Application.View.Pool extends Backbone.View
             @poolHandler[name].apply(@, vars) if @poolHandler[name]?
 
     init: (params)->
+        @$next = []
         @$cells = Application.matrixEmpty(POOL.WIDTH, POOL.HEIGHT, null)
 
         @$el.css
@@ -155,7 +156,7 @@ class Application.View.Pool extends Backbone.View
             scale: 0.5
 
         for index in [0..2]
-            @$next.push(@$(".jsShapeNext#{index}"))
+            @$next[index] = @$(".jsShapeNext#{index}")
             shape = Application.shapeStack.getShape(index+1)
             @$next[index].html(Application.shapesView[shape.index][shape.angle])
 

@@ -85,7 +85,7 @@ class Application.Model.Controller.AI extends Backbone.Model
         delay: DROP_DELAY
         actionDelay: 300
         play: false
-        formula: 0
+        formula: 1000
 
     pool: null
     action:[]
@@ -151,7 +151,7 @@ class Application.Model.Controller.AI extends Backbone.Model
                 @findPlace()
                 @timer()
 
-    init: ()->
+    init: (params)->
         @set 'id', Application.genId('Controller')
         console.log "FORMULA: #{@attributes.formula}"
         @timer()

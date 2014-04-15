@@ -104,8 +104,6 @@
 
     Pool.prototype.shapeView = null;
 
-    Pool.prototype.$next = [];
-
     Pool.prototype.$body = null;
 
     Pool.prototype.$score = null;
@@ -206,6 +204,7 @@
 
     Pool.prototype.init = function(params) {
       var index, shape, _i;
+      this.$next = [];
       this.$cells = Application.matrixEmpty(POOL.WIDTH, POOL.HEIGHT, null);
       this.$el.css({
         left: params.x,
@@ -220,7 +219,7 @@
         scale: 0.5
       });
       for (index = _i = 0; _i <= 2; index = ++_i) {
-        this.$next.push(this.$(".jsShapeNext" + index));
+        this.$next[index] = this.$(".jsShapeNext" + index);
         shape = Application.shapeStack.getShape(index + 1);
         this.$next[index].html(Application.shapesView[shape.index][shape.angle]);
       }

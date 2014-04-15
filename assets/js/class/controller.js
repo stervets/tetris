@@ -131,7 +131,7 @@
       delay: DROP_DELAY,
       actionDelay: 300,
       play: false,
-      formula: 0
+      formula: 1000
     };
 
     AI.prototype.pool = null;
@@ -218,7 +218,7 @@
       }
     };
 
-    AI.prototype.init = function() {
+    AI.prototype.init = function(params) {
       this.set('id', Application.genId('Controller'));
       console.log("FORMULA: " + this.attributes.formula);
       this.timer();

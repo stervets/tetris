@@ -11,48 +11,11 @@ class Application.Model.Game extends Backbone.Model
 
     gameReset: ->
         @proc = {}
-        Application.Pool.reset()
-        Application.Controller.reset()
         Application.shapeStack.reset()
         Application.shapeStack.generateShapes(4)
+        Application.Pool.reset()
+        Application.Controller.reset()
 
-    gameStart: ->
-        ###
-        controller = new Application.Model.Controller.User()
-        #controller = new Application.Model.Controller.AI
-        #    formula: 2
-        Application.Controller.add(controller)
-
-        pool = new Application.Model.Pool
-            controller: controller.id
-
-        Application.Pool.add(pool)
-
-        if INIT_TEST_VIEW
-            view = new Application.View.Pool
-                x: 0
-                y: 50
-                model: pool
-            $('body').append view.$el
-
-
-        #controller = new Application.Model.Controller.User()
-        controller2 = new Application.Model.Controller.AI
-            formula: 2
-        Application.Controller.add(controller2)
-
-        pool2 = new Application.Model.Pool
-            controller: controller2.id
-
-        Application.Pool.add(pool2)
-
-        if INIT_TEST_VIEW
-            view2 = new Application.View.Pool
-                x: 450
-                y: 50
-                model: pool2
-            $('body').append view2.$el
-        ###
     switch: (mode)-> if @attributes.mode is mode then @trigger 'change:mode', @, mode else @set 'mode', mode
 
     mode: [
@@ -64,26 +27,35 @@ class Application.Model.Game extends Backbone.Model
             @gameReset()
             #@proc.controller = new Application.Model.Controller.User()
             @proc.controller = new Application.Model.Controller.AI
-            formula: 6
+                formula: 8
 
             Application.Controller.add(@proc.controller)
             @proc.pool = new Application.Model.Pool
                 controller: @proc.controller.id
             Application.Pool.add(@proc.pool)
+
+
+
+            #controller = new Application.Model.Controller.User()
+            controller = new Application.Model.Controller.AI
+                formula: 2
+            Application.Controller.add(controller)
+
+            pool = new Application.Model.Pool
+                controller: controller.id
+
+            Application.Pool.add(pool)
+
+            if INIT_TEST_VIEW
+                view = new Application.View.Pool
+                    x: 800
+                    y: 50
+                    model: pool
+                $('#jsPoolTest').append view.$el
     ]
 
     handler:
         'change:mode': (model, mode)-> @mode[mode].apply @ if @mode[mode]?
-
-        showLobby: ->
-            #Application.switchView('Lobby')
-            #@trigger 'singlePlayer'
-
-        singlePlayer: ->
-
-
-
-            #$('body').append view.$el
 
     init: ->
         #@gameReset()
@@ -103,6 +75,7 @@ class Application.View.Game extends Backbone.View
                 x: 900/2 - 450/2
                 y: 50
                 model: @model.proc.pool
+
             @$('#jsSinglePlay').html(@model.proc.view.$el)
 
             @model.proc.onGameOver = =>
@@ -151,64 +124,3 @@ class Application.View.Game extends Backbone.View
             .click ->
                     Application.Game.gameReset()
                     Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
-
-
-###
-
-    controller = new Application.Model.Controller.User()
-
-    #controller = new Application.Model.Controller.AI
-    #    formula: 3
-
-    Application.Controller.add(controller)
-
-    pool = new Application.Model.Pool
-        controller: controller.id
-
-    Application.Pool.add(pool)
-
-    if INIT_TEST_VIEW
-        view = new Application.View.Pool
-            x: 0
-            y: 50
-            model: pool
-        $('body').append view.$el
-
-
-    controller2 = new Application.Model.Controller.AI
-        formula: 2
-
-    Application.Controller.add(controller2)
-
-    pool2 = new Application.Model.Pool
-        controller: controller2.id
-
-    Application.Pool.add(pool2)
-
-    if INIT_TEST_VIEW
-        view2 = new Application.View.Pool
-            x: 430
-            y: 50
-            model: pool2
-        $('body').append view2.$el
-
-
-
-    controller3 = new Application.Model.Controller.AI
-        formula: 6
-
-    Application.Controller.add(controller3)
-
-    pool3 = new Application.Model.Pool
-        controller: controller3.id
-
-    Application.Pool.add(pool3)
-
-    if INIT_TEST_VIEW
-        view3 = new Application.View.Pool
-            x: 860
-            y: 50
-            model: pool3
-        $('body').append view3.$el
-
-###

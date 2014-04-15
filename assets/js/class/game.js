@@ -34,50 +34,10 @@
 
     Game.prototype.gameReset = function() {
       this.proc = {};
-      Application.Pool.reset();
-      Application.Controller.reset();
       Application.shapeStack.reset();
-      return Application.shapeStack.generateShapes(4);
-    };
-
-    Game.prototype.gameStart = function() {
-
-      /*
-      controller = new Application.Model.Controller.User()
-       *controller = new Application.Model.Controller.AI
-       *    formula: 2
-      Application.Controller.add(controller)
-      
-      pool = new Application.Model.Pool
-          controller: controller.id
-      
-      Application.Pool.add(pool)
-      
-      if INIT_TEST_VIEW
-          view = new Application.View.Pool
-              x: 0
-              y: 50
-              model: pool
-          $('body').append view.$el
-      
-      
-       *controller = new Application.Model.Controller.User()
-      controller2 = new Application.Model.Controller.AI
-          formula: 2
-      Application.Controller.add(controller2)
-      
-      pool2 = new Application.Model.Pool
-          controller: controller2.id
-      
-      Application.Pool.add(pool2)
-      
-      if INIT_TEST_VIEW
-          view2 = new Application.View.Pool
-              x: 450
-              y: 50
-              model: pool2
-          $('body').append view2.$el
-       */
+      Application.shapeStack.generateShapes(4);
+      Application.Pool.reset();
+      return Application.Controller.reset();
     };
 
     Game.prototype["switch"] = function(mode) {
@@ -90,16 +50,32 @@
 
     Game.prototype.mode = [
       function() {}, function() {
+        var controller, pool, view;
         this.gameReset();
-        this.proc.controller = new Application.Model.Controller.AI;
-        ({
-          formula: 6
+        this.proc.controller = new Application.Model.Controller.AI({
+          formula: 8
         });
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
         });
-        return Application.Pool.add(this.proc.pool);
+        Application.Pool.add(this.proc.pool);
+        controller = new Application.Model.Controller.AI({
+          formula: 2
+        });
+        Application.Controller.add(controller);
+        pool = new Application.Model.Pool({
+          controller: controller.id
+        });
+        Application.Pool.add(pool);
+        if (INIT_TEST_VIEW) {
+          view = new Application.View.Pool({
+            x: 800,
+            y: 50,
+            model: pool
+          });
+          return $('#jsPoolTest').append(view.$el);
+        }
       }
     ];
 
@@ -108,9 +84,7 @@
         if (this.mode[mode] != null) {
           return this.mode[mode].apply(this);
         }
-      },
-      showLobby: function() {},
-      singlePlayer: function() {}
+      }
     };
 
     Game.prototype.init = function() {};
@@ -190,66 +164,6 @@
     return Game;
 
   })(Backbone.View);
-
-
-  /*
-  
-      controller = new Application.Model.Controller.User()
-  
-       *controller = new Application.Model.Controller.AI
-       *    formula: 3
-  
-      Application.Controller.add(controller)
-  
-      pool = new Application.Model.Pool
-          controller: controller.id
-  
-      Application.Pool.add(pool)
-  
-      if INIT_TEST_VIEW
-          view = new Application.View.Pool
-              x: 0
-              y: 50
-              model: pool
-          $('body').append view.$el
-  
-  
-      controller2 = new Application.Model.Controller.AI
-          formula: 2
-  
-      Application.Controller.add(controller2)
-  
-      pool2 = new Application.Model.Pool
-          controller: controller2.id
-  
-      Application.Pool.add(pool2)
-  
-      if INIT_TEST_VIEW
-          view2 = new Application.View.Pool
-              x: 430
-              y: 50
-              model: pool2
-          $('body').append view2.$el
-  
-  
-  
-      controller3 = new Application.Model.Controller.AI
-          formula: 6
-  
-      Application.Controller.add(controller3)
-  
-      pool3 = new Application.Model.Pool
-          controller: controller3.id
-  
-      Application.Pool.add(pool3)
-  
-      if INIT_TEST_VIEW
-          view3 = new Application.View.Pool
-              x: 860
-              y: 50
-              model: pool3
-          $('body').append view3.$el
-   */
 
 }).call(this);
 
