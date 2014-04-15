@@ -4,11 +4,22 @@ class Application.Model.Lobby extends Backbone.Model
 
 # MAIN LOBBY VIEW
 class Application.View.Lobby extends Backbone.View
-    node: '#jsMenu'
+    node: '#jsLobby'
+    mainMenu: null
+
     modelHandler:
         change: ->
 
     init: ->
+        @mainMenu = Application.createMenu 'Main menu',
+            'Single player': ->
+                Application.Game.trigger('singlePlayer')
+
+            'Player vs CPU': ->
+                return
+
+            , @
+        @$el.append @mainMenu.view.$el
 
 # MENU COLLECTION
 class Application.Collection.Menu extends Backbone.Collection
@@ -24,24 +35,39 @@ class Application.View.Menu extends Backbone.View
     template: 'tplMenu'
     $title: null
     collectionHandler:
-        Menu:{}
+        Menu:
+            title: (title)-> @$title.text title
+            add: (model)->
+                menuItemView = new Application.View.MenuItem
+                    model: model
+                @$('.jsMenuItems').append(menuItemView.$el)
+
+    render: ->
+        @$el = $ @.node
+            title: @collection.Menu.title
 
     init: ->
+        @render()
         $title = @$('.jsMenuTitle')
 
 # MENU ITEM
 class Application.Model.MenuItem extends Backbone.Model
-    object: null
+    triggerHandler: null
+    context: this
     defaults:
         title: 'MenuItem'
         active: false
         value: null
         values: null
-        trigger: null
-    init: ()->
-        _dump arguments
+
+    init: (params)->
+        @triggerHandler = params.triggerHandler if params.triggerHandler?
+        @context = params.context if params.context?
 
 # MENU ITEM VIEW
 class Application.View.MenuItem extends Backbone.View
     template: 'tplMenuItem'
     modelHandler:{}
+    events:
+        'click': ->
+            @model.triggerHandler.apply @model.context

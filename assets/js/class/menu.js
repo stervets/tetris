@@ -21,13 +21,23 @@
       return Lobby.__super__.constructor.apply(this, arguments);
     }
 
-    Lobby.prototype.node = '#jsMenu';
+    Lobby.prototype.node = '#jsLobby';
+
+    Lobby.prototype.mainMenu = null;
 
     Lobby.prototype.modelHandler = {
       change: function() {}
     };
 
-    Lobby.prototype.init = function() {};
+    Lobby.prototype.init = function() {
+      this.mainMenu = Application.createMenu('Main menu', {
+        'Single player': function() {
+          return Application.Game.trigger('singlePlayer');
+        },
+        'Player vs CPU': function() {}
+      }, this);
+      return this.$el.append(this.mainMenu.view.$el);
+    };
 
     return Lobby;
 
@@ -65,11 +75,29 @@
     Menu.prototype.$title = null;
 
     Menu.prototype.collectionHandler = {
-      Menu: {}
+      Menu: {
+        title: function(title) {
+          return this.$title.text(title);
+        },
+        add: function(model) {
+          var menuItemView;
+          menuItemView = new Application.View.MenuItem({
+            model: model
+          });
+          return this.$('.jsMenuItems').append(menuItemView.$el);
+        }
+      }
+    };
+
+    Menu.prototype.render = function() {
+      return this.$el = $(this.node({
+        title: this.collection.Menu.title
+      }));
     };
 
     Menu.prototype.init = function() {
       var $title;
+      this.render();
       return $title = this.$('.jsMenuTitle');
     };
 
@@ -84,18 +112,24 @@
       return MenuItem.__super__.constructor.apply(this, arguments);
     }
 
-    MenuItem.prototype.object = null;
+    MenuItem.prototype.triggerHandler = null;
+
+    MenuItem.prototype.context = MenuItem;
 
     MenuItem.prototype.defaults = {
       title: 'MenuItem',
       active: false,
       value: null,
-      values: null,
-      trigger: null
+      values: null
     };
 
-    MenuItem.prototype.init = function() {
-      return _dump(arguments);
+    MenuItem.prototype.init = function(params) {
+      if (params.triggerHandler != null) {
+        this.triggerHandler = params.triggerHandler;
+      }
+      if (params.context != null) {
+        return this.context = params.context;
+      }
     };
 
     return MenuItem;
@@ -112,6 +146,12 @@
     MenuItem.prototype.template = 'tplMenuItem';
 
     MenuItem.prototype.modelHandler = {};
+
+    MenuItem.prototype.events = {
+      'click': function() {
+        return this.model.triggerHandler.apply(this.model.context);
+      }
+    };
 
     return MenuItem;
 

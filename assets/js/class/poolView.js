@@ -117,10 +117,7 @@
       onPutShape: function() {
         return this.addShape();
       },
-      overflow: function() {
-        console.log('overlow at view');
-        return this.addShape();
-      },
+      overflow: function() {},
       lines: function(lines, score) {
         var $cell, $cells, cell, index, key, line, transit, x, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _n, _ref, _ref1, _ref2, _ref3, _ref4;
         this.$score.text(score);

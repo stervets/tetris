@@ -3,7 +3,7 @@
 
 @POOL =
     WIDTH:  10
-    HEIGHT: 25
+    HEIGHT: 5
     CELL_SIZE: 20
     CELL_MARGIN: 2
 
@@ -17,6 +17,11 @@
 
 # ingame view show\hide animate time
 @VIEW_ANIMATE_TIME = 200
+
+
+@GAME_MODE =
+    LOBBY: 0
+    SINGLE_PLAYER: 1
 
 
 @SHAPES = [

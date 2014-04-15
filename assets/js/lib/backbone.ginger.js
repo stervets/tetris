@@ -72,9 +72,7 @@ Backbone.View.prototype.initialize = function(options) {
         }
 
         if(_(this[Backbone.Ginger.options.nodeVariable]).isFunction()) {
-            if(this.model == undefined) {
-                Backbone.Ginger.error('Backbone.View.model is undefined');
-            } else {
+            if(this.model != undefined) {
                 this.$el = $(this[Backbone.Ginger.options.nodeVariable](this.model.toJSON()));
                 afterChangeMustBeFired = true;
             }

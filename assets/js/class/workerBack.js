@@ -92,7 +92,6 @@
         continue;
       }
       if (y < 0) {
-        console.log(overflow, y);
         if (!overflow && isInLine(line)) {
           overflow = true;
         }

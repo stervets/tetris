@@ -79,8 +79,8 @@ class Application.View.Pool extends Backbone.View
             @addShape()
 
         overflow: ()->
-            console.log 'overlow at view'
-            @addShape()
+            #console.log 'overlow at view'
+            #@addShape()
 
         lines: (lines, score)->
             #@$head.text(score)

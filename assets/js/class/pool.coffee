@@ -36,18 +36,6 @@ class Application.Model.Pool extends Backbone.Model
         cells = []
         line = (0 for i in [0...@attributes.w])
         cells.push(line[..]) for i in [0...@attributes.h]
-
-        ###
-        cells[cells.length-1][1] = 1
-        cells[cells.length-1][2] = 1
-        cells[cells.length-1][1] = 1
-        cells[cells.length-1][2] = 1
-        cells[cells.length-1][1] = 1
-        cells[cells.length-1][2] = 1
-        cells[cells.length-2][1] = 1
-        cells[cells.length-2][2] = 1
-        ###
-
         @attributes.cells = cells
         @trigger 'action', 'nextShape'
 
@@ -177,8 +165,8 @@ class Application.Model.Pool extends Backbone.Model
             @nextShape()
 
         overflow: ->
-            @trigger 'action', 'reset'
-
+            @trigger 'action', 'stop'
+            @trigger 'gameover'
 
         onPutShape: ->
             @worker 'process'

@@ -40,11 +40,6 @@ Application.workerCallback =
     putShape: (vars)->
         if pool = Application.Pool.get(vars.id)
             pool.attributes.cells = vars.result.matrix
-            if vars.result.overflow
-                console.log '-------------'
-                console.log 'OVERFLOW'
-                console.log pool
-
             pool.trigger 'action', if vars.result.overflow then 'overflow' else 'onPutShape'
 
     process: (vars)->

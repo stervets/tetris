@@ -62,8 +62,6 @@ putShape = (matrix, shape, posX, posY)->
         y = i+posY
         continue if y >= height
         if y < 0
-            #_dump JSON.stringify(line,null, 4)+' '+y+' PUT ON '+posY
-            console.log overflow, y
             overflow = true if not overflow and isInLine(line)
             continue
 

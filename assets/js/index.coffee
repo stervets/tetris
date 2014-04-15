@@ -133,6 +133,12 @@ Application.hook = ->
             map.controller.trigger 'action', map.action
             e.preventDefault()
 
+###
+Application.switchView = (viewName)->
+    view.trigger('hide') for name, view of Application.GameView when viewName isnt name
+    Application.GameView[viewName].trigger('showDelay')
+###
+
 Application.switchView = (viewName)->
     view.trigger('hide') for name, view of Application.GameView when viewName isnt name
     Application.GameView[viewName].trigger('showDelay')
@@ -172,6 +178,35 @@ Application.appendShowHide = (view)->
     view.on 'showDelay', view.onShowDelay
     view.on 'hide', view.onHide
 
+# Create menu collection
+Application.createMenu = (menuTitle, menuItems, context)->
+    menu = new Application.Collection.Menu()
+    menu.setTitle menuTitle
+    menuView = new Application.View.Menu
+        collection:
+            Menu: menu
+
+    context = menu if not context?
+    #_dump(menuView.$el[0].outerHTML)
+
+    #$menuNode = menuView.$('.jsMenuItems')
+    for title, trigger of menuItems
+        menuItem = new Application.Model.MenuItem
+            title: title
+            triggerHandler: trigger
+            context: context
+        menu.add menuItem
+
+    {
+        collection: menu
+        view: menuView
+    }
+
+Application.clearCollection = (collection)->
+    while collection.length>0
+        model = collection.at 0
+        collection.remove model
+        model.trigger('destroy')
 
 ### Start application ###
 Application.onStart ->
@@ -200,4 +235,4 @@ Application.onStart ->
     Application.appendShowHide(Application.GameView[name]) for name of Application.GameView
 
     Application.hook()
-    Application.Game.trigger('showLobby')
+    Application.Game.switch(GAME_MODE.SINGLE_PLAYER)

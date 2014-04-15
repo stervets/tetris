@@ -253,6 +253,13 @@
     });
   };
 
+
+  /*
+  Application.switchView = (viewName)->
+      view.trigger('hide') for name, view of Application.GameView when viewName isnt name
+      Application.GameView[viewName].trigger('showDelay')
+   */
+
   Application.switchView = function(viewName) {
     var name, view, _ref;
     _ref = Application.GameView;
@@ -296,6 +303,44 @@
     return view.on('hide', view.onHide);
   };
 
+  Application.createMenu = function(menuTitle, menuItems, context) {
+    var menu, menuItem, menuView, title, trigger;
+    menu = new Application.Collection.Menu();
+    menu.setTitle(menuTitle);
+    menuView = new Application.View.Menu({
+      collection: {
+        Menu: menu
+      }
+    });
+    if (context == null) {
+      context = menu;
+    }
+    for (title in menuItems) {
+      trigger = menuItems[title];
+      menuItem = new Application.Model.MenuItem({
+        title: title,
+        triggerHandler: trigger,
+        context: context
+      });
+      menu.add(menuItem);
+    }
+    return {
+      collection: menu,
+      view: menuView
+    };
+  };
+
+  Application.clearCollection = function(collection) {
+    var model, _results;
+    _results = [];
+    while (collection.length > 0) {
+      model = collection.at(0);
+      collection.remove(model);
+      _results.push(model.trigger('destroy'));
+    }
+    return _results;
+  };
+
 
   /* Start application */
 
@@ -324,7 +369,7 @@
       Application.appendShowHide(Application.GameView[name]);
     }
     Application.hook();
-    return Application.Game.trigger('showLobby');
+    return Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
   });
 
 }).call(this);

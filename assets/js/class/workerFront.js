@@ -62,11 +62,6 @@
       var pool;
       if (pool = Application.Pool.get(vars.id)) {
         pool.attributes.cells = vars.result.matrix;
-        if (vars.result.overflow) {
-          console.log('-------------');
-          console.log('OVERFLOW');
-          console.log(pool);
-        }
         return pool.trigger('action', vars.result.overflow ? 'overflow' : 'onPutShape');
       }
     },

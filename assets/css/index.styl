@@ -1,10 +1,30 @@
+FRAME_WIDTH = 900px
+FRAME_HEIGHT = 650px
+
 RADIUS = 33px
+
 POOL-BACKGROUND-TEXTURE = '/img/pool-bg.jpg'
 POOL-LR-TEXTURE = '/img/pool-lr.png'
 ANIMATE_TIME = 200ms
 
+TEXT_COLOR_NORMAL = #F0F0F0
+TEXT_COLOR_SELECTED = #F0C729
+
+
+backgroundGradient()
+  background: #33485d;
+  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzNDg1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZDJkM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+")
+  background: linear-gradient(to bottom,  #33485d 0%,#1d2d3a 100%)
+  iefilter( #ff33485d, #ff1d2d3a, 0)
+
+preventSelection()
+  -moz-user-select: none
+  -khtml-user-select: none
+  -webkit-user-select: none
+  user-select: none
+
 gameFont()
-  font-family 'Rancho'
+  font-family 'Rancho', 'Comic Sans MS'
   font-size 2em
   line-height 1em
 
@@ -78,11 +98,7 @@ gameFont()
       min-height: 410px
       border: 5px solid #1d2e3b
       border-radius: 10px
-      background: #33485d;
-      background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzNDg1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZDJkM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+")
-      background: linear-gradient(to bottom,  #33485d 0%,#1d2d3a 100%)
-      iefilter( #ff33485d, #ff1d2d3a, 0)
-
+      backgroundGradient()
 
 .shape
   position absolute
@@ -118,18 +134,64 @@ gameFont()
   display inline-block
   margin 10px 100px
   border 1px solid black
-  min-width 480px
-  min-height 800px
+  width 900px
+  height 650px
+  position relative
+  background-repeat no-repeat
+  background-image url("/img/back.jpg")
+  background-size 900px 650px
+  &-inner
+    position absolute
+    top 0px
+    left 0px
+    width 100%
+    height 100%
+    display none
+  &-over
+    position absolute
+    top 25%
+    left 25%
+    width 50%
+    height 40%
+    display none
+    font-size 1.5em
+    padding 10px
+    text-align center
+    color TEXT_COLOR_NORMAL
+    z-index 2
+    preventSelection()
+    gameFont()
+    backgroundGradient()
+    border-radius RADIUS
+    & span
+      color: TEXT_COLOR_SELECTED
 
-
-//MENU
 .menu
   position relative
   display inline-block
-  margin 20px auto
+  left 15%
+  top 5%
+  width 70%
+  height 70%
+  backgroundGradient()
+  color TEXT_COLOR_NORMAL
   text-align center
   padding 10px
   gameFont()
+  border-radius RADIUS
+  preventSelection()
+
+  &-title
+    font-weight bold
+    font-size 1.5em
+    padding 10px
 
   &-item
-    clear both
+      line-height 1.5em
+      clear both
+      cursor pointer
+      &:hover
+        color TEXT_COLOR_SELECTED
+
+
+//TEMP

@@ -64,17 +64,6 @@
       for (i = _i = 0, _ref = this.attributes.h; 0 <= _ref ? _i < _ref : _i > _ref; i = 0 <= _ref ? ++_i : --_i) {
         cells.push(line.slice(0));
       }
-
-      /*
-      cells[cells.length-1][1] = 1
-      cells[cells.length-1][2] = 1
-      cells[cells.length-1][1] = 1
-      cells[cells.length-1][2] = 1
-      cells[cells.length-1][1] = 1
-      cells[cells.length-1][2] = 1
-      cells[cells.length-2][1] = 1
-      cells[cells.length-2][2] = 1
-       */
       this.attributes.cells = cells;
       return this.trigger('action', 'nextShape');
     };
@@ -229,7 +218,8 @@
         return this.nextShape();
       },
       overflow: function() {
-        return this.trigger('action', 'reset');
+        this.trigger('action', 'stop');
+        return this.trigger('gameover');
       },
       onPutShape: function() {
         return this.worker('process');

@@ -6,7 +6,7 @@
 
   this.POOL = {
     WIDTH: 10,
-    HEIGHT: 25,
+    HEIGHT: 5,
     CELL_SIZE: 20,
     CELL_MARGIN: 2
   };
@@ -18,6 +18,11 @@
   this.ANIMATE_TIME = 200;
 
   this.VIEW_ANIMATE_TIME = 200;
+
+  this.GAME_MODE = {
+    LOBBY: 0,
+    SINGLE_PLAYER: 1
+  };
 
   this.SHAPES = [[[1, 1, 1, 1]], [[4, 4], [4, 4]], [[0, 5, 0], [5, 5, 5]], [[0, 0, 6], [6, 6, 6]], [[7, 0, 0], [7, 7, 7]], [[2, 2, 0], [0, 2, 2]], [[0, 3, 3], [3, 3, 0]]];
 
