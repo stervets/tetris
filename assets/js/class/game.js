@@ -54,7 +54,9 @@
     };
 
     Game.prototype.mode = [
-      function() {}, function() {
+      function() {
+        return this.gameReset();
+      }, function() {
         this.gameReset();
         this.proc.controller = new Application.Model.Controller.User();
         Application.Controller.add(this.proc.controller);
@@ -310,6 +312,7 @@
     };
 
     Game.prototype.init = function() {
+      var disabled;
       this.$('#jsSinglePlayGameOver .jsPlayAgain').click(function() {
         return Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
       });
@@ -319,8 +322,26 @@
       this.$('#jsCpuVsCpuGameOver .jsPlayAgain').click(function() {
         return Application.Game["switch"](GAME_MODE.CPU_VS_CPU);
       });
-      return this.$('.jsExitToMenu').click(function() {
+      this.$('.jsExitToMenu, #jsControlMenu').click(function() {
         return Application.Game["switch"](GAME_MODE.LOBBY);
+      });
+      disabled = 'button-disabled';
+      if (window.localStorage.getItem('jsControlSound') === 'true') {
+        this.$('#jsControlSound').addClass(disabled);
+        Application.Sound.switchAudio(1, false);
+      }
+      if (window.localStorage.getItem('jsControlMusic') === 'true') {
+        this.$('#jsControlMusic').addClass(disabled);
+        Application.Sound.switchAudio(0, false);
+      }
+      return this.$('#jsControlSound, #jsControlMusic').click(function() {
+        var $this, id, turnOff;
+        $this = $(this);
+        $this.toggleClass(disabled);
+        turnOff = $this.is("." + disabled);
+        id = $this.attr('id');
+        Application.Sound.switchAudio(id === 'jsControlSound', !turnOff);
+        return window.localStorage.setItem(id, turnOff);
       });
     };
 

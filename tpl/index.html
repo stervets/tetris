@@ -17,8 +17,8 @@
     <div class="game-inner game-over" id="jsSinglePlayGameOver">
         <div>Game over</div>
         <div>Final score: <span class="jsScore"></span></div>
-        <div class="menu-item jsPlayAgain">Play again</div>
-        <div class="menu-item jsExitToMenu">Menu</div>
+        <div class="b-menu-item jsPlayAgain">Play again</div>
+        <div class="b-menu-item jsExitToMenu">Menu</div>
     </div>
 
     <div class="game-inner game-over" id="jsPlayerVsCpuGameOver">
@@ -26,8 +26,8 @@
         <div class="jsGameOverWinLoose jsGameOverWin">You win!</div>
         <div class="jsGameOverWinLoose jsGameOverLoose">You loose :(</div>
         <div>Final score: <span class="jsScore"></span></div>
-        <div class="menu-item jsPlayAgain">Play again</div>
-        <div class="menu-item jsExitToMenu">Menu</div>
+        <div class="b-menu-item jsPlayAgain">Play again</div>
+        <div class="b-menu-item jsExitToMenu">Menu</div>
     </div>
 
     <div class="game-inner game-over" id="jsCpuVsCpuGameOver">
@@ -36,8 +36,20 @@
         <div class="jsGameOverWinLoose jsGameOverCpu2">CPU2 win</div>
         <div>CPU1 score: <span class="jsScoreCpu1"></span></div>
         <div>CPU2 score: <span class="jsScoreCpu2"></span></div>
-        <div class="menu-item jsPlayAgain">Play again</div>
-        <div class="menu-item jsExitToMenu">Menu</div>
+        <div class="b-menu-item jsPlayAgain">Play again</div>
+        <div class="b-menu-item jsExitToMenu">Menu</div>
+    </div>
+
+    <div class="controls">
+        <button type="button" class="btn btn-default btn-sm" id="jsControlMusic">
+            <span class="glyphicon glyphicon-music"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm" id="jsControlSound">
+            <span class="glyphicon glyphicon-volume-up"></span>
+        </button>
+        <button type="button" class="btn btn-default btn-sm" id="jsControlMenu">
+            <span class="glyphicon glyphicon-align-justify"></span>
+        </button>
     </div>
 </div>
 <div id="jsChart"></div>

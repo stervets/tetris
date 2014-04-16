@@ -284,6 +284,8 @@
     }, function(height, fillness, holes, lines) {
       return height / holes + lines * 10 + fillness;
     }, function(height, fillness, holes, lines) {
+      return height / holes + 10 + fillness;
+    }, function(height, fillness, holes, lines) {
       return (fillness / holes) + (height * 2) + lines;
     }, function(height, fillness, holes, lines) {
       return ((height + fillness) / holes) * (lines * 1000);

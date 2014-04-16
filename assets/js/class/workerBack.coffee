@@ -183,6 +183,7 @@ scoreFormula = [
     (height, fillness, holes, lines)-> (lines*100 + height*50 + fillness*25)/holes
     (height, fillness, holes, lines)-> (fillness*100 + height*50 + lines*25)/holes #  same! why?
     (height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite!
+    (height, fillness, holes, lines)-> height/holes + 10 + fillness # new favorite!
     (height, fillness, holes, lines)-> (fillness/holes)+(height*2) + lines # оч интересно. Башен не строит
     (height, fillness, holes, lines)-> ((height+fillness)/holes)*(lines*1000) # еще интересней
     (height, fillness, holes, lines)-> lines || height

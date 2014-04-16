@@ -187,7 +187,7 @@ gameFont()
     & span
       color: TEXT_COLOR_SELECTED
 
-.menu
+.b-menu
   position relative
   display inline-block
   left 15%
@@ -208,11 +208,17 @@ gameFont()
     padding 10px
 
   &-item
-      line-height 1.5em
-      clear both
-      cursor pointer
-      &:hover
-        color TEXT_COLOR_SELECTED
+    line-height 1.5em
+    clear both
+    cursor pointer
+    &:hover
+      color TEXT_COLOR_SELECTED
+
+.controls
+  float right
+  bottom 0px
+  & .button-disabled
+    color darkgray
 
 
 //TEMP

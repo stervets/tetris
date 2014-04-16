@@ -34,8 +34,8 @@
 
 # Score calculation formula
 @CPU_FORMULA =
-    CPU1: 0
-    CPU2: 1
+    CPU1: 7
+    CPU2: 6
 
 @DROP_SHAPE_OPACITY = 0.3
 

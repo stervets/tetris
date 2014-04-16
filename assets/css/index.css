@@ -171,7 +171,7 @@
 .game-over span {
   color: #f0c729;
 }
-.menu {
+.b-menu {
   position: relative;
   display: inline-block;
   left: 15%;
@@ -193,18 +193,25 @@
   -webkit-user-select: none;
   user-select: none;
 }
-.menu-title {
+.b-menu-title {
   font-weight: bold;
   font-size: 1.5em;
   padding: 10px;
 }
-.menu-item {
+.b-menu-item {
   line-height: 1.5em;
   clear: both;
   cursor: pointer;
 }
-.menu-item:hover {
+.b-menu-item:hover {
   color: #f0c729;
+}
+.controls {
+  float: right;
+  bottom: 0px;
+}
+.controls .button-disabled {
+  color: #a9a9a9;
 }
 #jsChart {
   margin-left: 100px;

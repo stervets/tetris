@@ -24,6 +24,7 @@ class Application.Model.Game extends Backbone.Model
     mode: [
         #Lobby
         ->
+            @gameReset()
 
         # Single player
         ->
@@ -287,6 +288,24 @@ class Application.View.Game extends Backbone.View
             .click ->
                 Application.Game.switch(GAME_MODE.CPU_VS_CPU)
 
-        @$('.jsExitToMenu')
+        @$('.jsExitToMenu, #jsControlMenu')
             .click ->
                 Application.Game.switch(GAME_MODE.LOBBY)
+
+        disabled = 'button-disabled'
+
+        if window.localStorage.getItem('jsControlSound') is 'true'
+            @$('#jsControlSound').addClass(disabled)
+            Application.Sound.switchAudio(1, false)
+
+        if window.localStorage.getItem('jsControlMusic') is 'true'
+            @$('#jsControlMusic').addClass(disabled)
+            Application.Sound.switchAudio(0, false)
+
+        @$('#jsControlSound, #jsControlMusic').click ->
+            $this = $(this)
+            $this.toggleClass disabled
+            turnOff = $this.is ".#{disabled}"
+            id = $this.attr('id')
+            Application.Sound.switchAudio(id is 'jsControlSound', !turnOff)
+            window.localStorage.setItem(id, turnOff)
