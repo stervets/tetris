@@ -25,12 +25,13 @@ class Application.Model.Controller.User extends Backbone.Model
         action: (name, vars...)->
             @pool.trigger('action', name, vars) if (@attributes.play or name is ACTION.PAUSE) and @pool?
 
+    ###
         setPath: (res)->
             @pool.shape.hint =
                 x: res.x
                 y: res.y
                 angle: res.angle
-
+    ###
     poolHandler:
         pause: ->
             @set 'play', !@attributes.play
@@ -41,6 +42,7 @@ class Application.Model.Controller.User extends Backbone.Model
         stop: ->
             @set 'play', false
 
+    ###
         nextShape: ->
             @action = []
             shape = @pool.shape.attributes
@@ -53,7 +55,7 @@ class Application.Model.Controller.User extends Backbone.Model
                     shapeIndex: shape.index
                     x: shape.x
                     id: @id
-
+    ###
     init: (keys)->
         @set 'id', Application.genId('Controller')
 

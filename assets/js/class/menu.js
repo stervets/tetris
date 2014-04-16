@@ -32,9 +32,14 @@
     Lobby.prototype.init = function() {
       this.mainMenu = Application.createMenu('Main menu', {
         'Single player': function() {
-          return Application.Game.trigger('singlePlayer');
+          return Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
         },
-        'Player vs CPU': function() {}
+        'Player vs CPU': function() {
+          return Application.Game["switch"](GAME_MODE.PLAYER_VS_CPU);
+        },
+        'CPU vs CPU': function() {
+          return Application.Game["switch"](GAME_MODE.CPU_VS_CPU);
+        }
       }, this);
       return this.$el.append(this.mainMenu.view.$el);
     };

@@ -13,10 +13,13 @@ class Application.View.Lobby extends Backbone.View
     init: ->
         @mainMenu = Application.createMenu 'Main menu',
             'Single player': ->
-                Application.Game.trigger('singlePlayer')
+                Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
 
             'Player vs CPU': ->
-                return
+                Application.Game.switch(GAME_MODE.PLAYER_VS_CPU)
+
+            'CPU vs CPU': ->
+                Application.Game.switch(GAME_MODE.CPU_VS_CPU)
 
             , @
         @$el.append @mainMenu.view.$el

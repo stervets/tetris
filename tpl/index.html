@@ -1,3 +1,4 @@
+<script src='/js/lib/highcharts.js'></script>
 <script src='/js/class/const.js'></script>
 <script src='/js/class/menu.js'></script>
 <script src='/js/class/gameplay.js'></script>
@@ -11,10 +12,34 @@
 <div class="game" id="jsGame">
     <div class="game-inner" id="jsLobby"></div>
     <div class="game-inner" id="jsSinglePlay"></div>
+    <div class="game-inner" id="jsPlayerVsCpu"></div>
+    <div class="game-inner" id="jsCpuVsCpu"></div>
     <div class="game-inner game-over" id="jsSinglePlayGameOver">
         <div>Game over</div>
         <div>Final score: <span class="jsScore"></span></div>
         <div class="menu-item jsPlayAgain">Play again</div>
+        <div class="menu-item jsExitToMenu">Menu</div>
+    </div>
+
+    <div class="game-inner game-over" id="jsPlayerVsCpuGameOver">
+        <div class="jsGameOverWinLoose jsGameOverDraw">Draw</div>
+        <div class="jsGameOverWinLoose jsGameOverWin">You win!</div>
+        <div class="jsGameOverWinLoose jsGameOverLoose">You loose :(</div>
+        <div>Final score: <span class="jsScore"></span></div>
+        <div class="menu-item jsPlayAgain">Play again</div>
+        <div class="menu-item jsExitToMenu">Menu</div>
+    </div>
+
+    <div class="game-inner game-over" id="jsCpuVsCpuGameOver">
+        <div class="jsGameOverWinLoose jsGameOverDraw">Draw</div>
+        <div class="jsGameOverWinLoose jsGameOverCpu1">CPU1 win</div>
+        <div class="jsGameOverWinLoose jsGameOverCpu2">CPU2 win</div>
+        <div>CPU1 score: <span class="jsScoreCpu1"></span></div>
+        <div>CPU2 score: <span class="jsScoreCpu2"></span></div>
+        <div class="menu-item jsPlayAgain">Play again</div>
+        <div class="menu-item jsExitToMenu">Menu</div>
     </div>
 </div>
-<div id="jsPoolTest" style="position: absolute; top:0px; left: 0px; height: 100%; width: 100%"></div>
+<div id="jsChart"></div>
+
+<div id="jsPoolTest" style="display:none;position: absolute; top:0px; left: 0px; height: 100%; width: 100%"></div>

@@ -26,7 +26,7 @@ class Application.Collection.Sound extends Backbone.Collection
     initialize: ->
         return if !window.Audio?
         @music = new Audio(RES.AUDIO.GAME_MUSIC)
-        @music.volume = 0.7
+        @music.volume = 0
         @music.load()
         @music.addEventListener('ended', ->
                                  this.currentTime = 0;

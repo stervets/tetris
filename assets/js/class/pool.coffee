@@ -130,6 +130,7 @@ class Application.Model.Pool extends Backbone.Model
 
         lines: ->
             Application.Sound.play(RES.AUDIO.LINES)
+            @trigger 'lines'
 
         putShape: ->
             @locked = true

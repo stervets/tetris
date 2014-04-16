@@ -236,4 +236,4 @@ Application.onStart ->
     Application.appendShowHide(Application.GameView[name]) for name of Application.GameView
 
     Application.hook()
-    Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
+    Application.Game.switch(GAME_MODE.CPU_VS_CPU)

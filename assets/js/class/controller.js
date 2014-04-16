@@ -67,15 +67,17 @@
         if ((this.attributes.play || name === ACTION.PAUSE) && (this.pool != null)) {
           return this.pool.trigger('action', name, vars);
         }
-      },
-      setPath: function(res) {
-        return this.pool.shape.hint = {
-          x: res.x,
-          y: res.y,
-          angle: res.angle
-        };
       }
     };
+
+
+    /*
+        setPath: (res)->
+            @pool.shape.hint =
+                x: res.x
+                y: res.y
+                angle: res.angle
+     */
 
     User.prototype.poolHandler = {
       pause: function() {
@@ -86,24 +88,24 @@
       },
       stop: function() {
         return this.set('play', false);
-      },
-      nextShape: function() {
-        var shape;
-        this.action = [];
-        shape = this.pool.shape.attributes;
-        return Application.worker.postMessage({
-          trigger: 'findPlace',
-          vars: {
-            matrix: this.pool.attributes.cells,
-            shape: shape.shape,
-            angle: shape.angle,
-            shapeIndex: shape.index,
-            x: shape.x,
-            id: this.id
-          }
-        });
       }
     };
+
+
+    /*
+        nextShape: ->
+            @action = []
+            shape = @pool.shape.attributes
+            Application.worker.postMessage
+                trigger: 'findPlace'
+                vars:
+                    matrix: @pool.attributes.cells
+                    shape: shape.shape
+                    angle: shape.angle
+                    shapeIndex: shape.index
+                    x: shape.x
+                    id: @id
+     */
 
     User.prototype.init = function(keys) {
       this.set('id', Application.genId('Controller'));

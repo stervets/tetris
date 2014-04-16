@@ -370,7 +370,7 @@
       Application.appendShowHide(Application.GameView[name]);
     }
     Application.hook();
-    return Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
+    return Application.Game["switch"](GAME_MODE.CPU_VS_CPU);
   });
 
 }).call(this);

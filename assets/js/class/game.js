@@ -19,6 +19,11 @@
 
   })(Backbone.Model);
 
+
+  /*
+   *   GAME MODEL
+   */
+
   Application.Model.Game = (function(_super) {
     __extends(Game, _super);
 
@@ -50,33 +55,51 @@
 
     Game.prototype.mode = [
       function() {}, function() {
-        var controller, pool, view;
         this.gameReset();
-        this.proc.controller = new Application.Model.Controller.AI({
-          formula: 2
-        });
+        this.proc.controller = new Application.Model.Controller.User();
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
         });
-        Application.Pool.add(this.proc.pool);
-        return;
-        controller = new Application.Model.Controller.AI({
+        return Application.Pool.add(this.proc.pool);
+      }, function() {
+        this.gameReset();
+        this.proc.controller1 = new Application.Model.Controller.User();
+        Application.Controller.add(this.proc.controller1);
+        this.proc.pool1 = new Application.Model.Pool({
+          controller: this.proc.controller1.id
+        });
+        Application.Pool.add(this.proc.pool1);
+        this.proc.controller2 = new Application.Model.Controller.AI({
           formula: 2
         });
-        Application.Controller.add(controller);
-        pool = new Application.Model.Pool({
-          controller: controller.id
+        Application.Controller.add(this.proc.controller2);
+        this.proc.pool2 = new Application.Model.Pool({
+          controller: this.proc.controller2.id
         });
-        Application.Pool.add(pool);
-        if (INIT_TEST_VIEW) {
-          view = new Application.View.Pool({
-            x: 800,
-            y: 50,
-            model: pool
-          });
-          return $('#jsPoolTest').append(view.$el);
-        }
+        return Application.Pool.add(this.proc.pool2);
+      }, function() {
+        var actionDelay;
+        actionDelay = 150;
+        this.gameReset();
+        this.proc.controller1 = new Application.Model.Controller.AI({
+          formula: CPU_FORMULA.CPU1,
+          actionDelay: actionDelay
+        });
+        Application.Controller.add(this.proc.controller1);
+        this.proc.pool1 = new Application.Model.Pool({
+          controller: this.proc.controller1.id
+        });
+        Application.Pool.add(this.proc.pool1);
+        this.proc.controller2 = new Application.Model.Controller.AI({
+          formula: CPU_FORMULA.CPU2,
+          actionDelay: actionDelay
+        });
+        Application.Controller.add(this.proc.controller2);
+        this.proc.pool2 = new Application.Model.Pool({
+          controller: this.proc.controller2.id
+        });
+        return Application.Pool.add(this.proc.pool2);
       }
     ];
 
@@ -93,6 +116,11 @@
     return Game;
 
   })(Backbone.Model);
+
+
+  /*
+   *   GAME VIEW
+   */
 
   Application.View.Game = (function(_super) {
     __extends(Game, _super);
@@ -126,6 +154,136 @@
         })(this);
         this.listenTo(this.model.proc.pool, 'gameover', this.model.proc.onGameOver);
         return Application.Sound.musicPlay();
+      }, function() {
+        this.model.proc.view1 = new Application.View.Pool({
+          x: 450 / 2 - 450 / 2,
+          y: 50,
+          model: this.model.proc.pool1
+        });
+        this.$('#jsPlayerVsCpu').html(this.model.proc.view1.$el);
+        this.model.proc.view2 = new Application.View.Pool({
+          x: 1350 / 2 - 450 / 2,
+          y: 50,
+          model: this.model.proc.pool2
+        });
+        this.$('#jsPlayerVsCpu').append(this.model.proc.view2.$el);
+        this.model.proc.onGameOver = (function(_this) {
+          return function() {
+            _this.model.proc.pool1.trigger('action', 'stop');
+            _this.model.proc.pool2.trigger('action', 'stop');
+            Application.Sound.musicStop();
+            _this.$('.jsGameOverWinLoose').hide();
+            if (_this.model.proc.pool1.lines === _this.model.proc.pool2.lines) {
+              _this.$('.jsGameOverDraw').show();
+            } else {
+              if (_this.model.proc.pool1.lines >= _this.model.proc.pool2.lines) {
+                _this.$('.jsGameOverWin').show();
+              } else {
+                _this.$('.jsGameOverLoose').show();
+              }
+            }
+            _this.$('#jsPlayerVsCpuGameOver .jsScore').text(_this.model.proc.pool1.lines);
+            return _this.$('#jsPlayerVsCpuGameOver').css({
+              opacity: 0,
+              scale: 0
+            }).show().transition({
+              opacity: 1,
+              scale: 1
+            }, VIEW_ANIMATE_TIME);
+          };
+        })(this);
+        this.listenTo(this.model.proc.pool1, 'gameover', this.model.proc.onGameOver);
+        this.listenTo(this.model.proc.pool2, 'gameover', this.model.proc.onGameOver);
+        return Application.Sound.musicPlay();
+      }, function() {
+        var chartRepeat;
+        this.model.proc.view1 = new Application.View.Pool({
+          x: 450 / 2 - 450 / 2,
+          y: 50,
+          model: this.model.proc.pool1
+        });
+        this.$('#jsCpuVsCpu').html(this.model.proc.view1.$el);
+        this.model.proc.view2 = new Application.View.Pool({
+          x: 1350 / 2 - 450 / 2,
+          y: 50,
+          model: this.model.proc.pool2
+        });
+        this.$('#jsCpuVsCpu').append(this.model.proc.view2.$el);
+        this.model.proc.onGameOver = (function(_this) {
+          return function() {
+            _this.model.proc.pool1.trigger('action', 'stop');
+            _this.model.proc.pool2.trigger('action', 'stop');
+            Application.Sound.musicStop();
+            _this.$('.jsGameOverWinLoose').hide();
+            if (_this.model.proc.pool1.lines === _this.model.proc.pool2.lines) {
+              _this.$('.jsGameOverDraw').show();
+            } else {
+              if (_this.model.proc.pool1.lines >= _this.model.proc.pool2.lines) {
+                _this.$('.jsGameOverCpu1').show();
+              } else {
+                _this.$('.jsGameOverCpu2').show();
+              }
+            }
+            _this.$('#jsCpuVsCpuGameOver .jsScoreCpu1').text(_this.model.proc.pool1.lines);
+            _this.$('#jsCpuVsCpuGameOver .jsScoreCpu2').text(_this.model.proc.pool2.lines);
+            return _this.$('#jsCpuVsCpuGameOver').css({
+              opacity: 0,
+              scale: 0
+            }).show().transition({
+              opacity: 1,
+              scale: 1
+            }, VIEW_ANIMATE_TIME);
+          };
+        })(this);
+        this.listenTo(this.model.proc.pool1, 'gameover', this.model.proc.onGameOver);
+        this.listenTo(this.model.proc.pool2, 'gameover', this.model.proc.onGameOver);
+        Application.Sound.musicPlay();
+        $('#jsChart').highcharts({
+          colors: ['#303090', '#903030'],
+          legend: {
+            enabled: false
+          },
+          chart: {
+            type: 'line'
+          },
+          title: null,
+          series: [
+            {
+              data: [],
+              marker: {
+                enabled: false
+              }
+            }, {
+              data: [],
+              marker: {
+                enabled: false
+              }
+            }
+          ],
+          yAxis: {
+            title: null
+          }
+        });
+        this.model.proc.charts = $('#jsChart').highcharts();
+        chartRepeat = (function(_this) {
+          return function() {
+            _this.model.proc.charts.series[0].addPoint(_this.model.proc.pool1.lines);
+            _this.model.proc.charts.series[1].addPoint(_this.model.proc.pool2.lines);
+            return _.delay(chartRepeat, 1000);
+          };
+        })(this);
+        return chartRepeat();
+
+        /*
+        @model.proc.onLines1 = ->
+            @model.proc.charts.series[0].addPoint(@model.proc.pool1.lines);
+        
+        @model.proc.onLines2 = ->
+            @model.proc.charts.series[1].addPoint(@model.proc.pool2.lines);
+        
+        @listenTo @model.proc.pool1, 'lines', @model.proc.onLines1
+        @listenTo @model.proc.pool2, 'lines', @model.proc.onLines2
+         */
       }
     ];
 
@@ -150,15 +308,21 @@
             }, delay);
           };
         })(this), delay));
-      },
-      menuShow: function() {},
-      singlePlayer: function() {}
+      }
     };
 
     Game.prototype.init = function() {
-      return this.$('#jsSinglePlayGameOver .jsPlayAgain').click(function() {
-        Application.Game.gameReset();
+      this.$('#jsSinglePlayGameOver .jsPlayAgain').click(function() {
         return Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
+      });
+      this.$('#jsPlayerVsCpuGameOver .jsPlayAgain').click(function() {
+        return Application.Game["switch"](GAME_MODE.PLAYER_VS_CPU);
+      });
+      this.$('#jsCpuVsCpuGameOver .jsPlayAgain').click(function() {
+        return Application.Game["switch"](GAME_MODE.CPU_VS_CPU);
+      });
+      return this.$('.jsExitToMenu').click(function() {
+        return Application.Game["switch"](GAME_MODE.LOBBY);
       });
     };
 

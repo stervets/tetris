@@ -29,6 +29,13 @@
 @GAME_MODE =
     LOBBY: 0
     SINGLE_PLAYER: 1
+    PLAYER_VS_CPU: 2
+    CPU_VS_CPU: 3
+
+# Score calculation formula
+@CPU_FORMULA =
+    CPU1: 0
+    CPU2: 1
 
 @DROP_SHAPE_OPACITY = 0.3
 

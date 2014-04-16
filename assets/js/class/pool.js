@@ -201,7 +201,8 @@
         }
       },
       lines: function() {
-        return Application.Sound.play(RES.AUDIO.LINES);
+        Application.Sound.play(RES.AUDIO.LINES);
+        return this.trigger('lines');
       },
       putShape: function() {
         this.locked = true;
