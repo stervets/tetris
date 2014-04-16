@@ -125,6 +125,7 @@
   background-position-x: -120px;
 }
 .game {
+  opacity: 1;
   display: inline-block;
   margin: 10px 100px;
   border: 1px solid #000;

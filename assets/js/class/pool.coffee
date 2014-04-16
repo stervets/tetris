@@ -139,6 +139,7 @@ class Application.Model.Pool extends Backbone.Model
 
         nextShape: ->
             @nextShape()
+            @trigger 'nextShape'
 
         overflow: ->
             @trigger 'action', 'stop'

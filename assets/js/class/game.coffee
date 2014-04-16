@@ -56,7 +56,7 @@ class Application.Model.Game extends Backbone.Model
 
         #CPU vs CPU
         ->
-            actionDelay = 150
+            actionDelay = 100
             @gameReset()
             @proc.controller1 = new Application.Model.Controller.AI
                 formula: CPU_FORMULA.CPU1
@@ -219,11 +219,13 @@ class Application.View.Game extends Backbone.View
                 series: [
                     {
                         data: []
+                        name: 'CPU 1'
                         marker:
                             enabled: false
                     }
                     {
                         data: []
+                        name: 'CPU 2'
                         marker:
                             enabled: false
                     }
@@ -231,24 +233,24 @@ class Application.View.Game extends Backbone.View
                 yAxis:
                     title: null
             @model.proc.charts = $('#jsChart').highcharts()
-
+            ###
             chartRepeat = =>
                 @model.proc.charts.series[0].addPoint(@model.proc.pool1.lines);
                 @model.proc.charts.series[1].addPoint(@model.proc.pool2.lines);
                 _.delay chartRepeat, 1000
             chartRepeat()
-
             ###
-            @model.proc.onLines1 = ->
+
+            @model.proc.onNext1 = ->
                 @model.proc.charts.series[0].addPoint(@model.proc.pool1.lines);
 
-            @model.proc.onLines2 = ->
+            @model.proc.onNext2 = ->
                 @model.proc.charts.series[1].addPoint(@model.proc.pool2.lines);
 
-            @listenTo @model.proc.pool1, 'lines', @model.proc.onLines1
-            @listenTo @model.proc.pool2, 'lines', @model.proc.onLines2
+            @listenTo @model.proc.pool1, 'nextShape', @model.proc.onNext1
+            @listenTo @model.proc.pool2, 'nextShape', @model.proc.onNext2
 
-            ###
+
 
     ]
 

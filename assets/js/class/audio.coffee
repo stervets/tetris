@@ -12,6 +12,7 @@ class Application.Collection.Sound extends Backbone.Collection
         sound = @buffer[@index]
         sound.src = file
         sound.load()
+        sound.volume = 0
         sound.play()
         @index = 0 if ++@index>=AUDIO_BUFFER_SIZE
 

@@ -210,7 +210,8 @@
         return this.worker('putShape');
       },
       nextShape: function() {
-        return this.nextShape();
+        this.nextShape();
+        return this.trigger('nextShape');
       },
       overflow: function() {
         this.trigger('action', 'stop');

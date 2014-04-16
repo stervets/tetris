@@ -80,7 +80,7 @@
         return Application.Pool.add(this.proc.pool2);
       }, function() {
         var actionDelay;
-        actionDelay = 150;
+        actionDelay = 100;
         this.gameReset();
         this.proc.controller1 = new Application.Model.Controller.AI({
           formula: CPU_FORMULA.CPU1,
@@ -196,7 +196,6 @@
         this.listenTo(this.model.proc.pool2, 'gameover', this.model.proc.onGameOver);
         return Application.Sound.musicPlay();
       }, function() {
-        var chartRepeat;
         this.model.proc.view1 = new Application.View.Pool({
           x: 450 / 2 - 450 / 2,
           y: 50,
@@ -250,11 +249,13 @@
           series: [
             {
               data: [],
+              name: 'CPU 1',
               marker: {
                 enabled: false
               }
             }, {
               data: [],
+              name: 'CPU 2',
               marker: {
                 enabled: false
               }
@@ -265,25 +266,22 @@
           }
         });
         this.model.proc.charts = $('#jsChart').highcharts();
-        chartRepeat = (function(_this) {
-          return function() {
-            _this.model.proc.charts.series[0].addPoint(_this.model.proc.pool1.lines);
-            _this.model.proc.charts.series[1].addPoint(_this.model.proc.pool2.lines);
-            return _.delay(chartRepeat, 1000);
-          };
-        })(this);
-        return chartRepeat();
 
         /*
-        @model.proc.onLines1 = ->
+        chartRepeat = =>
             @model.proc.charts.series[0].addPoint(@model.proc.pool1.lines);
-        
-        @model.proc.onLines2 = ->
             @model.proc.charts.series[1].addPoint(@model.proc.pool2.lines);
-        
-        @listenTo @model.proc.pool1, 'lines', @model.proc.onLines1
-        @listenTo @model.proc.pool2, 'lines', @model.proc.onLines2
+            _.delay chartRepeat, 1000
+        chartRepeat()
          */
+        this.model.proc.onNext1 = function() {
+          return this.model.proc.charts.series[0].addPoint(this.model.proc.pool1.lines);
+        };
+        this.model.proc.onNext2 = function() {
+          return this.model.proc.charts.series[1].addPoint(this.model.proc.pool2.lines);
+        };
+        this.listenTo(this.model.proc.pool1, 'nextShape', this.model.proc.onNext1);
+        return this.listenTo(this.model.proc.pool2, 'nextShape', this.model.proc.onNext2);
       }
     ];
 
