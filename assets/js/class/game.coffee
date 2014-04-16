@@ -27,7 +27,7 @@ class Application.Model.Game extends Backbone.Model
             @gameReset()
             #@proc.controller = new Application.Model.Controller.User()
             @proc.controller = new Application.Model.Controller.AI
-                formula: 8
+                formula: 2
 
             Application.Controller.add(@proc.controller)
             @proc.pool = new Application.Model.Pool
@@ -35,7 +35,7 @@ class Application.Model.Game extends Backbone.Model
             Application.Pool.add(@proc.pool)
 
 
-
+            return;
             #controller = new Application.Model.Controller.User()
             controller = new Application.Model.Controller.AI
                 formula: 2

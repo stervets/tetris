@@ -7,6 +7,7 @@ class Application.Collection.Sound extends Backbone.Collection
     model: Application.Model.Sound
     music: null
 
+
     play: (file)->
         sound = @buffer[@index]
         sound.src = file

@@ -97,14 +97,12 @@
     Pool.prototype.actions = {
       doMoveDown: function() {
         if (this.locked) {
-          console.log("do move down passed");
           return;
         }
         return this.shape.set('y', this.shape.attributes.y + 1);
       },
       doMoveLeft: function() {
         if (this.locked) {
-          console.log("do move left passed");
           return;
         }
         this.shape.set('x', this.shape.attributes.x - 1);
@@ -112,7 +110,6 @@
       },
       doMoveRight: function() {
         if (this.locked) {
-          console.log("do move right passed");
           return;
         }
         this.shape.set('x', this.shape.attributes.x + 1);
@@ -121,7 +118,6 @@
       doRotateLeft: function() {
         var angle;
         if (this.locked) {
-          console.log("do rotate left passed");
           return;
         }
         angle = this.shape.attributes.angle - 1;
@@ -134,7 +130,6 @@
       doRotateRight: function() {
         var angle;
         if (this.locked) {
-          console.log("do rotate right passed");
           return;
         }
         angle = this.shape.attributes.angle + 1;

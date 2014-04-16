@@ -133,10 +133,11 @@ getFullLines = (matrix, shape, posX, posY)->
     height = shape.length
     lines = []
     for y in [0...height]
-        continue if (yy = y + posY)<0 or yy>=matrix.length
+        yy = y + posY
+        continue if yy<0 or yy>=matrix.length
         full = true
         for x in [0...width]
-            if !matrix[yy][x] and !shape[y][x]
+            if not matrix[yy][x] and not shape[y][x-posX]
                 full = false
                 break
         lines.push yy if full
@@ -174,6 +175,7 @@ getFillness = (matrix, shape, posX, posY, fullLine)->
 
 
 scoreFormula = [
+    # все хуйня, Миша. getFullLines не работал
     (height, fillness, holes, lines)-> Math.round((height*2 + fillness)/(holes)) * (lines*2) # 0
     (height, fillness, holes, lines)-> Math.round((height*2 * fillness)/(holes)) * (lines*2)  # 1 (leader)
     (height, fillness, holes, lines)-> Math.round((lines*height*fillness)/holes)  # 1 optimized
@@ -182,8 +184,8 @@ scoreFormula = [
     (height, fillness, holes, lines)-> (fillness*100 + height*50 + lines*25)/holes #  same! why?
     (height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite!
     (height, fillness, holes, lines)-> (fillness/holes)+(height*2) + lines # оч интересно. Башен не строит
-    (height, fillness, holes, lines)-> ((fillness/2)*(height*20)*(lines*10))/(holes/10)
-
+    (height, fillness, holes, lines)-> ((height+fillness)/holes)*(lines*1000) # еще интересней
+    (height, fillness, holes, lines)-> lines || height
 ]
 
 getScore = (matrix, shape, posX, posY, formula)->
@@ -199,7 +201,7 @@ getScore = (matrix, shape, posX, posY, formula)->
         fillness: fill.percent
         holes: fill.holes+1
         lines: getFullLines(matrix, shape, posX, posY).length+1
-
+    #console.log score.lines
     score.score = scoreFormula[formula](score.height, score.fillness, score.holes, score.lines)
     score
 

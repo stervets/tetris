@@ -209,12 +209,13 @@
     height = shape.length;
     lines = [];
     for (y = _i = 0; 0 <= height ? _i < height : _i > height; y = 0 <= height ? ++_i : --_i) {
-      if ((yy = y + posY) < 0 || yy >= matrix.length) {
+      yy = y + posY;
+      if (yy < 0 || yy >= matrix.length) {
         continue;
       }
       full = true;
       for (x = _j = 0; 0 <= width ? _j < width : _j > width; x = 0 <= width ? ++_j : --_j) {
-        if (!matrix[yy][x] && !shape[y][x]) {
+        if (!matrix[yy][x] && !shape[y][x - posX]) {
           full = false;
           break;
         }
@@ -285,7 +286,9 @@
     }, function(height, fillness, holes, lines) {
       return (fillness / holes) + (height * 2) + lines;
     }, function(height, fillness, holes, lines) {
-      return ((fillness / 2) * (height * 20) * (lines * 10)) / (holes / 10);
+      return ((height + fillness) / holes) * (lines * 1000);
+    }, function(height, fillness, holes, lines) {
+      return lines || height;
     }
   ];
 

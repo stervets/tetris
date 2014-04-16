@@ -62,43 +62,28 @@ class Application.Model.Pool extends Backbone.Model
     actions:
 
         doMoveDown: ->
-            if @locked
-                console.log "do move down passed"
-                return
-            #return if @locked
+            return if @locked
             @shape.set 'y', @shape.attributes.y+1
 
         doMoveLeft: ->
-            if @locked
-                console.log "do move left passed"
-                return
-            #return if @locked
+            return if @locked
             @shape.set 'x', @shape.attributes.x-1
             @worker 'checkDrop'
 
         doMoveRight: ->
-            if @locked
-                console.log "do move right passed"
-                return
-            #return if @locked
+            return if @locked
             @shape.set 'x', @shape.attributes.x+1
             @worker 'checkDrop'
 
         doRotateLeft: ->
-            if @locked
-                console.log "do rotate left passed"
-                return
-            #return if @locked
+            return if @locked
             angle = @shape.attributes.angle - 1
             angle = 3 if angle<0
             @shape.set 'angle', angle
             @worker 'checkDrop'
 
         doRotateRight: ->
-            if @locked
-                console.log "do rotate right passed"
-                return
-            #return if @locked
+            return if @locked
             angle = @shape.attributes.angle + 1
             angle = 0 if angle>3
             @shape.set 'angle', angle

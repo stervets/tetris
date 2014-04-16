@@ -53,13 +53,14 @@
         var controller, pool, view;
         this.gameReset();
         this.proc.controller = new Application.Model.Controller.AI({
-          formula: 8
+          formula: 2
         });
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
         });
         Application.Pool.add(this.proc.pool);
+        return;
         controller = new Application.Model.Controller.AI({
           formula: 2
         });
