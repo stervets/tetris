@@ -198,6 +198,7 @@
         this.listenTo(this.model.proc.pool2, 'gameover', this.model.proc.onGameOver);
         return Application.Sound.musicPlay();
       }, function() {
+        var limit;
         this.model.proc.view1 = new Application.View.Pool({
           x: 450 / 2 - 450 / 2,
           y: 50,
@@ -267,20 +268,16 @@
             title: null
           }
         });
-        this.model.proc.charts = $('#jsChart').highcharts();
-
-        /*
-        chartRepeat = =>
-            @model.proc.charts.series[0].addPoint(@model.proc.pool1.lines);
-            @model.proc.charts.series[1].addPoint(@model.proc.pool2.lines);
-            _.delay chartRepeat, 1000
-        chartRepeat()
-         */
+        limit = 100;
         this.model.proc.onNext1 = function() {
-          return this.model.proc.charts.series[0].addPoint(this.model.proc.pool1.lines);
+          if (this.model.proc.pool1.index > limit * 2) {
+            return this.model.proc.pool1.trigger('gameover');
+          }
         };
         this.model.proc.onNext2 = function() {
-          return this.model.proc.charts.series[1].addPoint(this.model.proc.pool2.lines);
+          if (this.model.proc.pool2.index > limit * 2) {
+            return this.model.proc.pool2.trigger('gameover');
+          }
         };
         this.listenTo(this.model.proc.pool1, 'nextShape', this.model.proc.onNext1);
         return this.listenTo(this.model.proc.pool2, 'nextShape', this.model.proc.onNext2);

@@ -264,38 +264,38 @@
     }
     return {
       percent: getPercent(filled, all),
-      holes: holes
+      holes: 100 - getPercent(holes, all)
     };
   };
 
   scoreFormula = [
     function(height, fillness, holes, lines) {
-      return Math.round((height * 2 + fillness) / holes) * (lines * 2);
+      return height + fillness + holes * 4 + lines;
     }, function(height, fillness, holes, lines) {
-      return Math.round((height * 2 * fillness) / holes) * (lines * 2);
+      return height * 2 + fillness + holes * 4 + lines;
     }, function(height, fillness, holes, lines) {
-      return Math.round((lines * height * fillness) / holes);
+      return height * 2 + fillness + holes * 4 + lines * 2;
     }, function(height, fillness, holes, lines) {
-      return (lines * 100 + fillness * 50 + height * 25) / holes;
+      return height * 2 + fillness * 2 + holes * 2 + lines;
     }, function(height, fillness, holes, lines) {
-      return (lines * 100 + height * 50 + fillness * 25) / holes;
+      return (height + 1) * (holes + 1) + (fillness + 1) * (lines + 1);
     }, function(height, fillness, holes, lines) {
-      return (fillness * 100 + height * 50 + lines * 25) / holes;
+      return ((height + 1) * (holes + 1)) + (fillness * 2 + 1) * (lines + 1);
     }, function(height, fillness, holes, lines) {
-      return height / holes + lines * 10 + fillness;
+      return (height + 1) / (100 - holes + 1) + (lines + 1) * 10 + fillness;
     }, function(height, fillness, holes, lines) {
-      return height / holes + 10 + fillness;
+      return (height + 1) / (100 - holes + 1) + (lines + 1) * 2 + (fillness + 1) * 2;
     }, function(height, fillness, holes, lines) {
-      return (fillness / holes) + (height * 2) + lines;
-    }, function(height, fillness, holes, lines) {
-      return ((height + fillness) / holes) * (lines * 1000);
-    }, function(height, fillness, holes, lines) {
-      return lines || height;
+      return (height + 1) / (100 - holes + 1) + (lines + 1) + fillness * 2;
     }
   ];
 
   getScore = function(matrix, shape, posX, posY, formula) {
     var fill, matrixHeight, score, trimShape, x, y;
+    if (formula == null) {
+      console.log('Warning getScore formula is not set. Setted to 0');
+      formula = 0;
+    }
     trimShape = trim(shape);
     x = posX + trimShape.minX;
     y = posY + trimShape.minY;
@@ -304,8 +304,8 @@
     score = {
       height: getPercent(y, matrixHeight),
       fillness: fill.percent,
-      holes: fill.holes + 1,
-      lines: getFullLines(matrix, shape, posX, posY).length + 1
+      holes: fill.holes,
+      lines: getPercent(getFullLines(matrix, shape, posX, posY).length, 4)
     };
     score.score = scoreFormula[formula](score.height, score.fillness, score.holes, score.lines);
     return score;

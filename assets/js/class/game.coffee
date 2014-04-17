@@ -233,20 +233,17 @@ class Application.View.Game extends Backbone.View
                 ]
                 yAxis:
                     title: null
-            @model.proc.charts = $('#jsChart').highcharts()
-            ###
-            chartRepeat = =>
-                @model.proc.charts.series[0].addPoint(@model.proc.pool1.lines);
-                @model.proc.charts.series[1].addPoint(@model.proc.pool2.lines);
-                _.delay chartRepeat, 1000
-            chartRepeat()
-            ###
 
+            #@model.proc.charts = $('#jsChart').highcharts()
+
+            limit = 100
             @model.proc.onNext1 = ->
-                @model.proc.charts.series[0].addPoint(@model.proc.pool1.lines);
+                @model.proc.pool1.trigger 'gameover' if @model.proc.pool1.index>limit*2
+                #@model.proc.charts.series[0].addPoint(@model.proc.pool1.lines, true, @model.proc.charts.series[0].data.length>limit)
 
             @model.proc.onNext2 = ->
-                @model.proc.charts.series[1].addPoint(@model.proc.pool2.lines);
+                @model.proc.pool2.trigger 'gameover' if @model.proc.pool2.index>limit*2
+                #@model.proc.charts.series[1].addPoint(@model.proc.pool2.lines, true, @model.proc.charts.series[1].data.length>limit)
 
             @listenTo @model.proc.pool1, 'nextShape', @model.proc.onNext1
             @listenTo @model.proc.pool2, 'nextShape', @model.proc.onNext2

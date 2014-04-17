@@ -37,7 +37,7 @@
 
   this.CPU_FORMULA = {
     CPU1: 7,
-    CPU2: 6
+    CPU2: 8
   };
 
   this.DROP_SHAPE_OPACITY = 0.3;

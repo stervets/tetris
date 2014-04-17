@@ -69,7 +69,7 @@ class Application.Model.ShapeStack extends Backbone.Model
         shapes: []
 
     reset: ->
-        @set 'shapes', []
+        #@set 'shapes', []
 
     getShape: (index)->
         len = index - @attributes.shapes.length + 2
@@ -89,7 +89,14 @@ class Application.Model.ShapeStack extends Backbone.Model
         #@attributes.shapes.push([4, 0]) for i in [0...num]
 
     init: ()->
-        @generateShapes(4)
+        @generateShapes(250)
+        return
+        key = 'shapes'
+        if data = window.localStorage.getItem(key)
+            @attributes.shapes = JSON.parse(data)
+        else
+            @generateShapes(250)
+            window.localStorage.setItem(key, JSON.stringify(@attributes.shapes))
 
 ### Shape model ###
 class Application.Model.Shape extends Backbone.Model

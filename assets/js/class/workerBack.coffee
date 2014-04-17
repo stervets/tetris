@@ -168,28 +168,43 @@ getFillness = (matrix, shape, posX, posY, fullLine)->
                 filled++
             else
                 holes++ if inShapeH and y>=fullLine
+
     return {
         percent: getPercent(filled, all)
-        holes: holes
+        holes: 100-getPercent(holes, all)
     }
 
 
 scoreFormula = [
-    # все хуйня, Миша. getFullLines не работал
-    (height, fillness, holes, lines)-> Math.round((height*2 + fillness)/(holes)) * (lines*2) # 0
-    (height, fillness, holes, lines)-> Math.round((height*2 * fillness)/(holes)) * (lines*2)  # 1 (leader)
-    (height, fillness, holes, lines)-> Math.round((lines*height*fillness)/holes)  # 1 optimized
-    (height, fillness, holes, lines)-> (lines*100 + fillness*50 + height*25)/holes # same! why?
-    (height, fillness, holes, lines)-> (lines*100 + height*50 + fillness*25)/holes
-    (height, fillness, holes, lines)-> (fillness*100 + height*50 + lines*25)/holes #  same! why?
-    (height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite!
-    (height, fillness, holes, lines)-> height/holes + 10 + fillness # new favorite!
-    (height, fillness, holes, lines)-> (fillness/holes)+(height*2) + lines # оч интересно. Башен не строит
-    (height, fillness, holes, lines)-> ((height+fillness)/holes)*(lines*1000) # еще интересней
-    (height, fillness, holes, lines)-> lines || height
+    # Склонен строить башни
+    (height, fillness, holes, lines)-> height+fillness+holes*4+lines
+    # Сбалансирован, но не любит линии.
+    (height, fillness, holes, lines)-> height*2+fillness+holes*4+lines
+    # Слишком любит линии - looser
+    (height, fillness, holes, lines)-> height*2+fillness+holes*4+lines*2
+    # любит линии!!!
+    (height, fillness, holes, lines)-> height*2+fillness*2+holes*2+lines
+
+    # II лига
+    (height, fillness, holes, lines)-> (height+1)*(holes+1)+(fillness+1)*(lines+1) #4
+
+
+    #увеличить fillness
+    (height, fillness, holes, lines)-> ((height+1)*(holes+1))+(fillness*2+1)*(lines+1) #5
+
+    (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) * 10 + fillness #6 RULES
+    (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) * 2 + (fillness+1)*2  #7 nu leader
+    (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) + (fillness)*2  #8 мегакрут
+    #(height, fillness, holes, lines)-> height/((100-holes+1)/2) + lines * 10 + fillness
+
+    #(height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite! 6
 ]
 
 getScore = (matrix, shape, posX, posY, formula)->
+    if not formula?
+        console.log 'Warning getScore formula is not set. Setted to 0'
+        formula = 0
+
     trimShape = trim(shape)
     x = posX+trimShape.minX
     y = posY+trimShape.minY
@@ -200,8 +215,11 @@ getScore = (matrix, shape, posX, posY, formula)->
         height: getPercent(y, matrixHeight)
     #    width: getPercent(Math.abs(matrixWidth/2-posX), matrixWidth/2)+1
         fillness: fill.percent
-        holes: fill.holes+1
-        lines: getFullLines(matrix, shape, posX, posY).length+1
+        holes: fill.holes
+        lines: getPercent(getFullLines(matrix, shape, posX, posY).length, 4)
+
+    #getPercent = (part, all)-> Math.round((part*100)/all)
+
     #console.log score.lines
     score.score = scoreFormula[formula](score.height, score.fillness, score.holes, score.lines)
     score

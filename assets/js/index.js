@@ -151,9 +151,7 @@
       shapes: []
     };
 
-    ShapeStack.prototype.reset = function() {
-      return this.set('shapes', []);
-    };
+    ShapeStack.prototype.reset = function() {};
 
     ShapeStack.prototype.getShape = function(index) {
       var len;
@@ -179,7 +177,16 @@
     };
 
     ShapeStack.prototype.init = function() {
-      return this.generateShapes(4);
+      var data, key;
+      this.generateShapes(250);
+      return;
+      key = 'shapes';
+      if (data = window.localStorage.getItem(key)) {
+        return this.attributes.shapes = JSON.parse(data);
+      } else {
+        this.generateShapes(250);
+        return window.localStorage.setItem(key, JSON.stringify(this.attributes.shapes));
+      }
     };
 
     return ShapeStack;
