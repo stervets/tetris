@@ -193,9 +193,22 @@ scoreFormula = [
     (height, fillness, holes, lines)-> ((height+1)*(holes+1))+(fillness*2+1)*(lines+1) #5
 
     (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) * 10 + fillness #6 RULES
+
+    # очков меньше, но стабилен жеж. Выиграл у восьмого, набрав 3050
     (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) * 2 + (fillness+1)*2  #7 nu leader
+
+    #мегакрут. Проиграл седьмому на 3485 очках
     (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) + (fillness)*2  #8 мегакрут
     #(height, fillness, holes, lines)-> height/((100-holes+1)/2) + lines * 10 + fillness
+
+    (height, fillness, holes, lines)-> (fillness)/((100-holes+1)) + (lines) + height #9
+
+    (height, fillness, holes, lines)-> ((height+1))/((100-holes+1)) + (lines+1) + (fillness) #10 наследник восьмого
+
+    (height, fillness, holes, lines)-> (((height+1))/((100-holes+1)) + (lines+1) + (fillness))*(if height>50 then 10 else 1) #11 наследник восьмого
+
+
+    (height, fillness, holes, lines)-> ((height+1)/((100-holes+1)) + (lines+1) + (fillness)*2)*height  #12 На синтетике намного лучше чем 8
 
     #(height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite! 6
 ]

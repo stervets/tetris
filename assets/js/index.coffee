@@ -83,6 +83,8 @@ class Application.Model.ShapeStack extends Backbone.Model
     generateShapes: (num)->
         for i in [0...num]
             shape = rand(SHAPES.length-1)
+            #shape = if rand(1) then 4 else 4
+            #shape = if rand(1) then 5 else 6
             maxAngle = SHAPE_ANGLES[shape] || 4
             @attributes.shapes.push([shape, rand(maxAngle-1)])
         #@attributes.shapes.push([rand(0,4), rand(maxAngle-1)]) for i in [0...num]
@@ -90,12 +92,12 @@ class Application.Model.ShapeStack extends Backbone.Model
 
     init: ()->
         @generateShapes(250)
-        return
+        return;
         key = 'shapes'
         if data = window.localStorage.getItem(key)
             @attributes.shapes = JSON.parse(data)
         else
-            @generateShapes(250)
+            @generateShapes(350)
             window.localStorage.setItem(key, JSON.stringify(@attributes.shapes))
 
 ### Shape model ###

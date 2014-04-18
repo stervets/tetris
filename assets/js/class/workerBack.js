@@ -287,6 +287,14 @@
       return (height + 1) / (100 - holes + 1) + (lines + 1) * 2 + (fillness + 1) * 2;
     }, function(height, fillness, holes, lines) {
       return (height + 1) / (100 - holes + 1) + (lines + 1) + fillness * 2;
+    }, function(height, fillness, holes, lines) {
+      return fillness / (100 - holes + 1) + lines + height;
+    }, function(height, fillness, holes, lines) {
+      return (height + 1) / (100 - holes + 1) + (lines + 1) + fillness;
+    }, function(height, fillness, holes, lines) {
+      return ((height + 1) / (100 - holes + 1) + (lines + 1) + fillness) * (height > 50 ? 10 : 1);
+    }, function(height, fillness, holes, lines) {
+      return ((height + 1) / (100 - holes + 1) + (lines + 1) + fillness * 2) * height;
     }
   ];
 

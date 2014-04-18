@@ -268,14 +268,14 @@
             title: null
           }
         });
-        limit = 100;
+        limit = 111150;
         this.model.proc.onNext1 = function() {
-          if (this.model.proc.pool1.index > limit * 2) {
+          if (this.model.proc.pool1.attributes.index > limit * 2) {
             return this.model.proc.pool1.trigger('gameover');
           }
         };
         this.model.proc.onNext2 = function() {
-          if (this.model.proc.pool2.index > limit * 2) {
+          if (this.model.proc.pool2.attributes.index > limit * 2) {
             return this.model.proc.pool2.trigger('gameover');
           }
         };

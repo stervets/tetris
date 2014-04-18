@@ -184,7 +184,7 @@
       if (data = window.localStorage.getItem(key)) {
         return this.attributes.shapes = JSON.parse(data);
       } else {
-        this.generateShapes(250);
+        this.generateShapes(350);
         return window.localStorage.setItem(key, JSON.stringify(this.attributes.shapes));
       }
     };

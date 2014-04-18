@@ -236,13 +236,13 @@ class Application.View.Game extends Backbone.View
 
             #@model.proc.charts = $('#jsChart').highcharts()
 
-            limit = 100
+            limit = 111150
             @model.proc.onNext1 = ->
-                @model.proc.pool1.trigger 'gameover' if @model.proc.pool1.index>limit*2
+                @model.proc.pool1.trigger 'gameover' if @model.proc.pool1.attributes.index>limit*2
                 #@model.proc.charts.series[0].addPoint(@model.proc.pool1.lines, true, @model.proc.charts.series[0].data.length>limit)
 
             @model.proc.onNext2 = ->
-                @model.proc.pool2.trigger 'gameover' if @model.proc.pool2.index>limit*2
+                @model.proc.pool2.trigger 'gameover' if @model.proc.pool2.attributes.index>limit*2
                 #@model.proc.charts.series[1].addPoint(@model.proc.pool2.lines, true, @model.proc.charts.series[1].data.length>limit)
 
             @listenTo @model.proc.pool1, 'nextShape', @model.proc.onNext1
