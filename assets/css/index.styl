@@ -114,7 +114,7 @@ gameFont()
       position relative
       width: 220px
       min-height: 410px
-      border: 5px solid #1d2e3b
+      border 5px solid #1d2e3b
       border-radius: 10px
       backgroundGradient()
 
@@ -126,6 +126,14 @@ gameFont()
   position absolute
   background-image url("/img/cells.png")
   transition all ANIMATE_TIME linear;
+
+  /*
+    DO NOT REMOVE THIS!!!
+    IT PREVENTS FLICKER ISSUE WITH CHROME AND SAFARI
+  */
+  /** see bug flickering http://stackoverflow.com/questions/2946748/iphone-webkit-css-animations-cause-flicker */
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
 
 
 .cellColor1
@@ -153,8 +161,8 @@ gameFont()
 .game
   opacity 1
   display inline-block
-  margin 10px 100px
-  border 1px solid black
+  //margin 10px 100px
+  //border 1px solid black
   width 900px
   height 650px
   position relative

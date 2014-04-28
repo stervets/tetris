@@ -36,8 +36,8 @@
   };
 
   this.CPU_FORMULA = {
-    CPU1: 8,
-    CPU2: 12
+    CPU1: 7,
+    CPU2: 14
   };
 
   this.DROP_SHAPE_OPACITY = 0.3;

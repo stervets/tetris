@@ -195,10 +195,10 @@ scoreFormula = [
     (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) * 10 + fillness #6 RULES
 
     # очков меньше, но стабилен жеж. Выиграл у восьмого, набрав 3050
-    (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) * 2 + (fillness+1)*2  #7 nu leader
+    (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) * 2 + (fillness+1)*2  #7 nu leader. Абсолютно круче всех.
 
     #мегакрут. Проиграл седьмому на 3485 очках
-    (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) + (fillness)*2  #8 мегакрут
+    (height, fillness, holes, lines)-> (height+1)/((100-holes+1)) + (lines+1) + (fillness)*2  #8 слабее 7ки
     #(height, fillness, holes, lines)-> height/((100-holes+1)/2) + lines * 10 + fillness
 
     (height, fillness, holes, lines)-> (fillness)/((100-holes+1)) + (lines) + height #9
@@ -209,6 +209,12 @@ scoreFormula = [
 
 
     (height, fillness, holes, lines)-> ((height+1)/((100-holes+1)) + (lines+1) + (fillness)*2)*height  #12 На синтетике намного лучше чем 8
+
+    # очков меньше, но стабилен жеж. Выиграл у восьмого, набрав 3050
+    (height, fillness, holes, lines)-> (fillness+1)/((100-holes+1)) + (lines+1)+(height+1)*2  #13 играет опаснее 7ки, но эффективнее по очкам
+
+    (height, fillness, holes, lines)-> ((height+1))/((100-holes+1)) + (lines+1) * 2 + (fillness+1)*3  #14 уделал семерку и по очкам тоже. Единственный конкурент семерке.
+    (height, fillness, holes, lines)-> ((height+1)*2)/((100-holes+1)) + (lines+1) * 2 + (fillness+1)*3  #15 проигрывает семерке, но мне нравится его стиль.
 
     #(height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite! 6
 ]

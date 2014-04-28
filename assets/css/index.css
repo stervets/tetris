@@ -102,6 +102,13 @@
   position: absolute;
   background-image: url("/img/cells.png");
   transition: all 200ms linear;
+/*
+    DO NOT REMOVE THIS!!!
+    IT PREVENTS FLICKER ISSUE WITH CHROME AND SAFARI
+  */
+/** see bug flickering http://stackoverflow.com/questions/2946748/iphone-webkit-css-animations-cause-flicker */
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
 }
 .cellColor1 {
   background-position-x: 0px;
@@ -127,8 +134,6 @@
 .game {
   opacity: 1;
   display: inline-block;
-  margin: 10px 100px;
-  border: 1px solid #000;
   width: 900px;
   height: 650px;
   position: relative;
