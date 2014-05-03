@@ -29,11 +29,13 @@ class Application.Model.Game extends Backbone.Model
         # Single player
         ->
             @gameReset()
-            #@proc.controller = new Application.Model.Controller.User()
+            @proc.controller = new Application.Model.Controller.User()
+            ###
             @proc.controller = new Application.Model.Controller.AI
-                formula: CPU_FORMULA.CPU1
-                actionDelay: 2000
-
+                formula: CPU[0].FORMULA
+                smart: CPU[0].SMART
+                actionDelay: 100
+            ###
             Application.Controller.add(@proc.controller)
             @proc.pool = new Application.Model.Pool
                 controller: @proc.controller.id
@@ -50,7 +52,8 @@ class Application.Model.Game extends Backbone.Model
             Application.Pool.add(@proc.pool1)
 
             @proc.controller2 = new Application.Model.Controller.AI
-                formula: CPU_FORMULA.CPU1
+                formula: CPU[0].FORMULA
+                smart: CPU[0].SMART
             Application.Controller.add(@proc.controller2)
             @proc.pool2 = new Application.Model.Pool
                 controller: @proc.controller2.id
@@ -61,7 +64,8 @@ class Application.Model.Game extends Backbone.Model
             actionDelay = 100
             @gameReset()
             @proc.controller1 = new Application.Model.Controller.AI
-                formula: CPU_FORMULA.CPU1
+                formula: CPU[0].FORMULA
+                smart: CPU[0].SMART
                 actionDelay: actionDelay
             Application.Controller.add(@proc.controller1)
             @proc.pool1 = new Application.Model.Pool
@@ -69,7 +73,8 @@ class Application.Model.Game extends Backbone.Model
             Application.Pool.add(@proc.pool1)
 
             @proc.controller2 = new Application.Model.Controller.AI
-                formula: CPU_FORMULA.CPU2
+                formula: CPU[1].FORMULA
+                smart: CPU[1].SMART
                 actionDelay: actionDelay
             Application.Controller.add(@proc.controller2)
             @proc.pool2 = new Application.Model.Pool
@@ -308,8 +313,10 @@ class Application.View.Game extends Backbone.View
             Application.Sound.switchAudio(id is 'jsControlSound', !turnOff)
             window.localStorage.setItem(id, turnOff)
 
-
-###
-#   GAME VIEW
-###
-#class Application.View.Particles extends Backbone.View
+        $(window)
+            .blur ->
+                    Application.Pool.each (pool)->
+                        pool.trigger 'action', 'stop'
+            .focus ->
+                    Application.Pool.each (pool)->
+                        pool.trigger 'action', 'start'

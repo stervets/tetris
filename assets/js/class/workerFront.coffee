@@ -1,7 +1,7 @@
 Application.workerCallback =
     dump: (vars)->
         _dump(vars...)
-        console.log vars...
+        #console.log vars...
 
     mat: (vars)->
         _mat(vars.matrix, vars.id)

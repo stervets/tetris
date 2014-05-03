@@ -131,7 +131,7 @@
 
     AI.prototype.defaults = {
       delay: DROP_DELAY,
-      actionDelay: 300,
+      actionDelay: 400,
       play: false,
       formula: 1000,
       smart: 1

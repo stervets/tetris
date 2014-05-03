@@ -213,11 +213,11 @@ Application.onStart ->
         model: Application.Game
 
     Application.hook()
-    Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
-
+    Application.Game.switch(GAME_MODE.LOBBY)
+    ###
     particle = new Application.Particle
 
     $('body').append particle.$el
     $('body').click ->
-        particle.launch(100+i*20, 100, 'yellow') for i in [0...10]
-
+        particle.launch(100+i*20, 100, 1, (100+i*20)+(i-10/2)*POOL.CELL_SIZE) for i in [0...10]
+    ###

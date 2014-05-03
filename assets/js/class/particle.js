@@ -2,12 +2,16 @@
 (function() {
   Application.Particle = (function() {
     Particle.prototype.params = {
+      x: 0,
+      y: 0,
       distanceX: 200,
       distanceY: 30,
       lifetime: 300,
       particlesMax: 5,
       stackSize: 120
     };
+
+    Particle.prototype.color = ['#FFFFFF', '#98eb2f', '#ffd739', '#70e8a0', '#4baaef', '#f36252', '#af6cbb'];
 
     Particle.prototype.particleHtml = $('#tplParticle').html();
 
@@ -23,27 +27,29 @@
 
     Particle.prototype.pointer = 0;
 
-    Particle.prototype.launch = function(x, y, color) {
+    Particle.prototype.launch = function(x, y, color, x2) {
       var $p;
       $p = this.$particle[this.pointer];
       $p.css({
-        top: y,
-        left: x,
+        top: y + this.params.y,
+        left: x + this.params.x,
         opacity: 1,
-        scale: rand(50, 150) / 100,
-        color: color,
+        rotate: "" + (rand(-180, 180)) + "deg",
+        scale: 2.5,
+        color: this.color[color],
         transition: 'none'
       });
-      _.delay(function($p, params, x, y) {
+      _.delay(function($p, params, x, y, x2) {
         $p.css({
-          top: y + rand(-params.distanceY, params.distanceY),
-          left: x + rand(-params.distanceX, params.distanceX),
-          opacity: 0,
-          color: '#FFFFFF',
+          top: y + rand(0, params.distanceY) + params.y,
+          left: (x2 != null ? x2 : x) + params.x,
+          scale: 0,
+          rotate: "" + (rand(-180, 180)) + "deg",
+          color: 'white',
           transition: "all " + params.lifetime + "ms ease"
         });
         return null;
-      }, this.stepTime, $p, this.params, x, y);
+      }, this.stepTime, $p, this.params, x, y, x2);
       if (++this.pointer >= this.$particle.length) {
         return this.pointer = 0;
       }

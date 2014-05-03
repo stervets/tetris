@@ -2,8 +2,7 @@
 (function() {
   Application.workerCallback = {
     dump: function(vars) {
-      _dump.apply(null, vars);
-      return console.log.apply(console, vars);
+      return _dump.apply(null, vars);
     },
     mat: function(vars) {
       return _mat(vars.matrix, vars.id);

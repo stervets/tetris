@@ -123,7 +123,7 @@
     Pool.prototype.$cells = null;
 
     Pool.prototype.addShape = function() {
-      var $cells, $shape, node, shape, _i, _len;
+      var $cells, $node, $shape, node, pos, shape, _i, _len;
       $cells = this.$cells;
       shape = this.shapeView.model.attributes;
       if (shape.y < 0 || shape.y - shape.shape.length > $cells.length) {
@@ -137,7 +137,9 @@
       this.$body.append($shape);
       for (_i = 0, _len = $shape.length; _i < _len; _i += 2) {
         node = $shape[_i];
-        $cells[Math.floor(node.offsetTop / POOL.CELL_SIZE)][Math.floor(node.offsetLeft / POOL.CELL_SIZE)] = $(node);
+        $node = $(node);
+        pos = $node.position();
+        $cells[Math.floor(pos.top / POOL.CELL_SIZE)][Math.floor(pos.left / POOL.CELL_SIZE)] = $node.data('shapeIndex', shape.index);
       }
       return null;
     };
@@ -162,10 +164,15 @@
           _ref = $cells[line];
           for (x = _j = 0, _len1 = _ref.length; _j < _len1; x = ++_j) {
             $cell = _ref[x];
-            _.delay(function(x, y, particle) {
-              return particle.launch(x, y, 'white');
-            }, 100, x * POOL.CELL_SIZE, line * POOL.CELL_SIZE, this.particle);
-            $cell.remove();
+            $cell.css({
+              scale: 0
+            });
+            _.delay(function(x, y, particle, color) {
+              return particle.launch(x * POOL.CELL_SIZE, y, color, (x + (x - POOL.WIDTH / 2)) * POOL.CELL_SIZE);
+            }, 100, x, line * POOL.CELL_SIZE, this.particle, $cell.data('shapeIndex'));
+            _.delay(function($cell) {
+              return $cell.remove();
+            }, ANIMATE_TIME, $cell);
             $cells[line][x] = null;
             for (y = _k = line; line <= 0 ? _k < 0 : _k > 0; y = line <= 0 ? ++_k : --_k) {
               if (!($cells[y][x] || $cells[y - 1][x])) {
@@ -175,7 +182,7 @@
                 return $cell.css({
                   top: y
                 });
-              }, ANIMATE_TIME, $cells[y - 1][x], y * POOL.CELL_SIZE);
+              }, 100, $cells[y - 1][x], y * POOL.CELL_SIZE);
               _ref1 = [$cells[y][x], $cells[y - 1][x]], $cells[y - 1][x] = _ref1[0], $cells[y][x] = _ref1[1];
             }
           }
@@ -215,7 +222,13 @@
       }
       this.$body.append(this.shapeView.$el);
       this.particle = new Application.Particle;
-      this.$body.append(this.particle.$el);
+      _.delay(function(view) {
+        var pos;
+        pos = view.$body.position();
+        view.particle.params.x = pos.left;
+        return view.particle.params.y = pos.top;
+      }, 500, this);
+      this.$el.append(this.particle.$el);
       this.model.trigger('action', 'reset');
       return this.model.trigger('action', 'start');
     };

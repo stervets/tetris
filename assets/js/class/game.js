@@ -58,10 +58,14 @@
         return this.gameReset();
       }, function() {
         this.gameReset();
-        this.proc.controller = new Application.Model.Controller.AI({
-          formula: CPU_FORMULA.CPU1,
-          actionDelay: 2000
-        });
+        this.proc.controller = new Application.Model.Controller.User();
+
+        /*
+        @proc.controller = new Application.Model.Controller.AI
+            formula: CPU[0].FORMULA
+            smart: CPU[0].SMART
+            actionDelay: 100
+         */
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
@@ -76,7 +80,8 @@
         });
         Application.Pool.add(this.proc.pool1);
         this.proc.controller2 = new Application.Model.Controller.AI({
-          formula: CPU_FORMULA.CPU1
+          formula: CPU[0].FORMULA,
+          smart: CPU[0].SMART
         });
         Application.Controller.add(this.proc.controller2);
         this.proc.pool2 = new Application.Model.Pool({
@@ -88,7 +93,8 @@
         actionDelay = 100;
         this.gameReset();
         this.proc.controller1 = new Application.Model.Controller.AI({
-          formula: CPU_FORMULA.CPU1,
+          formula: CPU[0].FORMULA,
+          smart: CPU[0].SMART,
           actionDelay: actionDelay
         });
         Application.Controller.add(this.proc.controller1);
@@ -97,7 +103,8 @@
         });
         Application.Pool.add(this.proc.pool1);
         this.proc.controller2 = new Application.Model.Controller.AI({
-          formula: CPU_FORMULA.CPU2,
+          formula: CPU[1].FORMULA,
+          smart: CPU[1].SMART,
           actionDelay: actionDelay
         });
         Application.Controller.add(this.proc.controller2);
@@ -334,7 +341,7 @@
         this.$('#jsControlMusic').addClass(disabled);
         Application.Sound.switchAudio(0, false);
       }
-      return this.$('#jsControlSound, #jsControlMusic').click(function() {
+      this.$('#jsControlSound, #jsControlMusic').click(function() {
         var $this, id, turnOff;
         $this = $(this);
         $this.toggleClass(disabled);
@@ -343,16 +350,20 @@
         Application.Sound.switchAudio(id === 'jsControlSound', !turnOff);
         return window.localStorage.setItem(id, turnOff);
       });
+      return $(window).blur(function() {
+        return Application.Pool.each(function(pool) {
+          return pool.trigger('action', 'stop');
+        });
+      }).focus(function() {
+        return Application.Pool.each(function(pool) {
+          return pool.trigger('action', 'start');
+        });
+      });
     };
 
     return Game;
 
   })(Backbone.View);
-
-
-  /*
-   *   GAME VIEW
-   */
 
 }).call(this);
 

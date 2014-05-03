@@ -321,7 +321,7 @@
       holes: fill.holes,
       lines: getPercent(getFullLines(matrix, shape, posX, posY).length, 4)
     };
-    score.score = scoreFormula[formula](score.height, score.fillness, score.holes, score.lines);
+    score.score = Math.round(scoreFormula[formula](score.height, score.fillness, score.holes, score.lines));
     return score;
   };
 
@@ -450,9 +450,9 @@
       });
     },
     findPlace: function(vars) {
-      var angle, droppedY, formula, key, matrix, matrixWidth, max, maxAngle, result, score, scores, shape, shapeWidth, x, xx, y, _i, _j;
+      var angle, droppedY, formula, key, keys, len, matrix, matrixWidth, max, maxAngle, result, rnd, score, scores, shape, shapeWidth, x, xx, y, _i, _j;
       if (vars.smart == null) {
-        vars.smart = 1;
+        vars.smart = 100;
       }
       formula = vars.formula;
       matrix = vars.matrix;
@@ -460,11 +460,8 @@
       shapeWidth = vars.shape[0].length;
       x = vars.x;
       y = -vars.shape.length + 1;
-      scores = [];
-      max = {
-        score: 0,
-        key: 0
-      };
+      scores = {};
+      max = 0;
       maxAngle = SHAPE_ANGLES[vars.shapeIndex] || 4;
       for (xx = _i = -shapeWidth; -shapeWidth <= matrixWidth ? _i < matrixWidth : _i > matrixWidth; xx = -shapeWidth <= matrixWidth ? ++_i : --_i) {
         for (angle = _j = 0; 0 <= maxAngle ? _j < maxAngle : _j > maxAngle; angle = 0 <= maxAngle ? ++_j : --_j) {
@@ -473,22 +470,29 @@
             continue;
           }
           score = getScore(matrix, shape, xx, droppedY, formula).score;
-          key = scores.length;
-          scores.push({
-            score: score,
-            x: xx,
-            y: droppedY,
-            angle: angle
-          });
-          if (max.score < scores[key].score) {
-            max = {
-              score: scores[key].score,
-              key: key
+          if (scores[score] == null) {
+            scores[score] = {
+              score: score,
+              x: xx,
+              y: droppedY,
+              angle: angle
             };
+          }
+          if (max < score) {
+            max = score;
           }
         }
       }
-      result = scores[max.key] ? (score = scores[max.key], score.path = getPath(x, score.x, vars.angle, score.angle), score) : {
+      keys = Object.keys(scores);
+      len = keys.length;
+      rnd = -1;
+      if (len > 1) {
+        rnd = rand(1, 100);
+        key = keys[len - (rnd < vars.smart ? 1 : 2)];
+      } else {
+        key = keys[0];
+      }
+      result = scores[key] ? (score = scores[key], score.path = getPath(x, score.x, vars.angle, score.angle), score) : {
         path: [],
         score: -1,
         x: x,

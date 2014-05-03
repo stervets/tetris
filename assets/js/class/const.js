@@ -35,10 +35,15 @@
     CPU_VS_CPU: 3
   };
 
-  this.CPU_FORMULA = {
-    CPU1: 7,
-    CPU2: 14
-  };
+  this.CPU = [
+    {
+      FORMULA: 7,
+      SMART: 100
+    }, {
+      FORMULA: 7,
+      SMART: 90
+    }
+  ];
 
   this.DROP_SHAPE_OPACITY = 0.2;
 

@@ -240,7 +240,7 @@ getScore = (matrix, shape, posX, posY, formula)->
     #getPercent = (part, all)-> Math.round((part*100)/all)
 
     #console.log score.lines
-    score.score = scoreFormula[formula](score.height, score.fillness, score.holes, score.lines)
+    score.score = Math.round(scoreFormula[formula](score.height, score.fillness, score.holes, score.lines))
     score
 
 
@@ -341,7 +341,7 @@ triggers =
 
     findPlace: (vars)->
         #formula = if vars.formula? and scoreFormula[vars.formula]? then vars.formula else 0
-        vars.smart = 1 if not vars.smart?
+        vars.smart = 100 if not vars.smart?
         formula = vars.formula
         matrix = vars.matrix
         matrixWidth = matrix[0].length
@@ -350,10 +350,8 @@ triggers =
         x = vars.x
         y = -vars.shape.length+1
 
-        scores = []
-        max =
-            score: 0
-            key: 0
+        scores = {}
+        max = 0
 
         maxAngle = SHAPE_ANGLES[vars.shapeIndex] || 4
 
@@ -362,22 +360,37 @@ triggers =
                 shape = vars.shape[angle]
                 continue if (droppedY = getDrop(matrix, shape, xx, y))<=0
                 score = getScore(matrix,shape,xx,droppedY,formula).score
-                key = scores.length
-                scores.push
-                    score: score
-                    x: xx
-                    y: droppedY
-                    angle: angle
+                if not scores[score]?
+                    scores[score] =
+                        score: score
+                        x: xx
+                        y: droppedY
+                        angle: angle
 
-                max = {score: scores[key].score, key: key} if max.score < scores[key].score
+                max = score if max < score
 
 
         #scores.push(max.key)
+        keys = Object.keys(scores)
+        len = keys.length
+        rnd = -1
+        if len>1
+            rnd = rand(1, 100)
+            key = keys[len-(if rnd<vars.smart then 1 else 2)]
 
-        result = if scores[max.key]
-                    score = scores[max.key]
+        else
+            key = keys[0]
+
+        #_dump rnd, (if rnd<vars.smart then 'win' else 'fail'), (keys[len-(if rnd<vars.smart then 1 else 2)]+' of '+keys[len-1])
+        #rnd = rand(Math.round(keys.length*vars.smart), keys.length)-1
+        #key = keys[rnd]
+
+        #break for key in [Math.round(max*vars.smart)..max] when scores[key]?
+        #_dump key, scores
+        #_dump 'MIN: '+Math.round(keys.length*vars.smart-1)+' of '+(keys.length-1), 'Selected: '+rnd, keys
+        result = if scores[key]
+                    score = scores[key]
                     score.path = getPath(x, score.x, vars.angle, score.angle)
-                    #score.path = score.path.concat(['moveDown','moveDown','moveDown'])
                     score
                 else
                     path:[]
@@ -387,8 +400,7 @@ triggers =
                     angle: vars.angle
 
         result.path = result.path.concat('drop')
-
-        #_dump result.score
+        #_dump result
         worker.postMessage
             callback: 'findPlace',
             vars:

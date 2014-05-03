@@ -33,9 +33,15 @@
     CPU_VS_CPU: 3
 
 # Score calculation formula
-@CPU_FORMULA =
-    CPU1: 7
-    CPU2: 14
+@CPU = [{
+    FORMULA: 7
+    SMART: 100
+    },
+    {
+    FORMULA: 7
+    SMART: 90
+    }
+]
 
 @DROP_SHAPE_OPACITY = 0.2
 

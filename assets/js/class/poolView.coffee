@@ -93,17 +93,24 @@ class Application.View.Pool extends Backbone.View
         return if shape.y<0 or shape.y-shape.shape.length > $cells.length
 
         $shape = $($(Application.shapesView[shape.index][shape.angle]).html())
-        $shape.css
-            left: "+=#{shape.x * POOL.CELL_SIZE}px"
-            top: "+=#{shape.y * POOL.CELL_SIZE}px"
+        $shape
+            .css
+                left: "+=#{shape.x * POOL.CELL_SIZE}px"
+                top: "+=#{shape.y * POOL.CELL_SIZE}px"
+
 
         #_dump shape
         #@particle.setXY shape.x * POOL.CELL_SIZE + $shape.width(), shape.drop * POOL.CELL_SIZE+ $shape.height()
         #@particle.start()
 
         @$body.append($shape)
+
         for node in $shape by 2
-            $cells[Math.floor(node.offsetTop/POOL.CELL_SIZE)][Math.floor(node.offsetLeft/POOL.CELL_SIZE)] = $(node)
+            $node = $(node)
+            pos = $node.position()
+            $cells[Math.floor(pos.top/POOL.CELL_SIZE)][Math.floor(pos.left/POOL.CELL_SIZE)] = $node.data('shapeIndex', shape.index)
+            #$cells[Math.floor(node.offsetTop/POOL.CELL_SIZE)][Math.floor(node.offsetLeft/POOL.CELL_SIZE)] = $(node).data('shapeIndex', shape.index)
+            #$cells[Math.floor($(node).position().top/POOL.CELL_SIZE)][Math.floor($(node).position().left/POOL.CELL_SIZE)] = $(node).data('shapeIndex', shape.index)
         null
 
 
@@ -127,25 +134,29 @@ class Application.View.Pool extends Backbone.View
             #_dump lines
             for line, index in lines
                 for $cell, x in $cells[line]
-                    #$cell.css scale: 0
-                    _.delay (x,y,particle)->
-                            particle.launch x, y, 'white'
+
+                    $cell.css
+                        scale: 0
+
+                    _.delay (x,y,particle, color)->
+                            particle.launch x*POOL.CELL_SIZE, y, color, (x+(x-POOL.WIDTH/2))*POOL.CELL_SIZE
                         ,100
-                        ,x*POOL.CELL_SIZE
+                        ,x
                         ,line*POOL.CELL_SIZE
                         ,@particle
+                        ,$cell.data('shapeIndex')
 
-                    $cell.remove()
-                    #_.delay ($cell)->
-                    #        $cell.remove()
-                    #    ,ANIMATE_TIME
-                    #    ,$cell
+                    #$cell.remove()
+                    _.delay ($cell)->
+                            $cell.remove()
+                        ,ANIMATE_TIME
+                        ,$cell
 
                     $cells[line][x] = null
                     for y in [line...0] when $cells[y][x] or $cells[y-1][x]
                         _.delay ($cell, y)->
                                 $cell.css top: y
-                            ,ANIMATE_TIME, $cells[y-1][x], y*POOL.CELL_SIZE
+                            ,100, $cells[y-1][x], y*POOL.CELL_SIZE
                         #$cells[y-1][x].css top: y*POOL.CELL_SIZE
                         [$cells[y-1][x], $cells[y][x]] = [$cells[y][x], $cells[y-1][x]]
             null
@@ -178,12 +189,21 @@ class Application.View.Pool extends Backbone.View
 
         @$body.append @shapeView.$el
 
+
+
         @particle = new Application.Particle
+        _.delay (view)->
+                    pos = view.$body.position()
+                    #_dump pos
+                    view.particle.params.x = pos.left
+                    view.particle.params.y = pos.top
+                    #_dump view.particle
+                ,500, @
         #    stopTime: 100
         #    lifetime: 100
         #    distance: 30
 
-        @$body.append @particle.$el
+        @$el.append @particle.$el
 
         @model.trigger 'action', 'reset'
         @model.trigger 'action', 'start'
