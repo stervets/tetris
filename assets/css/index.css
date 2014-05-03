@@ -117,6 +117,8 @@
     IT PREVENTS FLICKER ISSUE WITH CHROME AND SAFARI
   */
 /** see bug flickering http://stackoverflow.com/questions/2946748/iphone-webkit-css-animations-cause-flicker */
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
 }
 .cellColor1 {
   background-position: 0px 0px;
