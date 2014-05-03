@@ -530,7 +530,7 @@ _dump.prototype.wrapper = function(newWatcher, vars) {
 
 /* Dump matrix */
 
-_mat = function(mat, id) {
+_mat = function(mat, id, subst) {
     var $mat, i, j, out, _i, _j, _len, _len1, _results;
     if (!$('#debugMat').length) {
         $('body').append($('<div id="debugMat" style="position: absolute;top:10px;left:10px;"></div>'));
@@ -546,7 +546,7 @@ _mat = function(mat, id) {
         out = '';
         for (_j = 0, _len1 = j.length; _j < _len1; _j++) {
             i = j[_j];
-            out += "<td style='border: 1px solid gray;width:16px;padding:1px;" + (i ? (i>30?(i>40?(i>60?'background-color:#ffb0ff':'background-color:#ffb0b0'):'background-color:#b0b0ff'):'background-color:#a0aaa0') : void 0) + "'>" + i + "</td>";
+            out += "<td style='border: 1px solid gray;width:16px;padding:1px;" + (i ? (i>30?(i>40?(i>60?'background-color:#ffb0ff':'background-color:#ffb0b0'):'background-color:#b0b0ff'):'background-color:#a0aaa0') : void 0) + "'>" + (subst?subst:i) + "</td>";
         }
         _results.push($mat.append("<tr>" + out + "</tr>"));
     }

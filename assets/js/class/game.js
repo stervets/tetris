@@ -58,7 +58,10 @@
         return this.gameReset();
       }, function() {
         this.gameReset();
-        this.proc.controller = new Application.Model.Controller.User();
+        this.proc.controller = new Application.Model.Controller.AI({
+          formula: CPU_FORMULA.CPU1,
+          actionDelay: 2000
+        });
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
@@ -73,7 +76,7 @@
         });
         Application.Pool.add(this.proc.pool1);
         this.proc.controller2 = new Application.Model.Controller.AI({
-          formula: 2
+          formula: CPU_FORMULA.CPU1
         });
         Application.Controller.add(this.proc.controller2);
         this.proc.pool2 = new Application.Model.Pool({
@@ -345,6 +348,11 @@
     return Game;
 
   })(Backbone.View);
+
+
+  /*
+   *   GAME VIEW
+   */
 
 }).call(this);
 

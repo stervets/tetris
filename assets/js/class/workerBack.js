@@ -451,6 +451,9 @@
     },
     findPlace: function(vars) {
       var angle, droppedY, formula, key, matrix, matrixWidth, max, maxAngle, result, score, scores, shape, shapeWidth, x, xx, y, _i, _j;
+      if (vars.smart == null) {
+        vars.smart = 1;
+      }
       formula = vars.formula;
       matrix = vars.matrix;
       matrixWidth = matrix[0].length;
@@ -485,7 +488,6 @@
           }
         }
       }
-      scores.push(max.key);
       result = scores[max.key] ? (score = scores[max.key], score.path = getPath(x, score.x, vars.angle, score.angle), score) : {
         path: [],
         score: -1,

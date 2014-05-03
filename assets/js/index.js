@@ -279,37 +279,6 @@
     return Application.GameView[viewName].trigger('showDelay');
   };
 
-  Application.appendShowHide = function(view) {
-    view.$el.hide();
-    view.visible = false;
-    view.onShow = function() {
-      this.visible = true;
-      return this.$el.css({
-        opacity: 0
-      }).show().transition({
-        opacity: 1
-      }, VIEW_ANIMATE_TIME);
-    };
-    view.onShowDelay = function() {
-      return _.delay(function(view) {
-        return view.trigger('show');
-      }, VIEW_ANIMATE_TIME, this);
-    };
-    view.onHide = function() {
-      this.visible = false;
-      return this.$el.transition({
-        opacity: 0
-      }, VIEW_ANIMATE_TIME, (function(_this) {
-        return function() {
-          return _this.$el.hide();
-        };
-      })(this));
-    };
-    view.on('show', view.onShow);
-    view.on('showDelay', view.onShowDelay);
-    return view.on('hide', view.onHide);
-  };
-
   Application.createMenu = function(menuTitle, menuItems, context) {
     var menu, menuItem, menuView, title, trigger;
     menu = new Application.Collection.Menu();
@@ -352,7 +321,7 @@
   /* Start application */
 
   Application.onStart(function() {
-    var name;
+    var particle;
     $('head').append(Application.Templates.tplStyle({
       POOL: POOL,
       poolWidth: POOL.WIDTH * POOL.CELL_SIZE,
@@ -373,11 +342,18 @@
     Application.GameMainView = new Application.View.Game({
       model: Application.Game
     });
-    for (name in Application.GameView) {
-      Application.appendShowHide(Application.GameView[name]);
-    }
     Application.hook();
-    return Application.Game["switch"](GAME_MODE.LOBBY);
+    Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
+    particle = new Application.Particle;
+    $('body').append(particle.$el);
+    return $('body').click(function() {
+      var i, _i, _results;
+      _results = [];
+      for (i = _i = 0; _i < 10; i = ++_i) {
+        _results.push(particle.launch(100 + i * 20, 100, 'yellow'));
+      }
+      return _results;
+    });
   });
 
 }).call(this);

@@ -26,6 +26,7 @@ class Application.Model.Pool extends Backbone.Model
             next = Application.shapeStack.getShape(@attributes.index+1)
             @next.setShape next.index, next.angle
 
+        @shape.attributes.drop = -1
         @shape.key = Application.genId('Shape')
         @worker 'checkDrop'
         @attributes.index++

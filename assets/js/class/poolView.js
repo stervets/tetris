@@ -25,15 +25,33 @@
 
     Shape.prototype.lastTime = 0;
 
+    Shape.prototype.appendDrop = function() {
+      var css, shape;
+      shape = this.model.attributes;
+      this.$drop = $(Application.shapesView[shape.index][0]);
+      css = {
+        left: shape.x * POOL.CELL_SIZE,
+        top: shape.drop * POOL.CELL_SIZE,
+        rotate: shape.angle * 90,
+        opacity: 0
+      };
+      this.$drop.css(css);
+      return this.$el.append(this.$drop);
+    };
+
     Shape.prototype.modelHandler = {
       'change:drop': function() {
-        return this.$drop.css({
-          top: this.model.attributes.drop * POOL.CELL_SIZE,
-          opacity: DROP_SHAPE_OPACITY
-        });
+        if (this.$drop != null) {
+          return this.$drop.css({
+            top: this.model.attributes.drop * POOL.CELL_SIZE,
+            opacity: DROP_SHAPE_OPACITY
+          });
+        } else {
+          return this.appendDrop();
+        }
       },
       'change:x change:y change:angle': function() {
-        var shape, time, timeSub, transition;
+        var shape, transition;
         if (!this.$shape) {
           return;
         }
@@ -46,16 +64,12 @@
           transition.rotate = shape.angle > this.prevAngle || (this.prevAngle === 3 && shape.angle === 0) ? '+=90deg' : '-=90deg';
           this.prevAngle = this.model.changed.angle;
         }
-        time = new Date().getTime();
-        timeSub = time - this.lastTime;
-        if (timeSub > ANIMATE_TIME) {
-          timeSub = ANIMATE_TIME;
-        }
         this.$shape.css(transition);
-        transition.top = shape.drop * POOL.CELL_SIZE;
-        transition.opacity = DROP_SHAPE_OPACITY;
-        this.$drop.css(transition);
-        return this.lastTime = time;
+        if (this.$drop != null) {
+          transition.top = shape.drop * POOL.CELL_SIZE;
+          transition.opacity = DROP_SHAPE_OPACITY;
+          return this.$drop.css(transition);
+        }
       },
       setShape: function() {
         var css, shape;
@@ -68,13 +82,11 @@
           rotate: shape.angle * 90
         };
         this.$shape.css(css);
-        this.$drop = $(Application.shapesView[shape.index][0]);
-        css.top = 0;
-        css.opacity = 0;
-        this.$drop.css(css);
-        this.$el.html(this.$shape);
-        this.$el.append(this.$drop);
-        return this.lastTime = new Date().getTime();
+        if (this.$drop != null) {
+          this.$drop.remove();
+          this.$drop = null;
+        }
+        return this.$el.html(this.$shape);
       }
     };
 
@@ -141,7 +153,7 @@
       },
       overflow: function() {},
       lines: function(lines, score) {
-        var $cell, $cells, cell, index, key, line, transit, x, y, _i, _j, _k, _l, _len, _len1, _len2, _len3, _m, _n, _ref, _ref1, _ref2, _ref3, _ref4;
+        var $cell, $cells, index, line, transit, x, y, _i, _j, _k, _len, _len1, _ref, _ref1;
         this.$score.text(score);
         $cells = this.$cells;
         transit = {};
@@ -150,45 +162,23 @@
           _ref = $cells[line];
           for (x = _j = 0, _len1 = _ref.length; _j < _len1; x = ++_j) {
             $cell = _ref[x];
-            $cell.css({
-              scale: 0
-            });
-            _.delay(function($cell) {
-              return $cell.remove();
-            }, ANIMATE_TIME, $cell);
+            _.delay(function(x, y, particle) {
+              return particle.launch(x, y, 'white');
+            }, 100, x * POOL.CELL_SIZE, line * POOL.CELL_SIZE, this.particle);
+            $cell.remove();
             $cells[line][x] = null;
-            for (y = _k = _ref1 = line - 1; _ref1 <= 0 ? _k <= 0 : _k >= 0; y = _ref1 <= 0 ? ++_k : --_k) {
-              if (!$cells[y][x]) {
+            for (y = _k = line; line <= 0 ? _k < 0 : _k > 0; y = line <= 0 ? ++_k : --_k) {
+              if (!($cells[y][x] || $cells[y - 1][x])) {
                 continue;
               }
-              key = y * POOL.WIDTH + x;
-              if (transit[key] == null) {
-                transit[key] = {
-                  node: $cells[y][x],
-                  top: 0
-                };
-              }
-              transit[key].top += POOL.CELL_SIZE;
+              _.delay(function($cell, y) {
+                return $cell.css({
+                  top: y
+                });
+              }, ANIMATE_TIME, $cells[y - 1][x], y * POOL.CELL_SIZE);
+              _ref1 = [$cells[y][x], $cells[y - 1][x]], $cells[y - 1][x] = _ref1[0], $cells[y][x] = _ref1[1];
             }
           }
-        }
-        for (_l = 0, _len2 = lines.length; _l < _len2; _l++) {
-          line = lines[_l];
-          _ref2 = $cells[line];
-          for (x = _m = 0, _len3 = _ref2.length; _m < _len3; x = ++_m) {
-            $cell = _ref2[x];
-            for (y = _n = _ref3 = line - 1; _ref3 <= 0 ? _n <= 0 : _n >= 0; y = _ref3 <= 0 ? ++_n : --_n) {
-              if ($cells[y][x]) {
-                _ref4 = [$cells[y][x], $cells[y + 1][x]], $cells[y + 1][x] = _ref4[0], $cells[y][x] = _ref4[1];
-              }
-            }
-          }
-        }
-        for (key in transit) {
-          cell = transit[key];
-          cell.node.css({
-            top: '+=' + cell.top
-          });
         }
         return null;
       }
@@ -224,6 +214,8 @@
         this.$next[index].html(Application.shapesView[shape.index][shape.angle]);
       }
       this.$body.append(this.shapeView.$el);
+      this.particle = new Application.Particle;
+      this.$body.append(this.particle.$el);
       this.model.trigger('action', 'reset');
       return this.model.trigger('action', 'start');
     };

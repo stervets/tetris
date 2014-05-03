@@ -43,6 +43,7 @@
         next = Application.shapeStack.getShape(this.attributes.index + 1);
         this.next.setShape(next.index, next.angle);
       }
+      this.shape.attributes.drop = -1;
       this.shape.key = Application.genId('Shape');
       this.worker('checkDrop');
       this.attributes.index++;

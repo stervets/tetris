@@ -152,41 +152,6 @@ Application.switchView = (viewName)->
     view.trigger('hide') for name, view of Application.GameView when viewName isnt name
     Application.GameView[viewName].trigger('showDelay')
 
-
-# append show\hide listeners and handler to view
-Application.appendShowHide = (view)->
-    view.$el.hide()
-    view.visible = false
-
-    view.onShow = ->
-        @visible = true
-        @$el
-            .css
-                opacity: 0
-            .show()
-            .transition
-                opacity: 1
-                , VIEW_ANIMATE_TIME
-
-    view.onShowDelay = ->
-        _.delay((view)->
-                    view.trigger 'show'
-               ,VIEW_ANIMATE_TIME
-               , @)
-
-    view.onHide = ->
-        @visible = false
-        @$el
-        .transition
-                opacity: 0
-                , VIEW_ANIMATE_TIME
-                , =>
-                    @$el.hide()
-
-    view.on 'show', view.onShow
-    view.on 'showDelay', view.onShowDelay
-    view.on 'hide', view.onHide
-
 # Create menu collection
 Application.createMenu = (menuTitle, menuItems, context)->
     menu = new Application.Collection.Menu()
@@ -210,6 +175,11 @@ Application.createMenu = (menuTitle, menuItems, context)->
         collection: menu
         view: menuView
     }
+
+#Application.particle = (params)->
+
+
+    #<span class="glyphicon glyphicon-star"></span>
 
 Application.clearCollection = (collection)->
     while collection.length>0
@@ -242,7 +212,12 @@ Application.onStart ->
     Application.GameMainView = new Application.View.Game
         model: Application.Game
 
-    Application.appendShowHide(Application.GameView[name]) for name of Application.GameView
-
     Application.hook()
-    Application.Game.switch(GAME_MODE.LOBBY)
+    Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
+
+    particle = new Application.Particle
+
+    $('body').append particle.$el
+    $('body').click ->
+        particle.launch(100+i*20, 100, 'yellow') for i in [0...10]
+

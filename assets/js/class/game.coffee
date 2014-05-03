@@ -29,9 +29,10 @@ class Application.Model.Game extends Backbone.Model
         # Single player
         ->
             @gameReset()
-            @proc.controller = new Application.Model.Controller.User()
-            #@proc.controller = new Application.Model.Controller.AI
-            #    formula: 2
+            #@proc.controller = new Application.Model.Controller.User()
+            @proc.controller = new Application.Model.Controller.AI
+                formula: CPU_FORMULA.CPU1
+                actionDelay: 2000
 
             Application.Controller.add(@proc.controller)
             @proc.pool = new Application.Model.Pool
@@ -49,7 +50,7 @@ class Application.Model.Game extends Backbone.Model
             Application.Pool.add(@proc.pool1)
 
             @proc.controller2 = new Application.Model.Controller.AI
-                formula: 2
+                formula: CPU_FORMULA.CPU1
             Application.Controller.add(@proc.controller2)
             @proc.pool2 = new Application.Model.Pool
                 controller: @proc.controller2.id
@@ -306,3 +307,9 @@ class Application.View.Game extends Backbone.View
             id = $this.attr('id')
             Application.Sound.switchAudio(id is 'jsControlSound', !turnOff)
             window.localStorage.setItem(id, turnOff)
+
+
+###
+#   GAME VIEW
+###
+#class Application.View.Particles extends Backbone.View

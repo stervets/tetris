@@ -88,6 +88,7 @@ class Application.Model.Controller.AI extends Backbone.Model
         actionDelay: 300
         play: false
         formula: 1000
+        smart: 1
 
     pool: null
     action:[]
@@ -123,6 +124,7 @@ class Application.Model.Controller.AI extends Backbone.Model
                 x: shape.x
                 id: @id
                 formula: @attributes.formula
+                smart: @attributes.smart
 
     handler:
         action: (name, vars...)->
@@ -155,7 +157,7 @@ class Application.Model.Controller.AI extends Backbone.Model
 
     init: (params)->
         @set 'id', Application.genId('Controller')
-        console.log "FORMULA: #{@attributes.formula}"
+        console.log "FORMULA: #{@attributes.formula}, SMART: #{@attributes.smart}"
         @timer()
         @nextAction()
 

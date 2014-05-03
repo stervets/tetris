@@ -1,15 +1,4 @@
-<script src='/js/lib/highcharts.js'></script>
-<script src='/js/class/const.js'></script>
-<script src='/js/class/menu.js'></script>
-<script src='/js/class/gameplay.js'></script>
-<script src='/js/class/workerFront.js'></script>
-<script src='/js/class/pool.js'></script>
-<script src='/js/class/poolView.js'></script>
-<script src='/js/class/controller.js'></script>
-<script src='/js/class/audio.js'></script>
-<script src='/js/class/game.js'></script>
-
-<div class="game" id="jsGame">
+<div class="game" id="jsGame" style="opacity: 1">
     <div class="game-inner" id="jsLobby"></div>
     <div class="game-inner" id="jsSinglePlay"></div>
     <div class="game-inner" id="jsPlayerVsCpu"></div>
@@ -52,6 +41,29 @@
         </button>
     </div>
 </div>
+
 <div id="jsChart"></div>
 
 <div id="jsPoolTest" style="display:none;position: absolute; top:0px; left: 0px; height: 100%; width: 100%"></div>
+
+
+<script type='text/template' id='tplParticle'>
+    <div class="particle"></div>
+</script>
+
+<script type='text/template' id='tplSpark'>
+    <div class="glyphicon glyphicon-star spark"></div>
+</script>
+
+<script src='/js/lib/highcharts.js'></script>
+<script src='/js/class/const.js'></script>
+<script src='/js/class/menu.js'></script>
+<script src='/js/class/gameplay.js'></script>
+<script src='/js/class/workerFront.js'></script>
+<script src='/js/class/pool.js'></script>
+<script src='/js/class/poolView.js'></script>
+<script src='/js/class/controller.js'></script>
+<script src='/js/class/audio.js'></script>
+<script src='/js/class/particle.js'></script>
+<script src='/js/class/game.js'></script>
+

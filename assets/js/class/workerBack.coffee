@@ -341,6 +341,7 @@ triggers =
 
     findPlace: (vars)->
         #formula = if vars.formula? and scoreFormula[vars.formula]? then vars.formula else 0
+        vars.smart = 1 if not vars.smart?
         formula = vars.formula
         matrix = vars.matrix
         matrixWidth = matrix[0].length
@@ -371,7 +372,7 @@ triggers =
                 max = {score: scores[key].score, key: key} if max.score < scores[key].score
 
 
-        scores.push(max.key)
+        #scores.push(max.key)
 
         result = if scores[max.key]
                     score = scores[max.key]

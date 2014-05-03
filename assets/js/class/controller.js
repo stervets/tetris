@@ -133,7 +133,8 @@
       delay: DROP_DELAY,
       actionDelay: 300,
       play: false,
-      formula: 1000
+      formula: 1000,
+      smart: 1
     };
 
     AI.prototype.pool = null;
@@ -176,7 +177,8 @@
           shapeIndex: shape.index,
           x: shape.x,
           id: this.id,
-          formula: this.attributes.formula
+          formula: this.attributes.formula,
+          smart: this.attributes.smart
         }
       });
     };
@@ -222,7 +224,7 @@
 
     AI.prototype.init = function(params) {
       this.set('id', Application.genId('Controller'));
-      console.log("FORMULA: " + this.attributes.formula);
+      console.log("FORMULA: " + this.attributes.formula + ", SMART: " + this.attributes.smart);
       this.timer();
       return this.nextAction();
     };

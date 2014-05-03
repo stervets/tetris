@@ -37,7 +37,7 @@
     CPU1: 7
     CPU2: 14
 
-@DROP_SHAPE_OPACITY = 0.3
+@DROP_SHAPE_OPACITY = 0.2
 
 @SHAPES = [
     [[1,1,1,1]]

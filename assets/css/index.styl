@@ -118,14 +118,25 @@ gameFont()
       border-radius: 10px
       backgroundGradient()
 
+      &:after
+        content ""
+        background url('/img/cell.png')
+        height 500px
+        width 200px
+        position absolute
+
+
 .shape
   position absolute
-  transition: all ANIMATE_TIME linear;
+  transition all ANIMATE_TIME linear
+  z-index 6
 
 .cell
   position absolute
   background-image url("/img/cells.png")
-  transition all ANIMATE_TIME linear;
+  transition all ANIMATE_TIME linear
+  background-blend-mode: difference, normal;
+
 
   /*
     DO NOT REMOVE THIS!!!
@@ -167,7 +178,8 @@ gameFont()
   height 650px
   position relative
   background-repeat no-repeat
-  background-image url("/img/back.jpg")
+  background-image url("/img/background2.jpg")
+
   background-size 900px 650px
   &-inner
     position absolute
@@ -228,6 +240,21 @@ gameFont()
   & .button-disabled
     color darkgray
 
+//Particles
+.particle
+  position absolute
+  top 0px
+  left 0px
+  z-index 5
+  //background-color yellow
+  //width 10px
+  //height 10px
+
+.spark
+  position absolute
+  display inline-block
+  opacity 0
+  //transition: all ANIMATE_TIME ease-out
 
 //TEMP
 #jsChart
