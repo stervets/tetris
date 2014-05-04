@@ -104,13 +104,13 @@
 }
 .shape {
   position: absolute;
-  transition: all 200ms linear;
+  transition: all 250ms ease-out;
   z-index: 6;
 }
 .cell {
   position: absolute;
   background-image: url("/img/cells.png");
-  transition: all 200ms linear;
+  transition: all 250ms linear;
   background-blend-mode: difference, normal;
 /*
     DO NOT REMOVE THIS!!!

@@ -305,13 +305,17 @@ triggers =
         triggers.checkRotate vars, 'checkRotateRight'
 
 
-    checkDrop: (vars)->
+    checkDrop: (vars, setDrop=false)->
         #vars.y++ until collide vars.matrix, vars.shape, vars.x, vars.y
         worker.postMessage
             callback: 'checkDrop',
             vars:
                 drop: getDrop vars.matrix, vars.shape, vars.x, vars.y
+                setDrop: setDrop
                 id: vars.id
+
+    setDrop: (vars)->
+        triggers['checkDrop'](vars, true)
 
     putShape: (vars)->
         worker.postMessage

@@ -42,6 +42,7 @@ class Application.Model.Pool extends Backbone.Model
 
 
     setShapeXY: (x,y)->
+        return if @locked
         @shape.set
             x: x
             y: y
@@ -90,12 +91,6 @@ class Application.Model.Pool extends Backbone.Model
             @shape.set 'angle', angle
             @worker 'checkDrop'
 
-        doDrop: ->
-            return if @locked
-            if @shape.attributes.drop>=0
-                @shape.set 'y', @shape.attributes.drop
-                @trigger 'action', 'putShape'
-
         moveDown: ->
             return if @locked
             @worker 'checkMoveDown'
@@ -124,10 +119,11 @@ class Application.Model.Pool extends Backbone.Model
 
         drop: ->
             return if @locked
-            if @shape.attributes.drop < 0
-                @worker 'checkMoveDown'
-            else
-                @trigger 'action', 'doDrop'
+            #if @shape.attributes.drop < 0
+            #    @worker 'checkMoveDown'
+            #else
+            @locked = true
+            @worker 'setDrop'
 
         lines: ->
             Application.Sound.play(RES.AUDIO.LINES)

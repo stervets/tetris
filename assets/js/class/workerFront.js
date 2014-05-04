@@ -54,7 +54,11 @@
     checkDrop: function(vars) {
       var pool;
       if (pool = Application.Pool.get(vars.id)) {
-        return pool.shape.set('drop', vars.drop);
+        pool.shape.set('drop', vars.drop);
+        if (vars.setDrop) {
+          pool.shape.set('y', vars.drop);
+          return pool.trigger('action', 'putShape');
+        }
       }
     },
     putShape: function(vars) {

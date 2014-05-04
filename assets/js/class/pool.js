@@ -70,6 +70,9 @@
     };
 
     Pool.prototype.setShapeXY = function(x, y) {
+      if (this.locked) {
+        return;
+      }
       return this.shape.set({
         x: x,
         y: y
@@ -140,15 +143,6 @@
         this.shape.set('angle', angle);
         return this.worker('checkDrop');
       },
-      doDrop: function() {
-        if (this.locked) {
-          return;
-        }
-        if (this.shape.attributes.drop >= 0) {
-          this.shape.set('y', this.shape.attributes.drop);
-          return this.trigger('action', 'putShape');
-        }
-      },
       moveDown: function() {
         if (this.locked) {
           return;
@@ -195,11 +189,8 @@
         if (this.locked) {
           return;
         }
-        if (this.shape.attributes.drop < 0) {
-          return this.worker('checkMoveDown');
-        } else {
-          return this.trigger('action', 'doDrop');
-        }
+        this.locked = true;
+        return this.worker('setDrop');
       },
       lines: function() {
         Application.Sound.play(RES.AUDIO.LINES);

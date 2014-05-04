@@ -69,7 +69,7 @@ class Application.Model.ShapeStack extends Backbone.Model
         shapes: []
 
     reset: ->
-        #@set 'shapes', []
+        @set 'shapes', []
 
     getShape: (index)->
         len = index - @attributes.shapes.length + 2

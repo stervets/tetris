@@ -35,9 +35,14 @@ Application.workerCallback =
                 pool.trigger 'action', 'doRotateRight'
 
     checkDrop: (vars)->
-        pool.shape.set('drop', vars.drop) if pool = Application.Pool.get(vars.id)
+        if pool = Application.Pool.get(vars.id)
+            pool.shape.set('drop', vars.drop)
+            if vars.setDrop
+                pool.shape.set('y', vars.drop)
+                pool.trigger 'action', 'putShape'
 
     putShape: (vars)->
+
         if pool = Application.Pool.get(vars.id)
             pool.attributes.cells = vars.result.matrix
             pool.trigger 'action', if vars.result.overflow then 'overflow' else 'onPutShape'

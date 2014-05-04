@@ -151,7 +151,9 @@
       shapes: []
     };
 
-    ShapeStack.prototype.reset = function() {};
+    ShapeStack.prototype.reset = function() {
+      return this.set('shapes', []);
+    };
 
     ShapeStack.prototype.getShape = function(index) {
       var len;

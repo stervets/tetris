@@ -400,14 +400,21 @@
     checkRotateRight: function(vars) {
       return triggers.checkRotate(vars, 'checkRotateRight');
     },
-    checkDrop: function(vars) {
+    checkDrop: function(vars, setDrop) {
+      if (setDrop == null) {
+        setDrop = false;
+      }
       return worker.postMessage({
         callback: 'checkDrop',
         vars: {
           drop: getDrop(vars.matrix, vars.shape, vars.x, vars.y),
+          setDrop: setDrop,
           id: vars.id
         }
       });
+    },
+    setDrop: function(vars) {
+      return triggers['checkDrop'](vars, true);
     },
     putShape: function(vars) {
       return worker.postMessage({

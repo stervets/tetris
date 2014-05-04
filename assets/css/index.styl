@@ -5,7 +5,7 @@ RADIUS = 33px
 
 POOL-BACKGROUND-TEXTURE = '/img/pool-bg.jpg'
 POOL-LR-TEXTURE = '/img/pool-lr.png'
-ANIMATE_TIME = 200ms
+ANIMATE_TIME = 250ms
 
 TEXT_COLOR_NORMAL = #F0F0F0
 TEXT_COLOR_SELECTED = #F0C729
@@ -129,7 +129,7 @@ gameFont()
 
 .shape
   position absolute
-  transition all ANIMATE_TIME linear
+  transition all ANIMATE_TIME ease-out
   z-index 6
 
 .cell
