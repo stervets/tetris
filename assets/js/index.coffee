@@ -103,7 +103,7 @@ class Application.Model.ShapeStack extends Backbone.Model
 ### Shape model ###
 class Application.Model.Shape extends Backbone.Model
     defaults:
-        index: 0
+        index: 1000000
         angle: 0
         x: 0
         y: 0
@@ -213,7 +213,11 @@ Application.onStart ->
         model: Application.Game
 
     Application.hook()
-    Application.Game.switch(GAME_MODE.LOBBY)
+    Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
+
+    $('body').click ->
+        if pool = Application.Pool.at(0)
+            pool.setSpell(SPELL.GROUND, 2)
     ###
     particle = new Application.Particle
         x: 100

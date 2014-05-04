@@ -18,7 +18,7 @@
  */
 
 (function() {
-  var collide, getDrop, getFillness, getFullLines, getPath, getPercent, getScore, isFullLine, isInLine, isInVert, matrixCopy, putShape, rand, scoreFormula, triggers, trim, worker, _dump, _mat,
+  var collide, getDrop, getFillness, getFullLines, getPath, getPercent, getScore, isFullLine, isInLine, isInVert, matrixCopy, putShape, rand, scoreFormula, spells, triggers, trim, worker, _dump, _mat,
     __slice = [].slice;
 
   importScripts('/js/lib/underscore-min.js', '/js/class/const.js');
@@ -304,6 +304,32 @@
     }
   ];
 
+  spells = [
+    function(matrix, value) {
+      var empty, index, len, line, lines, x, y, _i, _j, _k, _len, _ref, _ref1;
+      for (index = _i = 0, _len = matrix.length; _i < _len; index = ++_i) {
+        line = matrix[index];
+        if (index > value - 1) {
+          matrix[index - value] = line.slice(0);
+        }
+      }
+      len = matrix[0].length - 1;
+      empty = rand(0, len);
+      lines = [];
+      for (y = _j = _ref = matrix.length - value, _ref1 = matrix.length; _ref <= _ref1 ? _j < _ref1 : _j > _ref1; y = _ref <= _ref1 ? ++_j : --_j) {
+        line = [];
+        for (x = _k = 0; 0 <= len ? _k <= len : _k >= len; x = 0 <= len ? ++_k : --_k) {
+          line.push(x === empty ? 0 : SHAPE_SPECIAL + SPELL.GROUND);
+        }
+        lines.push(matrix[y] = line);
+      }
+      return {
+        matrix: matrix,
+        spell: lines
+      };
+    }
+  ];
+
   getScore = function(matrix, shape, posX, posY, formula) {
     var fill, matrixHeight, score, trimShape, x, y;
     if (formula == null) {
@@ -343,8 +369,7 @@
         callback: 'checkMoveDown',
         vars: {
           collided: collide(vars.matrix, vars.shape, vars.x, vars.y + 1),
-          id: vars.id,
-          key: vars.key
+          id: vars.id
         }
       });
     },
@@ -524,6 +549,31 @@
         vars: {
           result: res,
           id: vars.id
+        }
+      });
+    },
+    postProcess: function(vars) {
+      var res, result, spell, value, _ref;
+      result = {
+        matrix: vars.matrix,
+        spell: {}
+      };
+      _ref = vars.spell;
+      for (spell in _ref) {
+        value = _ref[spell];
+        if (!(value)) {
+          continue;
+        }
+        console.log(spell + ' ' + value);
+        res = spells[spell](result.matrix, value);
+        result.matrix = res.matrix;
+        result.spell[spell] = res.spell;
+      }
+      return worker.postMessage({
+        callback: 'postProcess',
+        vars: {
+          id: vars.id,
+          result: result
         }
       });
     }

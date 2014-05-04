@@ -9,7 +9,7 @@
     },
     checkMoveDown: function(vars) {
       var pool;
-      if ((pool = Application.Pool.get(vars.id)) && vars.key === pool.shape.key) {
+      if ((pool = Application.Pool.get(vars.id))) {
         if (vars.collided) {
           return pool.trigger('action', 'putShape');
         } else {
@@ -72,12 +72,32 @@
       var pool;
       if (pool = Application.Pool.get(vars.id)) {
         pool.attributes.cells = vars.matrix;
-        if (vars.lines.length) {
-          pool.score += Math.floor(vars.lines.length * vars.lines.length) * (++pool.combo);
-          pool.trigger('action', 'lines', [vars.lines, pool.score, pool.combo]);
-        } else {
-          pool.combo = 0;
+        return pool.trigger('action', 'postProcess', vars.lines);
+      }
+
+      /*
+      if pool = Application.Pool.get(vars.id)
+          pool.attributes.cells = vars.matrix
+          if vars.lines.length
+              pool.score+=Math.floor(vars.lines.length*vars.lines.length)*(++pool.combo)
+              pool.trigger 'action', 'lines', [vars.lines, pool.score, pool.combo]
+          else
+              pool.combo = 0
+      
+          pool.trigger 'action', 'nextShape'
+          pool.locked = false
+       */
+    },
+    postProcess: function(vars) {
+      var index, pool, spell, _ref;
+      if (pool = Application.Pool.get(vars.id)) {
+        pool.attributes.cells = vars.result.matrix;
+        _ref = vars.result.spell;
+        for (index in _ref) {
+          spell = _ref[index];
+          pool.trigger('spell', index, spell);
         }
+        pool.spell = {};
         pool.trigger('action', 'nextShape');
         return pool.locked = false;
       }

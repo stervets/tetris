@@ -219,6 +219,26 @@ scoreFormula = [
     #(height, fillness, holes, lines)-> height/holes + lines * 10 + fillness # new favorite! 6
 ]
 
+spells = [
+    (matrix, value)->
+        matrix[index-value] = line[..] for line, index in matrix when index>value-1
+        len = matrix[0].length-1
+        empty = rand(0, len)
+        lines = []
+
+        for y in [matrix.length-value...matrix.length]
+            line = []
+            for x in [0..len]
+                line.push if x is empty then 0 else SHAPE_SPECIAL+SPELL.GROUND
+            lines.push(matrix[y] = line)
+
+        {
+            matrix: matrix
+            spell: lines
+        }
+
+]
+
 getScore = (matrix, shape, posX, posY, formula)->
     if not formula?
         console.log 'Warning getScore formula is not set. Setted to 0'
@@ -260,7 +280,7 @@ triggers =
             vars:
                 collided: collide vars.matrix, vars.shape, vars.x, vars.y + 1
                 id: vars.id
-                key: vars.key
+                #key: vars.key
 
     checkMoveLeft: (vars)->
         worker.postMessage
@@ -414,13 +434,28 @@ triggers =
     getScore: (vars)->
         droppedY = getDrop(vars.matrix, vars.shape, vars.x, vars.y)
         res = getScore(vars.matrix,vars.shape,vars.x,droppedY)
-
         worker.postMessage
             callback: 'getScore',
             vars:
                 result: res
                 id: vars.id
 
+    postProcess: (vars)->
+        result =
+            matrix: vars.matrix
+            spell: {}
+
+        for spell, value of vars.spell when value
+            console.log spell+' '+value
+            res = spells[spell](result.matrix, value)
+            result.matrix = res.matrix
+            result.spell[spell] = res.spell
+
+        worker.postMessage
+            callback: 'postProcess',
+            vars:
+                id: vars.id
+                result: result
 
 worker.addEventListener 'message',
     (e)->

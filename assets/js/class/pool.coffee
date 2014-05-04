@@ -12,8 +12,15 @@ class Application.Model.Pool extends Backbone.Model
     next: null
     locked: false
     combo: 0
-
+    spell: {}
     controller: null
+
+    setSpell: (spell, value)->
+        @spell[spell] = value
+
+    getSpell: (spell)->
+        @spell[spell] = 0 if not @spell[spell]
+        @spell[spell]
 
     nextShape: ->
         if @next.attributes.shape?
@@ -28,8 +35,9 @@ class Application.Model.Pool extends Backbone.Model
             @next.setShape next.index, next.angle
 
         @shape.attributes.drop = -1
-        @shape.key = Application.genId('Shape')
+        #@shape.key = Application.genId('Shape')
         @worker 'checkDrop'
+
         @attributes.index++
         @locked = false
 
@@ -48,10 +56,9 @@ class Application.Model.Pool extends Backbone.Model
             x: x
             y: y
 
-    worker: (trigger, angle)->
+    worker: (trigger, angle = @shape.attributes.angle)->
         atr = @attributes
-        angle = @shape.attributes.angle if not angle?
-
+        vars =
         Application.worker.postMessage
             trigger: trigger
             vars:
@@ -60,7 +67,8 @@ class Application.Model.Pool extends Backbone.Model
                 x: @shape.attributes.x
                 y: @shape.attributes.y
                 id: @id
-                key: @shape.key
+                spell: @spell if trigger is 'postProcess'
+                #key: @shape.key
 
     actions:
 
@@ -151,6 +159,17 @@ class Application.Model.Pool extends Backbone.Model
 
         reset: ->
             @resetCells()
+
+        postProcess: (lines)->
+            len = lines.length
+
+            if len
+                    @score+=Math.floor(len*len)*(++@combo)
+                    @trigger 'action', 'lines', [lines, @score, @combo]
+            else
+                    @combo = 0
+
+            @worker 'postProcess'
 
     handler:
         action: (name, vars...)->

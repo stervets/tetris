@@ -181,11 +181,15 @@
               if (!($cells[y][x] || $cells[y - 1][x])) {
                 continue;
               }
-              _.delay(function($cell, y) {
-                return $cell.css({
-                  top: y
-                });
-              }, 100, $cells[y - 1][x], y * POOL.CELL_SIZE);
+              $cells[y - 1][x].css({
+                top: y * POOL.CELL_SIZE
+              });
+
+              /*
+              _.delay ($cell, y)->
+                      $cell.css top: y
+                  ,100, $cells[y-1][x], y*POOL.CELL_SIZE
+               */
               _ref1 = [$cells[y][x], $cells[y - 1][x]], $cells[y - 1][x] = _ref1[0], $cells[y][x] = _ref1[1];
             }
           }
@@ -197,10 +201,89 @@
       }
     };
 
+    Pool.prototype.spells = [
+      function(lines) {
+        var $cells, cellsLenX, cellsLenY, linesLen, x, y, _i, _results;
+        $cells = this.$cells;
+        linesLen = lines.length;
+        cellsLenX = $cells[0].length;
+        cellsLenY = $cells.length;
+        _results = [];
+        for (y = _i = linesLen; linesLen <= cellsLenY ? _i < cellsLenY : _i > cellsLenY; y = linesLen <= cellsLenY ? ++_i : --_i) {
+          _results.push((function() {
+            var _j, _ref, _results1;
+            _results1 = [];
+            for (x = _j = 0; 0 <= cellsLenX ? _j < cellsLenX : _j > cellsLenX; x = 0 <= cellsLenX ? ++_j : --_j) {
+              if ($cells[y][x]) {
+                $cells[y][x].css({
+                  top: (y - linesLen) * POOL.CELL_SIZE
+                });
+              }
+              _ref = [$cells[y][x], $cells[y - linesLen][x]], $cells[y - linesLen][x] = _ref[0], $cells[y][x] = _ref[1];
+              $cells[y][x] = null;
+              if (y >= cellsLenY - linesLen) {
+                if ($cells[y][x]) {
+                  _results1.push($cells[y][x].remove());
+                } else {
+                  _results1.push(void 0);
+                }
+
+                /*
+                $shape.append
+                
+                Application.Templates.tplCell
+                    top: y * POOL.CELL_SIZE
+                    left: x * POOL.CELL_SIZE
+                    index: index+1
+                 */
+              } else {
+                _results1.push(void 0);
+              }
+
+              /*
+              if ($cell1 = $cells[y-linesLen][x]) or ($cell2 = $cells[y][x])
+                  $cell1.remove() if $cell1
+                  $cells[y-linesLen][x] = $cells[y][x]
+                  $cells[y][x].css top: (y-linesLen)*POOL.CELL_SIZE if $cells[y][x]
+                   *$cell2.remove() if $cell2
+                   *$cell2 = null
+               */
+            }
+            return _results1;
+          })());
+        }
+        return _results;
+
+        /*
+        
+                line.push if x is empty then 0 else SHAPE_SPECIAL+SPELL.GROUND
+            lines.push(matrix[y] = line)
+        
+        
+        
+        matrix[index-value] = line[..] for line, index in matrix when index>value-1
+        len = matrix[0].length-1
+        empty = rand(0, len)
+        lines = []
+        
+        for y in [matrix.length-value...matrix.length]
+            line = []
+            for x in [0..len]
+                line.push if x is empty then 0 else SHAPE_SPECIAL+SPELL.GROUND
+            lines.push(matrix[y] = line)
+         */
+      }
+    ];
+
     Pool.prototype.modelHandler = {
       action: function(name, vars) {
         if (this.poolHandler[name] != null) {
           return this.poolHandler[name].apply(this, vars);
+        }
+      },
+      spell: function(index, vars) {
+        if (this.spells[index] != null) {
+          return this.spells[index].call(this, vars);
         }
       }
     };

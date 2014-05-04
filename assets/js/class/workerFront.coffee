@@ -8,7 +8,7 @@ Application.workerCallback =
 
 
     checkMoveDown: (vars)->
-        if (pool = Application.Pool.get(vars.id)) and vars.key==pool.shape.key
+        if (pool = Application.Pool.get(vars.id))# and vars.key==pool.shape.key
             if vars.collided
                 pool.trigger 'action', 'putShape'
             else
@@ -50,12 +50,24 @@ Application.workerCallback =
     process: (vars)->
         if pool = Application.Pool.get(vars.id)
             pool.attributes.cells = vars.matrix
+            pool.trigger 'action', 'postProcess', vars.lines
+        ###
+        if pool = Application.Pool.get(vars.id)
+            pool.attributes.cells = vars.matrix
             if vars.lines.length
                 pool.score+=Math.floor(vars.lines.length*vars.lines.length)*(++pool.combo)
                 pool.trigger 'action', 'lines', [vars.lines, pool.score, pool.combo]
             else
                 pool.combo = 0
 
+            pool.trigger 'action', 'nextShape'
+            pool.locked = false
+        ###
+    postProcess: (vars)->
+        if pool = Application.Pool.get(vars.id)
+            pool.attributes.cells = vars.result.matrix
+            pool.trigger 'spell', index, spell for index, spell of vars.result.spell
+            pool.spell = {}
             pool.trigger 'action', 'nextShape'
             pool.locked = false
 

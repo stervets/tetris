@@ -154,17 +154,86 @@ class Application.View.Pool extends Backbone.View
 
                     $cells[line][x] = null
                     for y in [line...0] when $cells[y][x] or $cells[y-1][x]
+                        $cells[y-1][x].css top: y*POOL.CELL_SIZE
+                        ###
                         _.delay ($cell, y)->
                                 $cell.css top: y
                             ,100, $cells[y-1][x], y*POOL.CELL_SIZE
+                        ###
                         #$cells[y-1][x].css top: y*POOL.CELL_SIZE
                         [$cells[y-1][x], $cells[y][x]] = [$cells[y][x], $cells[y-1][x]]
             @particle.message "Combo x#{combo}", lines[0]*POOL.CELL_SIZE, combo if combo>1
             null
 
+    spells: [
+        (lines)->
+            $cells = @$cells
+            linesLen = lines.length
+
+            cellsLenX = $cells[0].length
+            cellsLenY = $cells.length
+
+            for y in [linesLen...cellsLenY]
+                for x in [0...cellsLenX]
+                    #$cells[y-linesLen][x].remove() if $cells[y-linesLen][x]
+                    #$cells[y-linesLen][x] = $cells[y][x]
+
+                    if $cells[y][x]
+                        $cells[y][x].css
+                            top: (y-linesLen)*POOL.CELL_SIZE
+
+                    [$cells[y-linesLen][x], $cells[y][x]] = [$cells[y][x], $cells[y-linesLen][x]]
+                    $cells[y][x] = null
+
+                    if y>=cellsLenY-linesLen
+                        $cells[y][x].remove() if $cells[y][x]
+
+
+
+                        ###
+                        $shape.append
+
+                        Application.Templates.tplCell
+                            top: y * POOL.CELL_SIZE
+                            left: x * POOL.CELL_SIZE
+                            index: index+1
+                        ###
+                    ###
+                    if ($cell1 = $cells[y-linesLen][x]) or ($cell2 = $cells[y][x])
+                        $cell1.remove() if $cell1
+                        $cells[y-linesLen][x] = $cells[y][x]
+                        $cells[y][x].css top: (y-linesLen)*POOL.CELL_SIZE if $cells[y][x]
+                        #$cell2.remove() if $cell2
+                        #$cell2 = null
+                    ###
+
+            ###
+
+                    line.push if x is empty then 0 else SHAPE_SPECIAL+SPELL.GROUND
+                lines.push(matrix[y] = line)
+
+
+
+            matrix[index-value] = line[..] for line, index in matrix when index>value-1
+            len = matrix[0].length-1
+            empty = rand(0, len)
+            lines = []
+
+            for y in [matrix.length-value...matrix.length]
+                line = []
+                for x in [0..len]
+                    line.push if x is empty then 0 else SHAPE_SPECIAL+SPELL.GROUND
+                lines.push(matrix[y] = line)
+            ###
+
+    ]
+
     modelHandler:
         action: (name, vars)->
             @poolHandler[name].apply(@, vars) if @poolHandler[name]?
+
+        spell: (index, vars)->
+            @spells[index].call(@, vars) if @spells[index]?
 
     init: (params)->
         @$next = []

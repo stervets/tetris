@@ -206,7 +206,7 @@
     }
 
     Shape.prototype.defaults = {
-      index: 0,
+      index: 1000000,
       angle: 0,
       x: 0,
       y: 0,
@@ -344,7 +344,13 @@
       model: Application.Game
     });
     Application.hook();
-    return Application.Game["switch"](GAME_MODE.LOBBY);
+    Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
+    return $('body').click(function() {
+      var pool;
+      if (pool = Application.Pool.at(0)) {
+        return pool.setSpell(SPELL.GROUND, 2);
+      }
+    });
 
     /*
     particle = new Application.Particle

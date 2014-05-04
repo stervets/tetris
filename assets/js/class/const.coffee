@@ -43,6 +43,10 @@
     }
 ]
 
+@SPELL =
+    GROUND: 0
+
+
 @DROP_SHAPE_OPACITY = 0.2
 
 @SHAPES = [
@@ -62,6 +66,9 @@
      [3,3,0]]
 
 ]
+
+# addiction that means this cell is special
+@SHAPE_SPECIAL = 50
 
 # max different figure angles
 @SHAPE_ANGLES = [2,1,4,4,4,2,2]

@@ -31,7 +31,20 @@
 
     Pool.prototype.combo = 0;
 
+    Pool.prototype.spell = {};
+
     Pool.prototype.controller = null;
+
+    Pool.prototype.setSpell = function(spell, value) {
+      return this.spell[spell] = value;
+    };
+
+    Pool.prototype.getSpell = function(spell) {
+      if (!this.spell[spell]) {
+        this.spell[spell] = 0;
+      }
+      return this.spell[spell];
+    };
 
     Pool.prototype.nextShape = function() {
       var next, shape;
@@ -46,7 +59,6 @@
         this.next.setShape(next.index, next.angle);
       }
       this.shape.attributes.drop = -1;
-      this.shape.key = Application.genId('Shape');
       this.worker('checkDrop');
       this.attributes.index++;
       return this.locked = false;
@@ -82,12 +94,12 @@
     };
 
     Pool.prototype.worker = function(trigger, angle) {
-      var atr;
-      atr = this.attributes;
+      var atr, vars;
       if (angle == null) {
         angle = this.shape.attributes.angle;
       }
-      return Application.worker.postMessage({
+      atr = this.attributes;
+      return vars = Application.worker.postMessage({
         trigger: trigger,
         vars: {
           matrix: atr.cells,
@@ -95,7 +107,7 @@
           x: this.shape.attributes.x,
           y: this.shape.attributes.y,
           id: this.id,
-          key: this.shape.key
+          spell: trigger === 'postProcess' ? this.spell : void 0
         }
       });
     };
@@ -219,6 +231,17 @@
       },
       reset: function() {
         return this.resetCells();
+      },
+      postProcess: function(lines) {
+        var len;
+        len = lines.length;
+        if (len) {
+          this.score += Math.floor(len * len) * (++this.combo);
+          this.trigger('action', 'lines', [lines, this.score, this.combo]);
+        } else {
+          this.combo = 0;
+        }
+        return this.worker('postProcess');
       }
     };
 
