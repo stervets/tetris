@@ -185,9 +185,18 @@ class Application.View.Pool extends Backbone.View
                     [$cells[y-linesLen][x], $cells[y][x]] = [$cells[y][x], $cells[y-linesLen][x]]
                     $cells[y][x] = null
 
+
                     if y>=cellsLenY-linesLen
                         $cells[y][x].remove() if $cells[y][x]
-
+                        if lines[cellsLenY-y-1][x]
+                            $cells[y][x] = $ Application.Templates.tplCell
+                                                     top: (y+linesLen) * POOL.CELL_SIZE
+                                                     left: x * POOL.CELL_SIZE
+                                                     index: 50
+                            @$body.append $cells[y][x]
+                            _.delay ($cell, y)->
+                                    $cell.css top: y * POOL.CELL_SIZE
+                                ,10, $cells[y][x], y
 
 
                         ###

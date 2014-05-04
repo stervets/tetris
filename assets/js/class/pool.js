@@ -40,7 +40,7 @@
     };
 
     Pool.prototype.getSpell = function(spell) {
-      if (!this.spell[spell]) {
+      if (this.spell[spell] == null) {
         this.spell[spell] = 0;
       }
       return this.spell[spell];
@@ -206,9 +206,9 @@
         this.locked = true;
         return this.worker('setDrop');
       },
-      lines: function() {
+      lines: function(vars) {
         Application.Sound.play(RES.AUDIO.LINES);
-        return this.trigger('lines');
+        return this.trigger('lines', vars[0], vars[1], vars[2]);
       },
       putShape: function() {
         this.locked = true;

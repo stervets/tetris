@@ -564,7 +564,6 @@
         if (!(value)) {
           continue;
         }
-        console.log(spell + ' ' + value);
         res = spells[spell](result.matrix, value);
         result.matrix = res.matrix;
         result.spell[spell] = res.spell;

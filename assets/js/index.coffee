@@ -83,8 +83,8 @@ class Application.Model.ShapeStack extends Backbone.Model
     generateShapes: (num)->
         for i in [0...num]
             shape = rand(SHAPES.length-1)
-            #shape = if rand(1) then 4 else 4
-            #shape = if rand(1) then 5 else 6
+            #shape = 1
+
             maxAngle = SHAPE_ANGLES[shape] || 4
             @attributes.shapes.push([shape, rand(maxAngle-1)])
         #@attributes.shapes.push([rand(0,4), rand(maxAngle-1)]) for i in [0...num]
@@ -213,11 +213,19 @@ Application.onStart ->
         model: Application.Game
 
     Application.hook()
-    Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
-
+    Application.Game.switch GAME_MODE.LOBBY
+    ###
+    rep = ->
+        _dump (Application.Pool.at(0).spell[SPELL.GROUND] if Application.Pool.at(0))
+              , (Application.Pool.at(1).spell[SPELL.GROUND] if Application.Pool.at(1))
+        setTimeout(rep, 100)
+    rep()
+    ###
+    ###
     $('body').click ->
         if pool = Application.Pool.at(0)
             pool.setSpell(SPELL.GROUND, 2)
+    ###
     ###
     particle = new Application.Particle
         x: 100

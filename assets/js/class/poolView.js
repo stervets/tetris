@@ -223,7 +223,20 @@
               $cells[y][x] = null;
               if (y >= cellsLenY - linesLen) {
                 if ($cells[y][x]) {
-                  _results1.push($cells[y][x].remove());
+                  $cells[y][x].remove();
+                }
+                if (lines[cellsLenY - y - 1][x]) {
+                  $cells[y][x] = $(Application.Templates.tplCell({
+                    top: (y + linesLen) * POOL.CELL_SIZE,
+                    left: x * POOL.CELL_SIZE,
+                    index: 50
+                  }));
+                  this.$body.append($cells[y][x]);
+                  _results1.push(_.delay(function($cell, y) {
+                    return $cell.css({
+                      top: y * POOL.CELL_SIZE
+                    });
+                  }, 10, $cells[y][x], y));
                 } else {
                   _results1.push(void 0);
                 }
@@ -250,7 +263,7 @@
                */
             }
             return _results1;
-          })());
+          }).call(this));
         }
         return _results;
 

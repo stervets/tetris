@@ -38,8 +38,8 @@
     SMART: 100
     },
     {
-    FORMULA: 7
-    SMART: 90
+    FORMULA: 14
+    SMART: 100
     }
 ]
 

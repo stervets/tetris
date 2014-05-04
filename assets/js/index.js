@@ -344,13 +344,21 @@
       model: Application.Game
     });
     Application.hook();
-    Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
-    return $('body').click(function() {
-      var pool;
-      if (pool = Application.Pool.at(0)) {
-        return pool.setSpell(SPELL.GROUND, 2);
-      }
-    });
+    return Application.Game["switch"](GAME_MODE.LOBBY);
+
+    /*
+    rep = ->
+        _dump (Application.Pool.at(0).spell[SPELL.GROUND] if Application.Pool.at(0))
+              , (Application.Pool.at(1).spell[SPELL.GROUND] if Application.Pool.at(1))
+        setTimeout(rep, 100)
+    rep()
+     */
+
+    /*
+    $('body').click ->
+        if pool = Application.Pool.at(0)
+            pool.setSpell(SPELL.GROUND, 2)
+     */
 
     /*
     particle = new Application.Particle

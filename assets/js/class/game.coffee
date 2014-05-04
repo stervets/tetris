@@ -1,3 +1,17 @@
+
+spellCast = (lines, score, combo)->
+    pool = Application.Pool.at(if Application.Pool.at(0).id is @id then 1 else 0)
+    if value = lines.length+combo-2
+        #_dump value
+        #spellValue = @getSpell()
+        #newSpellValue = spellValue - value
+        #@setSpell(SPELL.GROUND, if newSpellValue+1<0 then 0 else newSpellValue+1)
+        spellValue = @getSpell(SPELL.GROUND)-value
+
+        @setSpell SPELL.GROUND, if spellValue>0 then spellValue else 0
+        pool.setSpell SPELL.GROUND, pool.getSpell()+Math.abs(spellValue)
+
+
 class Application.Model.Player extends Backbone.Model
     defaults:
         name: 'PLayer'
@@ -59,9 +73,12 @@ class Application.Model.Game extends Backbone.Model
                 controller: @proc.controller2.id
             Application.Pool.add(@proc.pool2)
 
+            @proc.pool1.on 'lines', spellCast, @proc.pool1
+            @proc.pool2.on 'lines', spellCast, @proc.pool2
+
         #CPU vs CPU
         ->
-            actionDelay = 100
+            actionDelay = 200
             @gameReset()
             @proc.controller1 = new Application.Model.Controller.AI
                 formula: CPU[0].FORMULA
@@ -80,6 +97,9 @@ class Application.Model.Game extends Backbone.Model
             @proc.pool2 = new Application.Model.Pool
                 controller: @proc.controller2.id
             Application.Pool.add(@proc.pool2)
+
+            @proc.pool1.on 'lines', spellCast, @proc.pool1
+            @proc.pool2.on 'lines', spellCast, @proc.pool2
 
     ]
 

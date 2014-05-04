@@ -19,7 +19,7 @@ class Application.Model.Pool extends Backbone.Model
         @spell[spell] = value
 
     getSpell: (spell)->
-        @spell[spell] = 0 if not @spell[spell]
+        @spell[spell] = 0 if not @spell[spell]?
         @spell[spell]
 
     nextShape: ->
@@ -134,9 +134,9 @@ class Application.Model.Pool extends Backbone.Model
             @locked = true
             @worker 'setDrop'
 
-        lines: ->
+        lines: (vars)->
             Application.Sound.play(RES.AUDIO.LINES)
-            @trigger 'lines'
+            @trigger 'lines', vars[0], vars[1], vars[2]
 
         putShape: ->
             @locked = true
@@ -168,7 +168,6 @@ class Application.Model.Pool extends Backbone.Model
                     @trigger 'action', 'lines', [lines, @score, @combo]
             else
                     @combo = 0
-
             @worker 'postProcess'
 
     handler:
