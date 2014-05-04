@@ -87,7 +87,7 @@ class Application.Model.Controller.AI extends Backbone.Model
         delay: DROP_DELAY
         actionDelay: 400
         play: false
-        formula: 1000
+        formula: 0
         smart: 1
 
     pool: null
