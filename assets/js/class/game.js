@@ -154,7 +154,7 @@
         this.model.proc.onGameOver = (function(_this) {
           return function() {
             Application.Sound.musicStop();
-            _this.$('#jsSinglePlayGameOver .jsScore').text(_this.model.proc.pool.lines);
+            _this.$('#jsSinglePlayGameOver .jsScore').text(_this.model.proc.pool.score);
             return _this.$('#jsSinglePlayGameOver').css({
               opacity: 0,
               scale: 0
@@ -185,16 +185,16 @@
             _this.model.proc.pool2.trigger('action', 'stop');
             Application.Sound.musicStop();
             _this.$('.jsGameOverWinLoose').hide();
-            if (_this.model.proc.pool1.lines === _this.model.proc.pool2.lines) {
+            if (_this.model.proc.pool1.score === _this.model.proc.pool2.score) {
               _this.$('.jsGameOverDraw').show();
             } else {
-              if (_this.model.proc.pool1.lines >= _this.model.proc.pool2.lines) {
+              if (_this.model.proc.pool1.score >= _this.model.proc.pool2.score) {
                 _this.$('.jsGameOverWin').show();
               } else {
                 _this.$('.jsGameOverLoose').show();
               }
             }
-            _this.$('#jsPlayerVsCpuGameOver .jsScore').text(_this.model.proc.pool1.lines);
+            _this.$('#jsPlayerVsCpuGameOver .jsScore').text(_this.model.proc.pool1.score);
             return _this.$('#jsPlayerVsCpuGameOver').css({
               opacity: 0,
               scale: 0
@@ -208,7 +208,6 @@
         this.listenTo(this.model.proc.pool2, 'gameover', this.model.proc.onGameOver);
         return Application.Sound.musicPlay();
       }, function() {
-        var limit;
         this.model.proc.view1 = new Application.View.Pool({
           x: 450 / 2 - 450 / 2,
           y: 50,
@@ -227,17 +226,17 @@
             _this.model.proc.pool2.trigger('action', 'stop');
             Application.Sound.musicStop();
             _this.$('.jsGameOverWinLoose').hide();
-            if (_this.model.proc.pool1.lines === _this.model.proc.pool2.lines) {
+            if (_this.model.proc.pool1.score === _this.model.proc.pool2.score) {
               _this.$('.jsGameOverDraw').show();
             } else {
-              if (_this.model.proc.pool1.lines >= _this.model.proc.pool2.lines) {
+              if (_this.model.proc.pool1.score >= _this.model.proc.pool2.score) {
                 _this.$('.jsGameOverCpu1').show();
               } else {
                 _this.$('.jsGameOverCpu2').show();
               }
             }
-            _this.$('#jsCpuVsCpuGameOver .jsScoreCpu1').text(_this.model.proc.pool1.lines);
-            _this.$('#jsCpuVsCpuGameOver .jsScoreCpu2').text(_this.model.proc.pool2.lines);
+            _this.$('#jsCpuVsCpuGameOver .jsScoreCpu1').text(_this.model.proc.pool1.score);
+            _this.$('#jsCpuVsCpuGameOver .jsScoreCpu2').text(_this.model.proc.pool2.score);
             return _this.$('#jsCpuVsCpuGameOver').css({
               opacity: 0,
               scale: 0
@@ -249,48 +248,47 @@
         })(this);
         this.listenTo(this.model.proc.pool1, 'gameover', this.model.proc.onGameOver);
         this.listenTo(this.model.proc.pool2, 'gameover', this.model.proc.onGameOver);
-        Application.Sound.musicPlay();
-        $('#jsChart').highcharts({
-          colors: ['#303090', '#903030'],
-          legend: {
-            enabled: false
-          },
-          chart: {
-            type: 'line'
-          },
-          title: null,
-          series: [
-            {
-              data: [],
-              name: 'CPU 1',
-              marker: {
+        return Application.Sound.musicPlay();
+
+        /*
+        $('#jsChart').highcharts
+            colors: ['#303090', '#903030']
+            legend:
                 enabled: false
-              }
-            }, {
-              data: [],
-              name: 'CPU 2',
-              marker: {
-                enabled: false
-              }
-            }
-          ],
-          yAxis: {
+            chart:
+                type: 'line'
             title: null
-          }
-        });
-        limit = 111150;
-        this.model.proc.onNext1 = function() {
-          if (this.model.proc.pool1.attributes.index > limit * 2) {
-            return this.model.proc.pool1.trigger('gameover');
-          }
-        };
-        this.model.proc.onNext2 = function() {
-          if (this.model.proc.pool2.attributes.index > limit * 2) {
-            return this.model.proc.pool2.trigger('gameover');
-          }
-        };
-        this.listenTo(this.model.proc.pool1, 'nextShape', this.model.proc.onNext1);
-        return this.listenTo(this.model.proc.pool2, 'nextShape', this.model.proc.onNext2);
+            series: [
+                {
+                    data: []
+                    name: 'CPU 1'
+                    marker:
+                        enabled: false
+                }
+                {
+                    data: []
+                    name: 'CPU 2'
+                    marker:
+                        enabled: false
+                }
+            ]
+            yAxis:
+                title: null
+        
+         *@model.proc.charts = $('#jsChart').highcharts()
+        
+        limit = 111150
+        @model.proc.onNext1 = ->
+            @model.proc.pool1.trigger 'gameover' if @model.proc.pool1.attributes.index>limit*2
+             *@model.proc.charts.series[0].addPoint(@model.proc.pool1.score, true, @model.proc.charts.series[0].data.length>limit)
+        
+        @model.proc.onNext2 = ->
+            @model.proc.pool2.trigger 'gameover' if @model.proc.pool2.attributes.index>limit*2
+             *@model.proc.charts.series[1].addPoint(@model.proc.pool2.score, true, @model.proc.charts.series[1].data.length>limit)
+        
+        @listenTo @model.proc.pool1, 'nextShape', @model.proc.onNext1
+        @listenTo @model.proc.pool2, 'nextShape', @model.proc.onNext2
+         */
       }
     ];
 

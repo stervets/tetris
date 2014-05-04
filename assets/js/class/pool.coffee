@@ -6,7 +6,7 @@ class Application.Model.Pool extends Backbone.Model
         w: POOL.WIDTH
         h: POOL.HEIGHT
 
-    lines: 0
+    score: 0
 
     shape: null
     next: null

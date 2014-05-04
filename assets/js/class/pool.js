@@ -21,7 +21,7 @@
       h: POOL.HEIGHT
     };
 
-    Pool.prototype.lines = 0;
+    Pool.prototype.score = 0;
 
     Pool.prototype.shape = null;
 

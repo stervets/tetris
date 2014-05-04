@@ -112,7 +112,7 @@ class Application.View.Game extends Backbone.View
 
             @model.proc.onGameOver = =>
                 Application.Sound.musicStop()
-                @$('#jsSinglePlayGameOver .jsScore').text(@model.proc.pool.lines)
+                @$('#jsSinglePlayGameOver .jsScore').text(@model.proc.pool.score)
                 @$('#jsSinglePlayGameOver')
                 .css
                     opacity: 0
@@ -147,15 +147,15 @@ class Application.View.Game extends Backbone.View
                 Application.Sound.musicStop()
                 @$('.jsGameOverWinLoose').hide()
 
-                if @model.proc.pool1.lines == @model.proc.pool2.lines
+                if @model.proc.pool1.score == @model.proc.pool2.score
                     @$('.jsGameOverDraw').show()
                 else
-                    if @model.proc.pool1.lines>=@model.proc.pool2.lines
+                    if @model.proc.pool1.score>=@model.proc.pool2.score
                         @$('.jsGameOverWin').show()
                     else
                         @$('.jsGameOverLoose').show()
 
-                @$('#jsPlayerVsCpuGameOver .jsScore').text(@model.proc.pool1.lines)
+                @$('#jsPlayerVsCpuGameOver .jsScore').text(@model.proc.pool1.score)
                 @$('#jsPlayerVsCpuGameOver')
                 .css
                         opacity: 0
@@ -191,16 +191,16 @@ class Application.View.Game extends Backbone.View
                 Application.Sound.musicStop()
                 @$('.jsGameOverWinLoose').hide()
 
-                if @model.proc.pool1.lines == @model.proc.pool2.lines
+                if @model.proc.pool1.score == @model.proc.pool2.score
                     @$('.jsGameOverDraw').show()
                 else
-                    if @model.proc.pool1.lines>=@model.proc.pool2.lines
+                    if @model.proc.pool1.score>=@model.proc.pool2.score
                         @$('.jsGameOverCpu1').show()
                     else
                         @$('.jsGameOverCpu2').show()
 
-                @$('#jsCpuVsCpuGameOver .jsScoreCpu1').text(@model.proc.pool1.lines)
-                @$('#jsCpuVsCpuGameOver .jsScoreCpu2').text(@model.proc.pool2.lines)
+                @$('#jsCpuVsCpuGameOver .jsScoreCpu1').text(@model.proc.pool1.score)
+                @$('#jsCpuVsCpuGameOver .jsScoreCpu2').text(@model.proc.pool2.score)
 
                 @$('#jsCpuVsCpuGameOver')
                 .css
@@ -215,7 +215,7 @@ class Application.View.Game extends Backbone.View
             @listenTo @model.proc.pool1, 'gameover', @model.proc.onGameOver
             @listenTo @model.proc.pool2, 'gameover', @model.proc.onGameOver
             Application.Sound.musicPlay()
-
+            ###
             $('#jsChart').highcharts
                 colors: ['#303090', '#903030']
                 legend:
@@ -245,15 +245,15 @@ class Application.View.Game extends Backbone.View
             limit = 111150
             @model.proc.onNext1 = ->
                 @model.proc.pool1.trigger 'gameover' if @model.proc.pool1.attributes.index>limit*2
-                #@model.proc.charts.series[0].addPoint(@model.proc.pool1.lines, true, @model.proc.charts.series[0].data.length>limit)
+                #@model.proc.charts.series[0].addPoint(@model.proc.pool1.score, true, @model.proc.charts.series[0].data.length>limit)
 
             @model.proc.onNext2 = ->
                 @model.proc.pool2.trigger 'gameover' if @model.proc.pool2.attributes.index>limit*2
-                #@model.proc.charts.series[1].addPoint(@model.proc.pool2.lines, true, @model.proc.charts.series[1].data.length>limit)
+                #@model.proc.charts.series[1].addPoint(@model.proc.pool2.score, true, @model.proc.charts.series[1].data.length>limit)
 
             @listenTo @model.proc.pool1, 'nextShape', @model.proc.onNext1
             @listenTo @model.proc.pool2, 'nextShape', @model.proc.onNext2
-
+            ###
 
 
     ]
