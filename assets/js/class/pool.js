@@ -29,6 +29,8 @@
 
     Pool.prototype.locked = false;
 
+    Pool.prototype.combo = 0;
+
     Pool.prototype.controller = null;
 
     Pool.prototype.nextShape = function() {

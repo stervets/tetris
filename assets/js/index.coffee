@@ -216,8 +216,15 @@ Application.onStart ->
     Application.Game.switch(GAME_MODE.LOBBY)
     ###
     particle = new Application.Particle
+        x: 100
+        y: 100
 
     $('body').append particle.$el
+
     $('body').click ->
-        particle.launch(100+i*20, 100, 1, (100+i*20)+(i-10/2)*POOL.CELL_SIZE) for i in [0...10]
+        for i in [0...10]
+            x = i*20
+            particle.launch(x, 0, 1, x+(i-10/2)*POOL.CELL_SIZE)
+        particle.message('Combo x2', 1)
     ###
+

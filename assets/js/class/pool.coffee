@@ -11,6 +11,7 @@ class Application.Model.Pool extends Backbone.Model
     shape: null
     next: null
     locked: false
+    combo: 0
 
     controller: null
 

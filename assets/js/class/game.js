@@ -64,7 +64,7 @@
         @proc.controller = new Application.Model.Controller.AI
             formula: CPU[0].FORMULA
             smart: CPU[0].SMART
-            actionDelay: 100
+            actionDelay: 50
          */
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({

@@ -126,7 +126,7 @@ class Application.View.Pool extends Backbone.View
             #console.log 'overlow at view'
             #@addShape()
 
-        lines: (lines, score)->
+        lines: (lines, score, combo = 0)->
             @$score.text(score)
 
             $cells = @$cells
@@ -159,6 +159,7 @@ class Application.View.Pool extends Backbone.View
                             ,100, $cells[y-1][x], y*POOL.CELL_SIZE
                         #$cells[y-1][x].css top: y*POOL.CELL_SIZE
                         [$cells[y-1][x], $cells[y][x]] = [$cells[y][x], $cells[y-1][x]]
+            @particle.message "Combo x#{combo}", lines[0]*POOL.CELL_SIZE, combo if combo>1
             null
 
     modelHandler:

@@ -51,8 +51,10 @@ Application.workerCallback =
         if pool = Application.Pool.get(vars.id)
             pool.attributes.cells = vars.matrix
             if vars.lines.length
-                pool.lines+=Math.floor(vars.lines.length*vars.lines.length)
-                pool.trigger 'action', 'lines', [vars.lines, pool.lines]
+                pool.lines+=Math.floor(vars.lines.length*vars.lines.length)*(++pool.combo)
+                pool.trigger 'action', 'lines', [vars.lines, pool.lines, pool.combo]
+            else
+                pool.combo = 0
 
             pool.trigger 'action', 'nextShape'
             pool.locked = false

@@ -4,16 +4,19 @@
     Particle.prototype.params = {
       x: 0,
       y: 0,
-      distanceX: 200,
+      distanceX: 0,
       distanceY: 30,
       lifetime: 300,
       particlesMax: 5,
-      stackSize: 120
+      particleNum: 120,
+      messageNum: 5
     };
 
     Particle.prototype.color = ['#FFFFFF', '#98eb2f', '#ffd739', '#70e8a0', '#4baaef', '#f36252', '#af6cbb'];
 
     Particle.prototype.particleHtml = $('#tplParticle').html();
+
+    Particle.prototype.messageHtml = $('#tplMessage').html();
 
     Particle.prototype.sparkHtml = $('#tplSpark').html();
 
@@ -25,11 +28,15 @@
 
     Particle.prototype.$particle = [];
 
-    Particle.prototype.pointer = 0;
+    Particle.prototype.$message = [];
+
+    Particle.prototype.particlePointer = 0;
+
+    Particle.prototype.messagePointer = 0;
 
     Particle.prototype.launch = function(x, y, color, x2) {
       var $p;
-      $p = this.$particle[this.pointer];
+      $p = this.$particle[this.particlePointer];
       $p.css({
         top: y + this.params.y,
         left: x + this.params.x,
@@ -46,26 +53,56 @@
           scale: 0,
           rotate: "" + (rand(-180, 180)) + "deg",
           color: 'white',
-          transition: "all " + params.lifetime + "ms ease"
+          transition: "all " + params.lifetime + "ms ease-out"
         });
         return null;
       }, this.stepTime, $p, this.params, x, y, x2);
-      if (++this.pointer >= this.$particle.length) {
-        return this.pointer = 0;
+      if (++this.particlePointer >= this.$particle.length) {
+        return this.particlePointer = 0;
+      }
+    };
+
+    Particle.prototype.message = function(text, y, color) {
+      var $p;
+      if (color == null) {
+        color = 0;
+      }
+      $p = this.$message[this.messagePointer];
+      $p.text(text).css({
+        top: this.params.y + y,
+        left: this.params.x,
+        opacity: 1,
+        color: this.color[color],
+        transition: 'none'
+      });
+      _.delay(function($p, params, y) {
+        $p.css({
+          top: params.y - params.distanceY + y,
+          opacity: 0,
+          transition: "all " + (params.lifetime * 2) + "ms ease-out"
+        });
+        return null;
+      }, this.stepTime, $p, this.params, y);
+      if (++this.messagePointer >= this.$message.length) {
+        return this.messagePointer = 0;
       }
     };
 
     function Particle(params) {
-      var $spark, i, _i, _ref;
+      var $message, $spark, i, _i, _j, _ref, _ref1;
       _(this.params).extend(params);
       this.$el = $(this.particleHtml);
       this.$particle = [];
-      for (i = _i = 1, _ref = this.params.stackSize; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
-        $spark = $(this.sparkHtml).css({
-          transitionDuration: "" + this.params.lifetime + "ms"
-        });
+      for (i = _i = 1, _ref = this.params.particleNum; 1 <= _ref ? _i <= _ref : _i >= _ref; i = 1 <= _ref ? ++_i : --_i) {
+        $spark = $(this.sparkHtml);
         this.$particle.push($spark);
         this.$el.append($spark);
+      }
+      this.$message = [];
+      for (i = _j = 1, _ref1 = this.params.messageNum; 1 <= _ref1 ? _j <= _ref1 : _j >= _ref1; i = 1 <= _ref1 ? ++_j : --_j) {
+        $message = $(this.messageHtml);
+        this.$message.push($message);
+        this.$el.append($message);
       }
     }
 

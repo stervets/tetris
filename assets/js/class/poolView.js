@@ -154,8 +154,11 @@
         return this.addShape();
       },
       overflow: function() {},
-      lines: function(lines, score) {
+      lines: function(lines, score, combo) {
         var $cell, $cells, index, line, transit, x, y, _i, _j, _k, _len, _len1, _ref, _ref1;
+        if (combo == null) {
+          combo = 0;
+        }
         this.$score.text(score);
         $cells = this.$cells;
         transit = {};
@@ -186,6 +189,9 @@
               _ref1 = [$cells[y][x], $cells[y - 1][x]], $cells[y - 1][x] = _ref1[0], $cells[y][x] = _ref1[1];
             }
           }
+        }
+        if (combo > 1) {
+          this.particle.message("Combo x" + combo, lines[0] * POOL.CELL_SIZE, combo);
         }
         return null;
       }
