@@ -31,6 +31,8 @@ class Application.Model.Game extends Backbone.Model
     switch: (mode)-> if @attributes.mode is mode then @trigger 'change:mode', @, mode else @set 'mode', mode
 
     mode: [
+        #loading
+        ->
         #Lobby
         ->
             @gameReset()
@@ -73,7 +75,7 @@ class Application.Model.Game extends Backbone.Model
 
         #CPU vs CPU
         ->
-            actionDelay = 200
+            actionDelay = 150
             @gameReset()
             @proc.controller1 = new Application.Model.Controller.AI
                 formula: CPU[0].FORMULA
@@ -113,6 +115,8 @@ class Application.View.Game extends Backbone.View
     node: '#jsGame'
 
     mode: [
+        #Loading
+        ->
         #Lobby
         ->
             #Application.switchView('Lobby')

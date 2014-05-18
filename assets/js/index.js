@@ -333,7 +333,7 @@
     Application.shapeStack = new Application.Model.ShapeStack();
     Application.Pool = new Application.Collection.Pool();
     Application.Controller = new Application.Collection.Controller();
-    Application.Sound = new Application.Collection.Sound();
+    Application.Sound = new Application.Class.Sound();
     Application.GameView = {};
     Application.Lobby = new Application.Model.Lobby();
     Application.GameView.Lobby = new Application.View.Lobby({
@@ -344,7 +344,7 @@
       model: Application.Game
     });
     Application.hook();
-    return Application.Game["switch"](GAME_MODE.LOBBY);
+    return Application.Game["switch"](GAME_MODE.LOADING);
 
     /*
     rep = ->

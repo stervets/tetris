@@ -65,7 +65,7 @@
     };
 
     Game.prototype.mode = [
-      function() {
+      function() {}, function() {
         return this.gameReset();
       }, function() {
         this.gameReset();
@@ -103,7 +103,7 @@
         return this.proc.pool2.on('lines', spellCast, this.proc.pool2);
       }, function() {
         var actionDelay;
-        actionDelay = 200;
+        actionDelay = 150;
         this.gameReset();
         this.proc.controller1 = new Application.Model.Controller.AI({
           formula: CPU[0].FORMULA,
@@ -159,7 +159,7 @@
     Game.prototype.node = '#jsGame';
 
     Game.prototype.mode = [
-      function() {}, function() {
+      function() {}, function() {}, function() {
         this.model.proc.view = new Application.View.Pool({
           x: 900 / 2 - 450 / 2,
           y: 50,

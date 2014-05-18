@@ -1,6 +1,9 @@
 @RES =
     AUDIO:
-        GAME_MUSIC: '/audio/falling_snow.mp3'
+        MENU_MUSIC: '/audio/falling_snow.mp3'
+        GAME_MUSIC: '/audio/jungle_vibes.mp3'
+        WIN: '/audio/win.mp3'
+        FAIL: '/audio/fail.mp3'
         SHAPE_ROTATE: '/audio/rotate.mp3'
         SHAPE_DROP: '/audio/drop2.mp3'
         LINES: '/audio/lines.mp3'
@@ -27,18 +30,19 @@
 
 
 @GAME_MODE =
-    LOBBY: 0
-    SINGLE_PLAYER: 1
-    PLAYER_VS_CPU: 2
-    CPU_VS_CPU: 3
+    LOADING: 0
+    LOBBY: 1
+    SINGLE_PLAYER: 2
+    PLAYER_VS_CPU: 3
+    CPU_VS_CPU: 4
 
 # Score calculation formula
 @CPU = [{
-    FORMULA: 7
+    FORMULA: 15
     SMART: 100
     },
     {
-    FORMULA: 14
+    FORMULA: 7
     SMART: 100
     }
 ]
