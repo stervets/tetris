@@ -35,6 +35,7 @@ class Application.Particle
         #for i in [0...1]
 
             $p = @$particle[@particlePointer]
+            #console.log $p.length
             $p
             .css
                     top: y+@params.y
@@ -53,10 +54,7 @@ class Application.Particle
             _.delay ($p, params, x, y, x2)->
                         $p.css
                             top: y+rand(0,params.distanceY)+params.y
-                            #top: y+POOL.CELL_SIZE/2
-                            #left: x+rand(-params.distanceX,params.distanceX)
                             left: (if x2? then x2 else x)+params.x
-                            #opacity: 0.5
                             scale: 0
                             rotate: "#{rand(-180, 180)}deg"
                             color: 'white'

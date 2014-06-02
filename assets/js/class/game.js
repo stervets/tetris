@@ -69,14 +69,11 @@
         return this.gameReset();
       }, function() {
         this.gameReset();
-        this.proc.controller = new Application.Model.Controller.User();
-
-        /*
-        @proc.controller = new Application.Model.Controller.AI
-            formula: CPU[0].FORMULA
-            smart: CPU[0].SMART
-            actionDelay: 50
-         */
+        this.proc.controller = new Application.Model.Controller.AI({
+          formula: CPU[0].FORMULA,
+          smart: CPU[0].SMART,
+          actionDelay: 150
+        });
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id

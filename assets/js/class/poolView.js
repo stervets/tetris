@@ -122,6 +122,10 @@
 
     Pool.prototype.$cells = null;
 
+    Pool.prototype.$fx = null;
+
+    Pool.prototype.particle = null;
+
     Pool.prototype.addShape = function() {
       var $cells, $node, $shape, node, pos, shape, _i, _len;
       $cells = this.$cells;
@@ -160,10 +164,26 @@
           combo = 0;
         }
         this.$score.text(score);
+        this.$el.css({
+          top: '55px'
+        });
+        _.delay(function($el) {
+          return $el.css({
+            top: '50px'
+          });
+        }, 100, this.$el);
         $cells = this.$cells;
         transit = {};
         for (index = _i = 0, _len = lines.length; _i < _len; index = ++_i) {
           line = lines[index];
+
+          /*
+          _.delay (sprite, y)->
+                      sprite.play null, y
+                  ,100
+                  ,@sprite[index]
+                  ,(line+1)*POOL.CELL_SIZE
+           */
           _ref = $cells[line];
           for (x = _j = 0, _len1 = _ref.length; _j < _len1; x = ++_j) {
             $cell = _ref[x];
@@ -302,7 +322,7 @@
     };
 
     Pool.prototype.init = function(params) {
-      var index, shape, _i;
+      var i, index, shape, sprite, _i;
       this.$next = [];
       this.$cells = Application.matrixEmpty(POOL.WIDTH, POOL.HEIGHT, null);
       this.$el.css({
@@ -311,6 +331,7 @@
       });
       this.$body = this.$('.jsPoolBody');
       this.$score = this.$('.jsPoolScore');
+      this.$fx = this.$('.pool-fx');
       this.shapeView = new Application.View.Shape({
         model: this.model.shape
       });
@@ -323,14 +344,38 @@
         this.$next[index].html(Application.shapesView[shape.index][shape.angle]);
       }
       this.$body.append(this.shapeView.$el);
-      this.particle = new Application.Particle;
+      this.sprite = (function() {
+        var _j, _results;
+        _results = [];
+        for (i = _j = 0; _j <= 3; i = ++_j) {
+          sprite = new Application.Sprite({
+            src: RES.SPRITES,
+            w: 305,
+            h: 25,
+            x: 100,
+            delay: 50,
+            frames: (function() {
+              var _k, _results1;
+              _results1 = [];
+              for (i = _k = 0; _k <= 5; i = ++_k) {
+                _results1.push([0, i * 60 + 73]);
+              }
+              return _results1;
+            })()
+          });
+          this.$fx.append(sprite.$el);
+          _results.push(sprite);
+        }
+        return _results;
+      }).call(this);
+      this.particle = new Application.Particle();
       _.delay(function(view) {
         var pos;
         pos = view.$body.position();
         view.particle.params.x = pos.left;
         return view.particle.params.y = pos.top;
       }, 500, this);
-      this.$el.append(this.particle.$el);
+      this.$fx.append(this.particle.$el);
       this.model.trigger('action', 'reset');
       return this.model.trigger('action', 'start');
     };

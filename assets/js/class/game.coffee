@@ -40,13 +40,14 @@ class Application.Model.Game extends Backbone.Model
         # Single player
         ->
             @gameReset()
-            @proc.controller = new Application.Model.Controller.User()
-            ###
+            #@proc.controller = new Application.Model.Controller.User()
+
             @proc.controller = new Application.Model.Controller.AI
                 formula: CPU[0].FORMULA
                 smart: CPU[0].SMART
-                actionDelay: 50
-            ###
+                actionDelay: 150
+
+
             Application.Controller.add(@proc.controller)
             @proc.pool = new Application.Model.Pool
                 controller: @proc.controller.id
@@ -331,6 +332,8 @@ class Application.View.Game extends Backbone.View
             id = $this.attr('id')
             Application.Sound.switchAudio(id is 'jsControlSound', !turnOff)
             window.localStorage.setItem(id, turnOff)
+
+
 
         $(window)
             .blur ->

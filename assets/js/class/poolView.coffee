@@ -85,7 +85,8 @@ class Application.View.Pool extends Backbone.View
     $body: null
     $score: null
     $cells: null
-    #particle: null
+    $fx: null
+    particle: null
 
     addShape: ()->
         $cells = @$cells
@@ -129,10 +130,23 @@ class Application.View.Pool extends Backbone.View
         lines: (lines, score, combo = 0)->
             @$score.text(score)
 
+            @$el.css top: '55px'
+            _.delay ($el)->
+                        $el.css top: '50px'
+                    ,100
+                    ,@$el
+
             $cells = @$cells
             transit = {}
             #_dump lines
             for line, index in lines
+                ###
+                _.delay (sprite, y)->
+                            sprite.play null, y
+                        ,100
+                        ,@sprite[index]
+                        ,(line+1)*POOL.CELL_SIZE
+                ###
                 for $cell, x in $cells[line]
 
                     $cell.css
@@ -254,6 +268,7 @@ class Application.View.Pool extends Backbone.View
 
         @$body = @$('.jsPoolBody')
         @$score = @$('.jsPoolScore')
+        @$fx = @$('.pool-fx')
 
         @shapeView = new Application.View.Shape
             model: @model.shape
@@ -268,9 +283,19 @@ class Application.View.Pool extends Backbone.View
 
         @$body.append @shapeView.$el
 
+        @sprite = for i in [0..3]
+            sprite = new Application.Sprite
+                src: RES.SPRITES
+                w: 305
+                h: 25
+                x: 100
+                delay: 50
+                frames: ([0, i*60+73] for i in [0..5])
+            @$fx.append sprite.$el
+            sprite
 
 
-        @particle = new Application.Particle
+        @particle = new Application.Particle()
         _.delay (view)->
                     pos = view.$body.position()
                     #_dump pos
@@ -282,7 +307,9 @@ class Application.View.Pool extends Backbone.View
         #    lifetime: 100
         #    distance: 30
 
-        @$el.append @particle.$el
+        @$fx.append @particle.$el
+
+        #frames = ([0, i*30] for i in [0..11])
 
         @model.trigger 'action', 'reset'
         @model.trigger 'action', 'start'

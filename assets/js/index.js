@@ -344,36 +344,39 @@
       model: Application.Game
     });
     Application.hook();
-    return Application.Game["switch"](GAME_MODE.LOADING);
-
-    /*
-    rep = ->
-        _dump (Application.Pool.at(0).spell[SPELL.GROUND] if Application.Pool.at(0))
-              , (Application.Pool.at(1).spell[SPELL.GROUND] if Application.Pool.at(1))
-        setTimeout(rep, 100)
-    rep()
-     */
-
-    /*
-    $('body').click ->
-        if pool = Application.Pool.at(0)
-            pool.setSpell(SPELL.GROUND, 2)
-     */
-
-    /*
-    particle = new Application.Particle
-        x: 100
-        y: 100
-    
-    $('body').append particle.$el
-    
-    $('body').click ->
-        for i in [0...10]
-            x = i*20
-            particle.launch(x, 0, 1, x+(i-10/2)*POOL.CELL_SIZE)
-        particle.message('Combo x2', 1)
-     */
+    return Application.Game["switch"](GAME_MODE.SINGLE_PLAYER);
   });
+
+
+  /*
+  rep = ->
+      _dump (Application.Pool.at(0).spell[SPELL.GROUND] if Application.Pool.at(0))
+            , (Application.Pool.at(1).spell[SPELL.GROUND] if Application.Pool.at(1))
+      setTimeout(rep, 100)
+  rep()
+   */
+
+
+  /*
+  $('body').click ->
+      if pool = Application.Pool.at(0)
+          pool.setSpell(SPELL.GROUND, 2)
+   */
+
+
+  /*
+  particle = new Application.Particle
+      x: 100
+      y: 100
+  
+  $('body').append particle.$el
+  
+  $('body').click ->
+      for i in [0...10]
+          x = i*20
+          particle.launch(x, 0, 1, x+(i-10/2)*POOL.CELL_SIZE)
+      particle.message('Combo x2', 1)
+   */
 
 }).call(this);
 

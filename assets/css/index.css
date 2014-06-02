@@ -1,148 +1,5 @@
-.b-pool {
-  position: absolute;
-  display: inline-block;
-}
-.b-pool__left,
-.b-pool__right {
-  position: relative;
-  display: inline-block;
-  vertical-align: top;
-  margin-top: 35px;
-  width: 82px;
-  min-height: 140px;
-  background: #33475c url("/img/pool-bg.jpg");
-  background-repeat: repeat no-repeat;
-  background-position: left -33px;
-}
-.b-pool__left:before,
-.b-pool__right:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  background: url("/img/pool-lr.png");
-  background-repeat: repeat no-repeat;
-}
-.b-pool__left {
-  left: 10px;
-  border-radius: 33px 0px 0px 33px;
-}
-.b-pool__left:before {
-  border-radius: 33px 0px 0px 33px;
-  background-position: left top;
-}
-.b-pool__score {
-  position: relative;
-  z-index: 2;
-  color: #ff0;
-  margin-top: 20px;
-  padding: 10px;
-  text-align: center;
-  font-family: 'Rancho', 'Comic Sans MS';
-  font-size: 2em;
-  line-height: 1em;
-}
-.b-pool__score:before {
-  min-width: 60px;
-  content: "Score";
-  display: inline-block;
-  color: #fff;
-}
-.b-pool__right {
-  right: 10px;
-  border-radius: 0 33px 33px 0;
-}
-.b-pool__right:before {
-  border-radius: 0 33px 33px 0;
-  background-position: right top;
-  content: "Next";
-  margin-top: 30px;
-  text-align: center;
-  color: #fff;
-  font-family: 'Rancho', 'Comic Sans MS';
-  font-size: 2em;
-  line-height: 1em;
-}
-.b-pool__right__next {
-  height: 60px;
-  width: 60px;
-  background-color: #1d2e3b;
-  position: relative;
-  top: 70px;
-  border: 5px solid #33475c;
-  border-radius: 10px;
-  margin-bottom: 10px;
-}
-.b-pool__right__next .jsShapeNext {
-  margin-top: 2px;
-}
-.b-pool__content {
-  padding: 28px;
-  border-radius: 33px;
-  display: inline-block;
-  background: #33475c url("/img/pool-bg.jpg");
-  background-repeat: repeat no-repeat;
-}
-.b-pool__content-body {
-  position: relative;
-  width: 220px;
-  min-height: 410px;
-  border: 5px solid #1d2e3b;
-  border-radius: 10px;
-  background: #33485d;
-  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzNDg1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZDJkM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+");
-  background: linear-gradient(to bottom, #33485d 0%, #1d2d3a 100%);
-  overflow: hidden;
-}
-.b-pool__content-body:after {
-  content: "";
-  background: url("/img/cell.png");
-  height: 500px;
-  width: 200px;
-  position: absolute;
-}
-.shape {
-  position: absolute;
-  transition: all 250ms ease-out;
-  z-index: 6;
-}
-.cell {
-  position: absolute;
-  background-image: url("/img/cells.png");
-  transition: all 250ms linear;
-  background-blend-mode: difference, normal;
-/*
-    DO NOT REMOVE THIS!!!
-    IT PREVENTS FLICKER ISSUE WITH CHROME AND SAFARI
-  */
-/** see bug flickering http://stackoverflow.com/questions/2946748/iphone-webkit-css-animations-cause-flicker */
-  -webkit-perspective: 1000;
-  -webkit-backface-visibility: hidden;
-}
-.cellColor1 {
-  background-position: 0px 0px;
-}
-.cellColor2 {
-  background-position: -20px 0px;
-}
-.cellColor3 {
-  background-position: -40px 0px;
-}
-.cellColor4 {
-  background-position: -60px 0px;
-}
-.cellColor5 {
-  background-position: -80px 0px;
-}
-.cellColor6 {
-  background-position: -100px 0px;
-}
-.cellColor7 {
-  background-position: -120px 0px;
-}
-.cellColor50 {
-  background: #909090;
+body {
+  background-color: #111;
 }
 .game {
   opacity: 1;
@@ -151,93 +8,160 @@
   height: 650px;
   position: relative;
   background-repeat: no-repeat;
-  background-image: url("/img/background3.jpg");
-  background-size: 900px 650px;
+  overflow: hidden;
 }
-.game-inner {
+#bg1,
+#bg2,
+#bg3 {
   position: absolute;
   top: 0px;
   left: 0px;
-  width: 100%;
-  height: 100%;
-  display: none;
+  width: 900px;
+  height: 650px;
 }
-.game-over {
+#bg1 {
+  background-image: url("/img/bg1.png");
+  top: 222px;
+  height: 428px;
   position: absolute;
-  top: 25%;
-  left: 25%;
-  width: 50%;
-  height: 40%;
-  display: none;
-  font-size: 1.5em;
-  padding: 10px;
-  text-align: center;
-  color: #f0f0f0;
-  z-index: 2;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
-  font-family: 'Rancho', 'Comic Sans MS';
-  font-size: 2em;
-  line-height: 1em;
-  background: #33485d;
-  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzNDg1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZDJkM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+");
-  background: linear-gradient(to bottom, #33485d 0%, #1d2d3a 100%);
-  border-radius: 33px;
+  animation: animationBg1 linear 10s;
+  animation-iteration-count: infinite;
+  -webkit-animation: animationBg1 linear 10s;
+  -webkit-animation-iteration-count: infinite;
 }
-.game-over span {
-  color: #f0c729;
+#bg2 {
+  background-image: url("/img/bg2.png");
+  animation: animationBg2 linear 10s;
+  animation-iteration-count: infinite;
+  -webkit-animation: animationBg2 linear 10s;
+  -webkit-animation-iteration-count: infinite;
 }
-.b-menu {
+#bg3 {
+  background-image: url("/img/bg3.jpg");
+  background-repeat: repeat;
+  animation: animationBg3 linear 240s;
+  animation-iteration-count: infinite;
+  -webkit-animation: animationBg3 linear 240s;
+  -webkit-animation-iteration-count: infinite;
+}
+.pool {
+  position: absolute;
+  display: inline-block;
+  background-image: url("/img/pool_wall.png");
+  width: 500px;
+  height: 550px;
+  transition: top 125ms ease-out;
+}
+.pool-content,
+.pool-content-body {
   position: relative;
   display: inline-block;
-  left: 15%;
-  top: 5%;
-  width: 70%;
-  height: 70%;
-  background: #33485d;
-  background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzNDg1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZDJkM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+");
-  background: linear-gradient(to bottom, #33485d 0%, #1d2d3a 100%);
-  color: #f0f0f0;
+  vertical-align: top;
+}
+.pool-content {
+  left: 156px;
+  top: 25px;
+  width: 200px;
+  overflow: hidden;
+}
+.pool-cover,
+.pool-glass {
+  position: absolute;
+  display: inline-block;
+  top: 0px;
+  left: 0px;
+  width: 500px;
+  height: 630px;
+}
+.pool-cover {
+  background-image: url("/img/pool1.png");
+}
+.pool-glass {
+  background-image: url("/img/pool_glass.png");
+  top: -4px;
+}
+.pool-left,
+.pool-right {
+  position: absolute;
+  display: inline-block;
+}
+.pool-left {
+  top: 103px;
+  left: 70px;
+}
+.pool-right {
+  position: relative;
+  top: 100px;
+  width: 60px;
+  left: 178px;
+  height: 221px;
+}
+.pool-right-next {
+  position: relative;
+  margin-top: 15px;
+/* margin-left: 10px; */
+  height: 65px;
+  width: 40px;
+}
+.pool-score {
+  color: #ff0;
   text-align: center;
-  padding: 10px;
+  margin-top: 22px;
+  margin-left: 2px;
   font-family: 'Rancho', 'Comic Sans MS';
   font-size: 2em;
   line-height: 1em;
-  border-radius: 33px;
-  -moz-user-select: none;
-  -khtml-user-select: none;
-  -webkit-user-select: none;
-  user-select: none;
 }
-.b-menu-title {
-  font-weight: bold;
-  font-size: 1.5em;
-  padding: 10px;
+.pool-avatar {
+  background-image: url("/img/ava.jpg");
+  background-size: 59px;
+  width: 59px;
+  height: 58px;
 }
-.b-menu-item {
-  line-height: 1.5em;
-  clear: both;
-  cursor: pointer;
+.shape {
+  position: absolute;
+  transition: all 250ms ease-out;
 }
-.b-menu-item:hover {
-  color: #f0c729;
+.cell {
+  position: absolute;
+  background-image: url("/img/cells3.png");
+  transition: all 250ms linear;
+  background-blend-mode: difference, normal;
+/** see bug flickering http://stackoverflow.com/questions/2946748/iphone-webkit-css-animations-cause-flicker */
+  -webkit-perspective: 1000;
+  -webkit-backface-visibility: hidden;
 }
-.controls {
-  float: right;
-  bottom: 0px;
+.cellColor50 {
+  background-position: 0px 0px;
 }
-.controls .button-disabled {
-  color: #a9a9a9;
+.cellColor1 {
+  background-position: -20px 0px;
+}
+.cellColor2 {
+  background-position: -140px 0px;
+}
+.cellColor3 {
+  background-position: -40px 0px;
+}
+.cellColor4 {
+  background-position: -120px 0px;
+}
+.cellColor5 {
+  background-position: -100px 0px;
+}
+.cellColor6 {
+  background-position: -80px 0px;
+}
+.cellColor7 {
+  background-position: -60px 0px;
 }
 .particle {
   position: absolute;
-  top: 0px;
-  left: 0px;
-  z-index: 5;
+  top: 28px;
+  left: 159px;
 }
-.spark {
+.spark,
+.sprite {
   position: absolute;
   display: inline-block;
   opacity: 0;
@@ -252,9 +176,573 @@
   text-shadow: 0px 0px 15px #fff;
   opacity: 0;
 }
-#jsChart {
-  margin-left: 100px;
-  display: inline-block;
-  width: 900px;
-  height: 450px;
+/*
+RADIUS = 33px
+
+POOL-BACKGROUND-TEXTURE = '/img/pool-bg.jpg'
+POOL-LR-TEXTURE = '/img/pool-lr.png'
+ANIMATE_TIME = 250ms
+
+TEXT_COLOR_NORMAL = #F0F0F0
+TEXT_COLOR_SELECTED = #F0C729
+
+
+backgroundGradient()
+background: #33485d;
+background: url("data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzMzNDg1ZCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZDJkM2EiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+")
+background: linear-gradient(to bottom,  #33485d 0%,#1d2d3a 100%)
+iefilter( #ff33485d, #ff1d2d3a, 0)
+
+
+.b-pool
+position: absolute
+display: inline-block
+
+&__left
+&__right
+  position: relative
+  display: inline-block
+  vertical-align: top
+  margin-top: 35px
+  width: 82px
+  min-height: 140px
+  background: #33475c url(POOL-BACKGROUND-TEXTURE)
+  background-repeat: repeat no-repeat
+  background-position: left (- RADIUS)
+
+  &:before
+    content:""
+    position: absolute
+    top: 0
+    height 100%
+    width: 100%
+    background: url(POOL-LR-TEXTURE)
+    background-repeat: repeat no-repeat
+
+&__left
+  left: 10px
+  border-radius: RADIUS 0px 0px RADIUS
+
+  &:before
+    border-radius: RADIUS 0px 0px RADIUS
+    background-position: left top
+
+&__score
+  position relative
+  z-index 2
+  color yellow
+  margin-top 20px
+  padding 10px
+  text-align center
+  gameFont()
+
+  &:before
+    min-width 60px
+    content "Score"
+    display inline-block
+    color white
+
+&__right
+  right: 10px
+  border-radius: 0 RADIUS RADIUS 0
+
+  &:before
+    border-radius: 0 RADIUS RADIUS 0
+    background-position: right top
+    content "Next"
+    margin-top 30px
+    text-align center
+    color white
+    gameFont()
+
+  &__next
+    height 60px
+    width 60px
+    background-color #1d2e3b
+    position relative
+    top 70px
+    border 5px solid #33475c
+    border-radius 10px
+    margin-bottom 10px
+    .jsShapeNext
+      margin-top 2px
+
+
+&__content
+  padding: 28px
+  border-radius: RADIUS
+  display: inline-block
+  background: #33475c url(POOL-BACKGROUND-TEXTURE)
+  background-repeat: repeat no-repeat
+
+
+  &-body
+    position relative
+    width: 220px
+    min-height: 410px
+    border 5px solid #1d2e3b
+    border-radius: 10px
+    backgroundGradient()
+    overflow hidden
+
+    &:after
+      content ""
+      background url('/img/cell.png')
+      height 500px
+      width 200px
+      position absolute
+
+
+.shape
+position absolute
+transition all ANIMATE_TIME ease-out
+z-index 6
+
+.cell
+position absolute
+background-image url("/img/cells.png")
+transition all ANIMATE_TIME linear
+background-blend-mode: difference, normal;
+
+
+
+  DO NOT REMOVE THIS!!!
+  IT PREVENTS FLICKER ISSUE WITH CHROME AND SAFARI
+
+/** see bug flickering http://stackoverflow.com/questions/2946748/iphone-webkit-css-animations-cause-flicker *
+//-webkit-perspective: 1000;
+//-webkit-backface-visibility: hidden;
+
+
+.cellColor1
+background-position 0px 0px
+
+.cellColor2
+background-position -20px 0px
+
+.cellColor3
+background-position -40px 0px
+
+.cellColor4
+background-position -60px 0px
+
+.cellColor5
+background-position -80px 0px
+
+.cellColor6
+background-position -100px 0px
+
+.cellColor7
+background-position -120px 0px
+
+.cellColor50
+background #909090
+
+
+// Game
+.game
+opacity 1
+display inline-block
+//margin 10px 100px
+//border 1px solid black
+width 900px
+height 650px
+position relative
+background-repeat no-repeat
+background-image url("/img/background3.jpg")
+
+background-size 900px 650px
+&-inner
+  position absolute
+  top 0px
+  left 0px
+  width 100%
+  height 100%
+  display none
+&-over
+  position absolute
+  top 25%
+  left 25%
+  width 50%
+  height 40%
+  display none
+  font-size 1.5em
+  padding 10px
+  text-align center
+  color TEXT_COLOR_NORMAL
+  z-index 2
+  preventSelection()
+  gameFont()
+  backgroundGradient()
+  border-radius RADIUS
+  & span
+    color: TEXT_COLOR_SELECTED
+
+.b-menu
+position relative
+display inline-block
+left 15%
+top 5%
+width 70%
+height 70%
+backgroundGradient()
+color TEXT_COLOR_NORMAL
+text-align center
+padding 10px
+gameFont()
+border-radius RADIUS
+preventSelection()
+
+&-title
+  font-weight bold
+  font-size 1.5em
+  padding 10px
+
+&-item
+  line-height 1.5em
+  clear both
+  cursor pointer
+  &:hover
+    color TEXT_COLOR_SELECTED
+
+.controls
+float right
+bottom 0px
+& .button-disabled
+  color darkgray
+
+//Particles
+.particle
+position absolute
+top 0px
+left 0px
+z-index 5
+
+.spark
+position absolute
+display inline-block
+opacity 0
+//transition: all ANIMATE_TIME ease-out
+
+.message
+position absolute
+display inline-block
+width 220px
+text-align center
+font-weight bold
+font-size 2.5em
+text-shadow 0px 0px 15px white
+opacity 0
+
+//TEMP
+#jsChart
+margin-left 100px
+display inline-block
+width FRAME_WIDTH
+height 450px
+*/
+@-moz-keyframes animationBg11 {
+  0% {
+    left: -100px;
+    top: 222px;
+  }
+
+  25% {
+    left: 0px;
+    top: 182px;
+  }
+
+  50% {
+    left: 100px;
+    top: 222px;
+  }
+
+  75% {
+    left: 0px;
+    top: 262px;
+  }
+
+  100% {
+    left: -100px;
+    top: 222px;
+  }
+}
+@-webkit-keyframes animationBg11 {
+  0% {
+    left: -100px;
+    top: 222px;
+  }
+
+  25% {
+    left: 0px;
+    top: 182px;
+  }
+
+  50% {
+    left: 100px;
+    top: 222px;
+  }
+
+  75% {
+    left: 0px;
+    top: 262px;
+  }
+
+  100% {
+    left: -100px;
+    top: 222px;
+  }
+}
+@-o-keyframes animationBg11 {
+  0% {
+    left: -100px;
+    top: 222px;
+  }
+
+  25% {
+    left: 0px;
+    top: 182px;
+  }
+
+  50% {
+    left: 100px;
+    top: 222px;
+  }
+
+  75% {
+    left: 0px;
+    top: 262px;
+  }
+
+  100% {
+    left: -100px;
+    top: 222px;
+  }
+}
+@-ms-keyframes animationBg11 {
+  0% {
+    left: -100px;
+    top: 222px;
+  }
+
+  25% {
+    left: 0px;
+    top: 182px;
+  }
+
+  50% {
+    left: 100px;
+    top: 222px;
+  }
+
+  75% {
+    left: 0px;
+    top: 262px;
+  }
+
+  100% {
+    left: -100px;
+    top: 222px;
+  }
+}
+@keyframes animationBg11 {
+  0% {
+    left: -100px;
+    top: 222px;
+  }
+
+  25% {
+    left: 0px;
+    top: 182px;
+  }
+
+  50% {
+    left: 100px;
+    top: 222px;
+  }
+
+  75% {
+    left: 0px;
+    top: 262px;
+  }
+
+  100% {
+    left: -100px;
+    top: 222px;
+  }
+}
+@-moz-keyframes animationBg21 {
+  0% {
+    left: -50px;
+    top: 0px;
+  }
+
+  25% {
+    left: 0px;
+    top: -20px;
+  }
+
+  50% {
+    left: 50px;
+    top: 0px;
+  }
+
+  75% {
+    left: 0px;
+    top: 20px;
+  }
+
+  100% {
+    left: -50px;
+    top: 0px;
+  }
+}
+@-webkit-keyframes animationBg21 {
+  0% {
+    left: -50px;
+    top: 0px;
+  }
+
+  25% {
+    left: 0px;
+    top: -20px;
+  }
+
+  50% {
+    left: 50px;
+    top: 0px;
+  }
+
+  75% {
+    left: 0px;
+    top: 20px;
+  }
+
+  100% {
+    left: -50px;
+    top: 0px;
+  }
+}
+@-o-keyframes animationBg21 {
+  0% {
+    left: -50px;
+    top: 0px;
+  }
+
+  25% {
+    left: 0px;
+    top: -20px;
+  }
+
+  50% {
+    left: 50px;
+    top: 0px;
+  }
+
+  75% {
+    left: 0px;
+    top: 20px;
+  }
+
+  100% {
+    left: -50px;
+    top: 0px;
+  }
+}
+@-ms-keyframes animationBg21 {
+  0% {
+    left: -50px;
+    top: 0px;
+  }
+
+  25% {
+    left: 0px;
+    top: -20px;
+  }
+
+  50% {
+    left: 50px;
+    top: 0px;
+  }
+
+  75% {
+    left: 0px;
+    top: 20px;
+  }
+
+  100% {
+    left: -50px;
+    top: 0px;
+  }
+}
+@keyframes animationBg21 {
+  0% {
+    left: -50px;
+    top: 0px;
+  }
+
+  25% {
+    left: 0px;
+    top: -20px;
+  }
+
+  50% {
+    left: 50px;
+    top: 0px;
+  }
+
+  75% {
+    left: 0px;
+    top: 20px;
+  }
+
+  100% {
+    left: -50px;
+    top: 0px;
+  }
+}
+@-moz-keyframes animationBg3 {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  100% {
+    background-position: 1600px 0px;
+  }
+}
+@-webkit-keyframes animationBg3 {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  100% {
+    background-position: 1600px 0px;
+  }
+}
+@-o-keyframes animationBg3 {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  100% {
+    background-position: 1600px 0px;
+  }
+}
+@-ms-keyframes animationBg3 {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  100% {
+    background-position: 1600px 0px;
+  }
+}
+@keyframes animationBg3 {
+  0% {
+    background-position: 0px 0px;
+  }
+
+  100% {
+    background-position: 1600px 0px;
+  }
 }

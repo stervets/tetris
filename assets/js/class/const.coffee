@@ -7,6 +7,7 @@
         SHAPE_ROTATE: '/audio/rotate.mp3'
         SHAPE_DROP: '/audio/drop2.mp3'
         LINES: '/audio/lines.mp3'
+    SPRITES: '/img/fx.png'
 
 @TEST_MODE = false
 @INIT_TEST_VIEW = true
@@ -38,11 +39,11 @@
 
 # Score calculation formula
 @CPU = [{
-    FORMULA: 15
+    FORMULA: 7
     SMART: 100
     },
     {
-    FORMULA: 7
+    FORMULA: 15
     SMART: 100
     }
 ]

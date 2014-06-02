@@ -1,8 +1,7 @@
 Application.shapes = []
 Application.Model.Controller = {}
 
-
-Application.matrixEmpty = (width, height, val=0)->
+Application.matrixEmpty = (width, height, val = 0)->
     line = (val for _dummy in [0...width])
     matrix = []
     matrix.push(line[..]) for _dummy in [0...height]
@@ -17,26 +16,26 @@ Application.lineCopy = (source, value)->
     line
 
 Application.matrixCopy = (source, value)->
-        matrix = []
-        matrix.push(if value? then Application.lineCopy(line, value) else line[..]) for line in source
-        matrix
+    matrix = []
+    matrix.push(if value? then Application.lineCopy(line, value) else line[..]) for line in source
+    matrix
 
 ### Generate rotated shapes and align ###
 Application.initShapes = ->
     matrixRot90 = (source)->
         matrix = Application.matrixCopy(source)
-        len = matrix.length-1
+        len = matrix.length - 1
         for row, i in source
             for cell, j in row
-                matrix[j][len-i] = source[i][j]
+                matrix[j][len - i] = source[i][j]
         matrix
 
     getShapeMatrix = (shape)->
         shapeWidth = shape[0].length
-        lineStart = Math.floor(shapeWidth/2 - shape.length/2)
+        lineStart = Math.floor(shapeWidth / 2 - shape.length / 2)
         matrix = []
         for line in [0...shapeWidth]
-            matrix.push(if line >= lineStart and line-lineStart<shape.length then shape[line-lineStart] else (0 for _dummy in [0...shapeWidth]))
+            matrix.push(if line >= lineStart and line - lineStart < shape.length then shape[line - lineStart] else (0 for _dummy in [0...shapeWidth]))
         matrix
 
     for shape, num in SHAPES
@@ -47,7 +46,7 @@ Application.initShapes = ->
         matrix[3] = matrixRot90(matrix[2])
 
 Application.shapesView = []
-Application.initShapesView =->
+Application.initShapesView = ->
     for shapes, index in Application.shapes
         Application.shapesView.push []
         for shape in shapes
@@ -58,9 +57,9 @@ Application.initShapesView =->
             for line, y in shape
                 for val, x in line when val
                     $shape.append Application.Templates.tplCell
-                            top: y * POOL.CELL_SIZE
-                            left: x * POOL.CELL_SIZE
-                            index: index+1
+                                      top: y * POOL.CELL_SIZE
+                                      left: x * POOL.CELL_SIZE
+                                      index: index + 1
             Application.shapesView[index].push $shape[0].outerHTML
 
 ### Main shapes stack ###
@@ -73,22 +72,22 @@ class Application.Model.ShapeStack extends Backbone.Model
 
     getShape: (index)->
         len = index - @attributes.shapes.length + 2
-        @generateShapes(len) if len>0
+        @generateShapes(len) if len > 0
 
         {
-            index: @attributes.shapes[index][0]
-            angle: @attributes.shapes[index][1]
+        index: @attributes.shapes[index][0]
+        angle: @attributes.shapes[index][1]
         }
 
     generateShapes: (num)->
         for i in [0...num]
-            shape = rand(SHAPES.length-1)
+            shape = rand(SHAPES.length - 1)
             #shape = 1
 
             maxAngle = SHAPE_ANGLES[shape] || 4
-            @attributes.shapes.push([shape, rand(maxAngle-1)])
-        #@attributes.shapes.push([rand(0,4), rand(maxAngle-1)]) for i in [0...num]
-        #@attributes.shapes.push([4, 0]) for i in [0...num]
+            @attributes.shapes.push([shape, rand(maxAngle - 1)])
+    #@attributes.shapes.push([rand(0,4), rand(maxAngle-1)]) for i in [0...num]
+    #@attributes.shapes.push([4, 0]) for i in [0...num]
 
     init: ()->
         @generateShapes(250)
@@ -111,14 +110,14 @@ class Application.Model.Shape extends Backbone.Model
         shape: null
         size: 0
 
-    setShape: (index, angle=0)->
+    setShape: (index, angle = 0)->
         size = Application.shapes[index][0].length
         @set
             index: index
             shape: Application.shapes[index]
             size: size
             angle: angle
-            x: Math.floor(POOL.WIDTH/2 - size/2)
+            x: Math.floor(POOL.WIDTH / 2 - size / 2)
             y: -size
         @trigger('setShape')
 
@@ -172,17 +171,16 @@ Application.createMenu = (menuTitle, menuItems, context)->
         menu.add menuItem
 
     {
-        collection: menu
-        view: menuView
+    collection: menu
+    view: menuView
     }
 
 #Application.particle = (params)->
 
-
-    #<span class="glyphicon glyphicon-star"></span>
+#<span class="glyphicon glyphicon-star"></span>
 
 Application.clearCollection = (collection)->
-    while collection.length>0
+    while collection.length > 0
         model = collection.at 0
         collection.remove model
         model.trigger('destroy')
@@ -190,9 +188,9 @@ Application.clearCollection = (collection)->
 ### Start application ###
 Application.onStart ->
     $('head').append Application.Templates.tplStyle
-        POOL: POOL
-        poolWidth: POOL.WIDTH * POOL.CELL_SIZE
-        poolHeight: POOL.HEIGHT * POOL.CELL_SIZE
+                         POOL: POOL
+                         poolWidth: POOL.WIDTH * POOL.CELL_SIZE
+                         poolHeight: POOL.HEIGHT * POOL.CELL_SIZE
 
     Application.initShapes();
     Application.initShapesView();
@@ -213,30 +211,31 @@ Application.onStart ->
         model: Application.Game
 
     Application.hook()
-    Application.Game.switch GAME_MODE.LOADING
-    ###
-    rep = ->
-        _dump (Application.Pool.at(0).spell[SPELL.GROUND] if Application.Pool.at(0))
-              , (Application.Pool.at(1).spell[SPELL.GROUND] if Application.Pool.at(1))
-        setTimeout(rep, 100)
-    rep()
-    ###
-    ###
-    $('body').click ->
-        if pool = Application.Pool.at(0)
-            pool.setSpell(SPELL.GROUND, 2)
-    ###
-    ###
-    particle = new Application.Particle
-        x: 100
-        y: 100
+    Application.Game.switch GAME_MODE.SINGLE_PLAYER
+# Application.Game.switch GAME_MODE.LOBBY
+###
+rep = ->
+    _dump (Application.Pool.at(0).spell[SPELL.GROUND] if Application.Pool.at(0))
+          , (Application.Pool.at(1).spell[SPELL.GROUND] if Application.Pool.at(1))
+    setTimeout(rep, 100)
+rep()
+###
+###
+$('body').click ->
+    if pool = Application.Pool.at(0)
+        pool.setSpell(SPELL.GROUND, 2)
+###
+###
+particle = new Application.Particle
+    x: 100
+    y: 100
 
-    $('body').append particle.$el
+$('body').append particle.$el
 
-    $('body').click ->
-        for i in [0...10]
-            x = i*20
-            particle.launch(x, 0, 1, x+(i-10/2)*POOL.CELL_SIZE)
-        particle.message('Combo x2', 1)
-    ###
+$('body').click ->
+    for i in [0...10]
+        x = i*20
+        particle.launch(x, 0, 1, x+(i-10/2)*POOL.CELL_SIZE)
+    particle.message('Combo x2', 1)
+###
 

@@ -9,7 +9,8 @@
       SHAPE_ROTATE: '/audio/rotate.mp3',
       SHAPE_DROP: '/audio/drop2.mp3',
       LINES: '/audio/lines.mp3'
-    }
+    },
+    SPRITES: '/img/fx.png'
   };
 
   this.TEST_MODE = false;
@@ -41,10 +42,10 @@
 
   this.CPU = [
     {
-      FORMULA: 15,
+      FORMULA: 7,
       SMART: 100
     }, {
-      FORMULA: 7,
+      FORMULA: 15,
       SMART: 100
     }
   ];
