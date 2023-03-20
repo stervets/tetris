@@ -1,14 +1,21 @@
+html {
+  height: 100%;
+}
 body {
-  background-color: #111;
+  height: 100%;
+  width: 100%;
+  background-color: #262116;
 }
 .game {
+  margin: auto;
+  margin-top: 5%;
   opacity: 1;
-  display: inline-block;
   width: 900px;
   height: 650px;
   position: relative;
   background-repeat: no-repeat;
   overflow: hidden;
+  box-shadow: 0 0 30px #000;
 }
 .game-inner {
   position: absolute;

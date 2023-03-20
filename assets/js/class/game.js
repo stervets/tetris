@@ -63,12 +63,11 @@
       },
       function() {        // Single player
         this.gameReset();
-        //@proc.controller = new Application.Model.Controller.User()
-        this.proc.controller = new Application.Model.Controller.AI({
-          formula: CPU[0].FORMULA,
-          smart: CPU[0].SMART,
-          actionDelay: 150
-        });
+        this.proc.controller = new Application.Model.Controller.User();
+        //@proc.controller = new Application.Model.Controller.AI
+        //    formula: CPU[0].FORMULA
+        //    smart: CPU[0].SMART
+        //    actionDelay: 150
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
@@ -87,7 +86,7 @@
         this.proc.controller1.start();
         this.proc.controller2 = new Application.Model.Controller.AI({
           formula: CPU[0].FORMULA,
-          smart: CPU[0].SMART
+          smart: CPU[0].SMART - 20
         });
         Application.Controller.add(this.proc.controller2);
         this.proc.pool2 = new Application.Model.Pool({
@@ -170,6 +169,11 @@
         });
         this.$('.jsExitToMenu, #jsControlMenu').click(function() {
           return Application.Game.switch(GAME_MODE.LOBBY);
+        });
+        $('body').keyup(function(e) {
+          if (e.keyCode === 27) {
+            return Application.Game.switch(GAME_MODE.LOBBY);
+          }
         });
         disabled = 'button-disabled';
         this.$('#jsControlSound, #jsControlMusic').click(function() {

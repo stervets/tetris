@@ -12,8 +12,13 @@ TEXTURE_POOL_GLASS = '/assets/img/pool_glass.png'
 TEXTURE_CELLS = '/assets/img/cells3.png'
 TEXTURE_FX = '/assets/img/fx.png'
 
+html
+  height 100%
+
 body
-  background-color #111
+  height 100%
+  width 100%
+  background-color #262116
 
 preventSelection()
   -moz-user-select none
@@ -28,13 +33,15 @@ gameFont()
 
 // Game
 .game
+  margin auto
+  margin-top 5%
   opacity 1
-  display inline-block
   width FRAME_WIDTH
   height FRAME_HEIGHT
   position relative
   background-repeat no-repeat
   overflow hidden
+  box-shadow 0 0 30px #000
 
   &-inner
     position absolute

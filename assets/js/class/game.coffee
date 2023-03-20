@@ -40,12 +40,12 @@ class Application.Model.Game extends Backbone.Model
         # Single player
         ->
             @gameReset()
-            #@proc.controller = new Application.Model.Controller.User()
+            @proc.controller = new Application.Model.Controller.User()
 
-            @proc.controller = new Application.Model.Controller.AI
-                formula: CPU[0].FORMULA
-                smart: CPU[0].SMART
-                actionDelay: 150
+            #@proc.controller = new Application.Model.Controller.AI
+            #    formula: CPU[0].FORMULA
+            #    smart: CPU[0].SMART
+            #    actionDelay: 150
 
 
             Application.Controller.add(@proc.controller)
@@ -67,7 +67,7 @@ class Application.Model.Game extends Backbone.Model
 
             @proc.controller2 = new Application.Model.Controller.AI
                 formula: CPU[0].FORMULA
-                smart: CPU[0].SMART
+                smart: CPU[0].SMART - 20
             Application.Controller.add(@proc.controller2)
             @proc.pool2 = new Application.Model.Pool
                 controller: @proc.controller2.id
@@ -319,6 +319,9 @@ class Application.View.Game extends Backbone.View
         @$('.jsExitToMenu, #jsControlMenu')
             .click ->
                 Application.Game.switch(GAME_MODE.LOBBY)
+
+        $('body').keyup (e)->
+          Application.Game.switch(GAME_MODE.LOBBY) if e.keyCode is 27
 
         disabled = 'button-disabled'
 
