@@ -28,7 +28,7 @@ class Application.Model.Game extends Backbone.Model
         Application.Pool.reset()
         Application.Controller.reset()
 
-    switch: (mode)-> if @attributes.mode is mode then @trigger 'change:mode', @, mode else @set 'mode', mode
+    switch: (mode)-> if @attributes.mode is mode then @trigger('change:mode', @, mode) else @set('mode', mode)
 
     mode: [
         #loading
@@ -52,6 +52,7 @@ class Application.Model.Game extends Backbone.Model
             @proc.pool = new Application.Model.Pool
                 controller: @proc.controller.id
             Application.Pool.add(@proc.pool)
+            @proc.controller.start()
 
         #PLayer vs CPU
         ->
@@ -62,6 +63,7 @@ class Application.Model.Game extends Backbone.Model
             @proc.pool1 = new Application.Model.Pool
                 controller: @proc.controller1.id
             Application.Pool.add(@proc.pool1)
+            @proc.controller1.start()
 
             @proc.controller2 = new Application.Model.Controller.AI
                 formula: CPU[0].FORMULA
@@ -70,6 +72,7 @@ class Application.Model.Game extends Backbone.Model
             @proc.pool2 = new Application.Model.Pool
                 controller: @proc.controller2.id
             Application.Pool.add(@proc.pool2)
+            @proc.controller2.start()
 
             @proc.pool1.on 'lines', spellCast, @proc.pool1
             @proc.pool2.on 'lines', spellCast, @proc.pool2
@@ -86,6 +89,7 @@ class Application.Model.Game extends Backbone.Model
             @proc.pool1 = new Application.Model.Pool
                 controller: @proc.controller1.id
             Application.Pool.add(@proc.pool1)
+            @proc.controller1.start()
 
             @proc.controller2 = new Application.Model.Controller.AI
                 formula: CPU[1].FORMULA
@@ -95,6 +99,7 @@ class Application.Model.Game extends Backbone.Model
             @proc.pool2 = new Application.Model.Pool
                 controller: @proc.controller2.id
             Application.Pool.add(@proc.pool2)
+            @proc.controller2.start()
 
             @proc.pool1.on 'lines', spellCast, @proc.pool1
             @proc.pool2.on 'lines', spellCast, @proc.pool2
@@ -317,15 +322,8 @@ class Application.View.Game extends Backbone.View
 
         disabled = 'button-disabled'
 
-        if window.localStorage.getItem('jsControlSound') is 'true'
-            @$('#jsControlSound').addClass(disabled)
-            Application.Sound.switchAudio(1, false)
-
-        if window.localStorage.getItem('jsControlMusic') is 'true'
-            @$('#jsControlMusic').addClass(disabled)
-            Application.Sound.switchAudio(0, false)
-
         @$('#jsControlSound, #jsControlMusic').click ->
+            console.log "here"
             $this = $(this)
             $this.toggleClass disabled
             turnOff = $this.is ".#{disabled}"

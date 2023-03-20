@@ -9,11 +9,11 @@ class Tpl implements ArrayAccess{
 	public $path; //массив_путей_к_шаблонам
 	public $compiled; //общий скомпилированный шаблон
 	public $all; //масскив скомпилированных файлов
-	// Скомпилированные шаблоны аккумулируются в $compiled 
+	// Скомпилированные шаблоны аккумулируются в $compiled
 	private $regex_tmpl = "/<%([\w\s\d]+)%>/";
 	private $regex_tmpl_full = "/<%(.+?)%>(.+?)<%\/(\\1)%>/is";
-	
-	
+
+
 	/**
 	 * Инициализация
 	 *
@@ -37,16 +37,16 @@ class Tpl implements ArrayAccess{
 	function compile_part($filename, $parts = array(), $vars=array(), $ext='.html'){
 		// Я походу здесь когда-то пытался написать обработку только части файла
 		// Но по какой-то причине бросил.
-		
+
 		$file = $this->load($filename, $ext, true);
-		
+
 		//while (trim($s)){
 		//		preg_match($this->regex_tmpl,$s,$tmp);
 		//}
 		__dump($file);
 		//return compile_file(, $vars, $ext, false, $parts);
 	}
-	
+
 	/**
 	 * Компилирует файл (чтобы вывести на экран используйте - render() или render_file() или )
 	 *
@@ -58,19 +58,19 @@ class Tpl implements ArrayAccess{
 	function compile_file($filename, $vars=array(), $accumulate=true, $ext='.html', $part=array()){
 // $part - это походу массив тех отдельных частей файла, которые следовало компилить
 // compile_part видимо предназначался для этого
-		
+
 		if (!is_array($vars))new Debug('Передаваемый параметр $vars должен быть массивом', E_ERROR, array('Переданная переменная'=>$vars));
-		
+
 		$tmpl = $this->load($filename, $ext, (empty($vars)?true:false));
 		//__dump($filename);
 		$this[$filename] = (empty($vars)?$tmpl[0]:$this->compile($tmpl, $vars));
-		
+
 		if ($accumulate)
 		$this->compiled.= $this[$filename];
-		
+
 		return $this[$filename];
 	}
-	
+
 	/**
 	 * Компилирует и выводит файл в браузер
 	 *
@@ -88,21 +88,21 @@ class Tpl implements ArrayAccess{
 	 */
 	function render(){
 		if (!headers_sent()){
-			header("Content-Type: text/html; charset=utf-8"); 
+			header("Content-Type: text/html; charset=utf-8");
 		}
 		echo $this->compiled;
 	}
-	
-	
+
+
 	//Служебные функции для интерфейса ArrayAccess
 	//Нужны для того, чтобы обращаться к TPL как к массиву: $TPL['myvar'] = 1;
-	function offsetExists($offset) {return isset($this->all[$offset]);}
-	function offsetGet($offset) {return $this->all[$offset];}
-	function offsetSet($offset, $value) {$this->all[$offset] = $value;}
-	function offsetUnset($offset) {unset($this->all[$offset]);}
+	function offsetExists(mixed $offset):bool {return isset($this->all[$offset]);}
+	function offsetGet(mixed $offset):mixed {return $this->all[$offset];}
+	function offsetSet(mixed $offset, mixed $value):void {$this->all[$offset] = $value;}
+	function offsetUnset(mixed $offset):void {unset($this->all[$offset]);}
 
-	
-	
+
+
 	/**
 	 * Загрузка файла с шаблоном
 	 *
@@ -111,19 +111,19 @@ class Tpl implements ArrayAccess{
 	 * @return unknown
 	 */
 	function load($file, $ext='.html', $noslice=false){
-		
-		
+
+
 		foreach($this->path as $v){
-		
+
 		if (($s = @file_get_contents($v."/".$file.$ext))!==false){
-		
+
 		$tmpl = ($noslice?$s:$this->slice($s));
-		
+
 		if (!is_array($tmpl))$tmpl = array($tmpl);
 		return $tmpl;
 		}
 		}
-		
+
 		new Debug(' Не удалось открыть файл с шаблонами', E_WARNING, array('Требуемый файл: '=>$file.$ext, 'Пути:' => $this->path));
 		return false;
 	}
@@ -146,49 +146,49 @@ class Tpl implements ArrayAccess{
 			//__dump($tmp);
 			break;
 		}
-		
+
 		while (trim($s)){
 				preg_match($this->regex_tmpl,$s,$tmp);
-				
+
 				if (count($tmp)){
 				$tag1 = $tmp[0];
 				$tag2 = "<%/$tmp[1]%>";
 				$tagi = $tmp[1];
-				
+
 				if ($del = substr($s,0,strpos($s,$tag1))){
 						if (trim($del))$ret[]=$del;
 						$s = substr_replace($s,'',strpos($s,$del), strlen($del));
 					}
 					if (strpos($s, $tag2)!==false){
 					$array_present=true;
-					
-					$pattern = '/'.$tag1.'(.*)'.addcslashes($tag2,'/').'/is'; 
+
+					$pattern = '/'.$tag1.'(.*)'.addcslashes($tag2,'/').'/is';
 					preg_match($pattern,$s,$tmp);
 					$del = $tmp[0];
-					$ret[$tagi]=$this->slice($tmp[1]);	
+					$ret[$tagi]=$this->slice($tmp[1]);
 					if (!is_array($ret[$tagi]))$ret[$tagi]=array($ret[$tagi]);
-					}else 
+					}else
 					$ret[]=$del=$tag1;
 				}else
 				$ret[]=$del=$s;
 				$s = substr_replace($s,'',strpos($s,$del), strlen($del));
 				if ($i++>1000)new Debug("Template error near \"<br><br>".nl2br(htmlspecialchars($s))."\"<br><br>Please check templates", E_ERROR);
 		}
-		
+
 		if (!$array_present)
 		return implode("",$ret);
 		else return $ret;
 	}
 
-	
-	
+
+
 /*
 
-JOIN 
+JOIN
  Сначала ДОЧЕРНИЙ, потом РОДИТЕЛЬСКИЙ
 ------
 Когда 3 параметра
-кладет в каждый элемент $ar 
+кладет в каждый элемент $ar
 массив $source под именем $name
 
 Пример:
@@ -216,7 +216,7 @@ $out = array(
 				1=>array("num"=>"222")
 				)
 		),
-	
+
 	1=>array(
 		"title"=>"zxc"
 		"mytag"=> array(
@@ -229,7 +229,7 @@ $out = array(
 
 --------------
 
-Когда 2 параметра 
+Когда 2 параметра
 возвращает массив вида array($name=>$source);
 
 Пример:
@@ -257,15 +257,15 @@ $out = array(
 		return $ar;}else
 		return array($name=>$source);
 	}
-	
-	
-	
+
+
+
 	///////////////COMPILE TMPL///////////////////////
 	/**
 	 * Сборка шаблона
 	 *
 	 * @param $tmpl подготовленный ф-цией load или slice шаблон
-	 * @param $vars массив переменных 
+	 * @param $vars массив переменных
 	 * @return unknown
 	 */
 	function compile($tmpl, $vars){
@@ -273,7 +273,7 @@ $out = array(
 			new Debug("Компиляция шаблона невозможна: отсутствует массив переменных", E_WARNING, array("Переданная переменная"=>$vars));
 			return false;
 		}
-		
+
 		if(!is_array($tmpl)){
 			new Debug("Шаблон отсутсвует", E_WARNING, array("Переданная переменная"=>$tmpl));
 			return false;
@@ -281,11 +281,11 @@ $out = array(
 
 		$out='';
 		$subs = array();
-		
+
 		// Абсолютные пути вида <%.img>
 		static $abs = array();
-			
-		
+
+
 			if (empty($abs))
 			foreach($vars as $k=>$v)
 			if (!is_array($v))
@@ -299,39 +299,39 @@ $out = array(
 			if (isset($tmpl[$k])){
 				if (is_array($vv)){
 					$rep[]=$this->compile($tmpl[$k],$vv);
-				}else{ 
+				}else{
 					if (is_array($tmpl[$k])){
 						$rep[]=$this->compile($tmpl[$k],$v);
 						break;
 					}
 				}
 		}
-		
+
 		if (!empty($rep))$tmpl[$k]=implode("",$rep);
-		
+
 		}else $subs["<%$k%>"] = $v;
 		}
-		
+
 		//__dump(array_merge($subs,$abs));
 
 		$subs = array_merge($subs,$abs);
-			
+
 		foreach($tmpl as $v)
 		if (!is_array($v)){
-		
+
 		if (is_array($subs))$out.=@strtr($v,$subs);else
 		$out.=$v;
 		}
-		
+
 		/*
 		if ($parse){
 		if ($zip)ob_start("ob_gzhandler");
 		//echo eval(">".$out."<?");
 		echo $out;
-		
+
 		if ($zip)ob_end_flush();
 		return '';
-		
+
 		}
 		*/
 		//__dump($out);
@@ -354,7 +354,7 @@ $out = array(
 		<%alter1%>
 		<%/alter%>
     <%/a4%>
-    </ul>	
+    </ul>
     <%/a3%>
 </td>
 </tr>
@@ -408,7 +408,7 @@ $m1[$i]["tmp2"]="TMP2 - $i";
 }
 
 //_dump($m1);
-$r = array("title"=>"asd", 
+$r = array("title"=>"asd",
 "a1"=>$a1,
 "a2"=>$a2,
 "m1"=>$m1,
@@ -420,7 +420,7 @@ $r = array("title"=>"asd",
 
 */
 
-	
+
 }
 
 ?>

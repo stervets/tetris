@@ -78,7 +78,7 @@ Application.workerCallback =
     getScore: (vars)->
 
 
-Application.worker = new Worker('/js/class/workerBack.js')
+Application.worker = new Worker('/assets/js/class/workerBack.js')
 Application.worker.addEventListener 'message',
                                     (e)->
                                         Application.workerCallback[e.data.callback](e.data.vars, e.data.callback) if Application.workerCallback[e.data.callback]?

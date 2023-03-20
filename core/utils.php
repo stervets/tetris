@@ -1,14 +1,14 @@
 <?php
 /****
- 
+
  _query();
  _dump();
  _correctmail();
  _mail();
  _win2utf();
- * 
- * 
- *   
+ *
+ *
+ *
  */
 
 function _win2utf($s)
@@ -26,21 +26,10 @@ function _win2utf($s)
    }
    return $t;
 }
- 
- 
-function _correctmail($email){
-return preg_match('/^[-_a-zA-Z0-9\.]+@[-_a-zA-Z0-9\.]+\.[a-zA-Z]+$/', $email);
-}
 
-function _mail($from="HTTP Server", $to, $subject="", $message){
-$headers  = "MIME-Version: 1.0\r\n";
-$headers .= "Content-type: text/html; charset=utf-8\r\n";
-$headers .= "From: $from\r\n";
-return mail($to, $subject, $message, $headers);
-}
- 
-// V 1.5 
+// V 1.5
 function _query($query, $attr=false) {
+    return false;
     $q = mysql_query($query);
     $res = false;
     if ($n = mysql_error()) {
@@ -75,9 +64,6 @@ function _dump() {
     $out = '';
 
     if (count($f = func_get_args())) {
-        if (mysql_error ()
-            )$ver.="
- :: </td></tr><tr><td bgcolor=#FF9090 colspan=2><b>MySQL error:</b> " . mysql_error();
         $out = _dump_thead($ver, 0, 1);
         foreach ($f as $v)
             $out.=_dump_val($v, $bg = !$bg);

@@ -15,7 +15,7 @@
 }
 
 ###
-importScripts '/js/lib/underscore-min.js', '/js/class/const.js'
+importScripts '/assets/js/lib/underscore-min.js', '/assets/js/class/const.js'
 
 rand = (min,max)->
     [min, max] = [0, min] if not max?

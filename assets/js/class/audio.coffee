@@ -1,37 +1,4 @@
-class Application.Class.Sound
-    musicFiles:
-        game: RES.AUDIO.GAME_MUSIC
-        menu: RES.AUDIO.MENU_MUSIC
-        win: RES.AUDIO.WIN
-        fail: RES.AUDIO.FAIL
-
-    muteMusic: false
-    muteSound: false
-
-    audio: null
-
-    play: ()->
-
-    musicPlay: ->
-
-    musicStop: ->
-
-    switchAudio: (type, value)->
-        if type
-            @muteSound = value
-        else
-            @muteMusic = value
-
-    constructor: ->
-        @audio = new (window.AudioContext || window.webkitAudioContext)()
-
-
-###
-class Application.Model.Sound extends Backbone.Model
-
-
-
-class Application.Collection.Sound extends Backbone.Collection
+class Application.Class.Sound extends Backbone.Collection
     buffer: [0...AUDIO_BUFFER_SIZE]
     index: 0
     model: Application.Model.Sound
@@ -87,4 +54,4 @@ class Application.Collection.Sound extends Backbone.Collection
             @buffer[index] = new Audio()
             @buffer[index].pause()
             @buffer[index].startTime = 0
-###
+

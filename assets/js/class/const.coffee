@@ -1,13 +1,13 @@
 @RES =
     AUDIO:
-        MENU_MUSIC: '/audio/falling_snow.mp3'
-        GAME_MUSIC: '/audio/jungle_vibes.mp3'
-        WIN: '/audio/win.mp3'
-        FAIL: '/audio/fail.mp3'
-        SHAPE_ROTATE: '/audio/rotate.mp3'
-        SHAPE_DROP: '/audio/drop2.mp3'
-        LINES: '/audio/lines.mp3'
-    SPRITES: '/img/fx.png'
+        MENU_MUSIC: '/assets/audio/falling_snow.mp3'
+        GAME_MUSIC: '/assets/audio/jungle_vibes.mp3'
+        WIN: '/assets/audio/win.mp3'
+        FAIL: '/assets/audio/fail.mp3'
+        SHAPE_ROTATE: '/assets/audio/rotate.mp3'
+        SHAPE_DROP: '/assets/audio/drop2.mp3'
+        LINES: '/assets/audio/lines.mp3'
+        SPRITES: '/assets/img/fx.png'
 
 @TEST_MODE = false
 @INIT_TEST_VIEW = true

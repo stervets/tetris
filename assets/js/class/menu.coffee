@@ -73,4 +73,15 @@ class Application.View.MenuItem extends Backbone.View
     modelHandler:{}
     events:
         'click': ->
+            Application.Sound = new Application.Class.Sound() if not Application.Sound
+            #disabled = 'button-disabled'
+
+#            if window.localStorage.getItem('jsControlSound') is 'true'
+#              @$('#jsControlSound').addClass(disabled)
+#              Application.Sound.switchAudio(1, false)
+#
+#            if window.localStorage.getItem('jsControlMusic') is 'true'
+#              @$('#jsControlMusic').addClass(disabled)
+#              Application.Sound.switchAudio(0, false)
+
             @model.triggerHandler.apply @model.context

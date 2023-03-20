@@ -198,7 +198,6 @@ Application.onStart ->
     Application.shapeStack = new Application.Model.ShapeStack()
     Application.Pool = new Application.Collection.Pool()
     Application.Controller = new Application.Collection.Controller()
-    Application.Sound = new Application.Class.Sound()
 
     Application.GameView = {}
 
@@ -211,8 +210,8 @@ Application.onStart ->
         model: Application.Game
 
     Application.hook()
-    Application.Game.switch GAME_MODE.SINGLE_PLAYER
-# Application.Game.switch GAME_MODE.LOBBY
+    #Application.Game.switch GAME_MODE.SINGLE_PLAYER
+    Application.Game.switch GAME_MODE.LOBBY
 ###
 rep = ->
     _dump (Application.Pool.at(0).spell[SPELL.GROUND] if Application.Pool.at(0))
