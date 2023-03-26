@@ -28,7 +28,7 @@ class Application.Model.Game extends Backbone.Model
         Application.Pool.reset()
         Application.Controller.reset()
 
-    switch: (mode)-> if @attributes.mode is mode then @trigger('change:mode', @, mode) else @set('mode', mode)
+    switch: (mode, param)-> if @attributes.mode is mode then @trigger('change:mode', @, mode, param) else @set('mode', mode, param)
 
     mode: [
         #loading
@@ -38,15 +38,16 @@ class Application.Model.Game extends Backbone.Model
             @gameReset()
 
         # Single player
-        ->
+        (isCPU)->
             @gameReset()
-            @proc.controller = new Application.Model.Controller.User()
 
-            #@proc.controller = new Application.Model.Controller.AI
-            #    formula: CPU[0].FORMULA
-            #    smart: CPU[0].SMART
-            #    actionDelay: 150
-
+            if isCPU is true
+              @proc.controller = new Application.Model.Controller.AI
+                  formula: CPU[0].FORMULA
+                  smart: CPU[0].SMART
+                  actionDelay: 150
+            else
+              @proc.controller = new Application.Model.Controller.User()
 
             Application.Controller.add(@proc.controller)
             @proc.pool = new Application.Model.Pool
@@ -107,7 +108,7 @@ class Application.Model.Game extends Backbone.Model
     ]
 
     handler:
-        'change:mode': (model, mode)-> @mode[mode].apply @ if @mode[mode]?
+        'change:mode': (model, mode, param)-> @mode[mode].call(@, param) if @mode[mode]?
 
     init: ->
         #@gameReset()
@@ -127,7 +128,7 @@ class Application.View.Game extends Backbone.View
         ->
             #Application.switchView('Lobby')
         # Single player
-        ->
+        (isCPU)->
             @model.proc.view = new Application.View.Pool
                 x: 900/2 - 450/2
                 y: 50
@@ -286,7 +287,7 @@ class Application.View.Game extends Backbone.View
     modelHandler:
         change: ->
 
-        'change:mode': (model, mode)->
+        'change:mode': (model, mode, param)->
             if @mode[mode]?
                 delay = if @$('.game-inner:visible').length then VIEW_ANIMATE_TIME else 0
             $gameInner = @$('.game-inner')
@@ -294,7 +295,7 @@ class Application.View.Game extends Backbone.View
                 opacity: 0
                 , _.once =>
                     @$('.game-inner').hide()
-                    @mode[mode].apply @
+                    @mode[mode].call @, param
 
                     $($gameInner[mode])
                     .css

@@ -11,6 +11,9 @@
           'Single player': function() {
             return Application.Game.switch(GAME_MODE.SINGLE_PLAYER);
           },
+          'CPU player': function() {
+            return Application.Game.switch(GAME_MODE.SINGLE_PLAYER, true);
+          },
           'Player vs CPU': function() {
             return Application.Game.switch(GAME_MODE.PLAYER_VS_CPU);
           },

@@ -37,11 +37,11 @@
         return Application.Controller.reset();
       }
 
-      switch(mode) {
+      switch(mode, param) {
         if (this.attributes.mode === mode) {
-          return this.trigger('change:mode', this, mode);
+          return this.trigger('change:mode', this, mode, param);
         } else {
-          return this.set('mode', mode);
+          return this.set('mode', mode, param);
         }
       }
 
@@ -61,13 +61,18 @@
       function() {        //Lobby
         return this.gameReset();
       },
-      function() {        // Single player
+      // Single player
+      function(isCPU) {
         this.gameReset();
-        this.proc.controller = new Application.Model.Controller.User();
-        //@proc.controller = new Application.Model.Controller.AI
-        //    formula: CPU[0].FORMULA
-        //    smart: CPU[0].SMART
-        //    actionDelay: 150
+        if (isCPU === true) {
+          this.proc.controller = new Application.Model.Controller.AI({
+            formula: CPU[0].FORMULA,
+            smart: CPU[0].SMART,
+            actionDelay: 150
+          });
+        } else {
+          this.proc.controller = new Application.Model.Controller.User();
+        }
         Application.Controller.add(this.proc.controller);
         this.proc.pool = new Application.Model.Pool({
           controller: this.proc.controller.id
@@ -137,9 +142,9 @@
     ];
 
     Game.prototype.handler = {
-      'change:mode': function(model, mode) {
+      'change:mode': function(model, mode, param) {
         if (this.mode[mode] != null) {
-          return this.mode[mode].apply(this);
+          return this.mode[mode].call(this, param);
         }
       }
     };
@@ -206,8 +211,9 @@
       //Loading
       function() {},
 //Lobby
-      function() {        //Application.switchView('Lobby')
-        // Single player
+      //Application.switchView('Lobby')
+      // Single player
+      function(isCPU) {
         this.model.proc.view = new Application.View.Pool({
           x: 900 / 2 - 450 / 2,
           y: 50,
@@ -369,7 +375,7 @@
      */
     Game.prototype.modelHandler = {
       change: function() {},
-      'change:mode': function(model, mode) {
+      'change:mode': function(model, mode, param) {
         var $gameInner, delay;
         if (this.mode[mode] != null) {
           delay = this.$('.game-inner:visible').length ? VIEW_ANIMATE_TIME : 0;
@@ -379,7 +385,7 @@
           opacity: 0
         }, _.once(() => {
           this.$('.game-inner').hide();
-          this.mode[mode].apply(this);
+          this.mode[mode].call(this, param);
           return $($gameInner[mode]).css({
             opacity: 0
           }).show().transition({

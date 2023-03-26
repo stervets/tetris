@@ -15,6 +15,9 @@ class Application.View.Lobby extends Backbone.View
             'Single player': ->
                 Application.Game.switch(GAME_MODE.SINGLE_PLAYER)
 
+            'CPU player': ->
+                Application.Game.switch(GAME_MODE.SINGLE_PLAYER, true)
+
             'Player vs CPU': ->
                 Application.Game.switch(GAME_MODE.PLAYER_VS_CPU)
 
