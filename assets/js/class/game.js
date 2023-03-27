@@ -334,45 +334,6 @@
       }
     ];
 
-    /*
-    $('#jsChart').highcharts
-        colors: ['#303090', '#903030']
-        legend:
-            enabled: false
-        chart:
-            type: 'line'
-        title: null
-        series: [
-            {
-                data: []
-                name: 'CPU 1'
-                marker:
-                    enabled: false
-            }
-            {
-                data: []
-                name: 'CPU 2'
-                marker:
-                    enabled: false
-            }
-        ]
-        yAxis:
-            title: null
-
-    #@model.proc.charts = $('#jsChart').highcharts()
-
-    limit = 111150
-    @model.proc.onNext1 = ->
-        @model.proc.pool1.trigger 'gameover' if @model.proc.pool1.attributes.index>limit*2
-        #@model.proc.charts.series[0].addPoint(@model.proc.pool1.score, true, @model.proc.charts.series[0].data.length>limit)
-
-    @model.proc.onNext2 = ->
-        @model.proc.pool2.trigger 'gameover' if @model.proc.pool2.attributes.index>limit*2
-        #@model.proc.charts.series[1].addPoint(@model.proc.pool2.score, true, @model.proc.charts.series[1].data.length>limit)
-
-    @listenTo @model.proc.pool1, 'nextShape', @model.proc.onNext1
-    @listenTo @model.proc.pool2, 'nextShape', @model.proc.onNext2
-     */
     Game.prototype.modelHandler = {
       change: function() {},
       'change:mode': function(model, mode, param) {
